@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpeg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376715.jpeg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376716.jpeg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -7,6 +7,7 @@ import { rocketChatHttpClient } from "../../network/httpClient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { currentUserInfoState } from "../../state/currentUserInfoState";
+import OneSignal from "react-native-onesignal";
 type FormData = {
     user: string;
     password: string;
@@ -27,6 +28,9 @@ const LoginScreen = () => {
             const { data: result } = await rocketChatHttpClient.post("/api/v1/login", {
                 user: data.user,
                 password: data.password
+            })
+            OneSignal.setExternalUserId(result.data.userId, (result) => {
+                console.log(result)
             })
             await AsyncStorage.setItem('userInfo', JSON.stringify(result.data))
             refreshUserInfo()

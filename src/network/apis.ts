@@ -12,6 +12,17 @@ const fetchLiveChatRooms = ({ agentId, authToken, userId }: { agentId: string, a
         }
     })
 }
+const fetchVistiorInfo = ({ visitorId, authToken, userId }: { visitorId: string, authToken: string, userId: string }) => {
+    return rocketChatHttpClient.get<LiveChatroomsStateProps>('/api/v1/livechat/visitors.info', {
+        params: {
+            visitorId: visitorId
+        },
+        headers: {
+            'X-Auth-Token': authToken,
+            'X-User-Id': userId
+        }
+    })
+}
 const sentTextMessageToLiveChatRoom = (props: {
     token: string,
     rid: string,
@@ -30,4 +41,4 @@ const sentTextMessageToLiveChatRoom = (props: {
         }
     })
 }
-export { fetchLiveChatRooms, sentTextMessageToLiveChatRoom }
+export { fetchLiveChatRooms, sentTextMessageToLiveChatRoom, fetchVistiorInfo }

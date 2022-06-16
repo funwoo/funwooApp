@@ -11,22 +11,19 @@
 import React, { Suspense } from 'react';
 import {
   AppStateStatus,
-  StyleSheet,
-  useColorScheme,
+  LogBox,
   View,
 } from 'react-native';
 import useAppState from 'react-native-appstate-hook';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import { focusManager, QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
+import { focusManager, QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
+import Config from './src/models/index';
 import Main from './src/screens';
+LogBox.ignoreAllLogs(true)
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },
 });
-
+const { RealmProvider } = Config;
 const App = () => {
   function onAppStateChange(status: AppStateStatus) {
     focusManager.setFocused(status === 'active')
@@ -34,14 +31,15 @@ const App = () => {
   useAppState({
     onChange: onAppStateChange,
   })
-
   return (
     <Suspense fallback={<View style={{ flex: 1 }} />}>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <Main />
-        </RecoilRoot>
-      </QueryClientProvider>
+      <RealmProvider>
+        <QueryClientProvider client={queryClient}>
+          <RecoilRoot>
+            <Main />
+          </RecoilRoot>
+        </QueryClientProvider>
+      </RealmProvider>
     </Suspense>
   );
 };

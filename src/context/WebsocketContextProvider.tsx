@@ -3,10 +3,13 @@ import uuid from 'react-native-uuid';
 import useWebSocket from 'react-native-use-websocket';
 import { useRecoilValue } from 'recoil';
 import { currentUserInfoState } from '../state/currentUserInfoState';
+import { StreamRoomMessagesProps } from '../types/StreamRoomMessagesPropsType';
 interface WebsocketContextProviderProps {
     sendJsonMessage: (value: Object) => void
     setRoomChangeCallback: (callback: (value: RoomChangeProps) => void) => void
     removeRoomChangeCallcak: () => void
+    setRoomMessageChangeCallback: (callback: (value: RoomChangeProps) => void) => void
+    removeRoomMessageChangeCallcak: () => void
     webSocketStatus: webSocketStatusType
 }
 const WebsocketContext = createContext({
@@ -18,6 +21,13 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
     const [webSocketStatus, setWebsocketStatus] = useState<webSocketStatusType>("嘗試連接中")
     const currentUserInfoStateValue = useRecoilValue(currentUserInfoState)
     const RoomChangeCallbackRef = useRef<(value: RoomChangeProps) => void>()
+    const RoomMessageChangeCallbackRef = useRef<(value: StreamRoomMessagesProps) => void>()
+    const setRoomMessageChangeCallback = (callback: (value: StreamRoomMessagesProps) => void) => {
+        RoomMessageChangeCallbackRef.current = callback
+    }
+    const removeRoomMessageChangeCallcak = () => {
+        RoomMessageChangeCallbackRef.current = undefined
+    }
     const setRoomChangeCallback = (callback: (value: RoomChangeProps) => void) => {
         RoomChangeCallbackRef.current = callback
     }
@@ -75,8 +85,10 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                 })
             } else if (data?.collection === 'stream-notify-user' && data?.fields?.eventName === `${currentUserInfoStateValue.userId}/rooms-changed`) {
                 RoomChangeCallbackRef.current && RoomChangeCallbackRef?.current(data)
+            } else if (data.collection === 'stream-room-messages') {
+                RoomMessageChangeCallbackRef.current && RoomMessageChangeCallbackRef.current(data)
             } else {
-
+                console.log(data)
             }
 
         },
@@ -136,6 +148,8 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
             <WebsocketContext.Provider value={{
                 webSocketStatus: webSocketStatus,
                 sendJsonMessage: sendJsonMessage,
+                setRoomMessageChangeCallback,
+                removeRoomMessageChangeCallcak,
                 setRoomChangeCallback: setRoomChangeCallback,
                 removeRoomChangeCallcak: removeRoomChangeCallcak
             }}>
