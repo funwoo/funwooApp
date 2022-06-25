@@ -16,7 +16,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.UIManager;
 import com.facebook.react.fabric.ComponentFactory;
 import com.facebook.react.fabric.CoreComponentsRegistry;
-import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.funwoochatapp.BuildConfig;
@@ -24,7 +23,7 @@ import com.funwoochatapp.newarchitecture.components.MainComponentsRegistry;
 import com.funwoochatapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.facebook.react.fabric.ReactNativeConfig;
 /**
  * A {@link ReactNativeHost} that helps you load everything needed for the New Architecture, both
  * TurboModule delegates and the Fabric Renderer.
@@ -105,7 +104,7 @@ public class MainApplicationReactNativeHost extends ReactNativeHost {
                 return new FabricJSIModuleProvider(
                     reactApplicationContext,
                     componentFactory,
-                    new EmptyReactNativeConfig(),
+                    ReactNativeConfig.DEFAULT_CONFIG,
                     viewManagerRegistry);
               }
             });

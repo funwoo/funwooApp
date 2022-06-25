@@ -64,7 +64,8 @@ function Tabs() {
                 tabBarInactiveTintColor: 'gray',
             })} >
                 <Tab.Screen name="LiveChatRoomList" options={{
-                    title: "客戶"
+                    title: "客戶",
+                    headerShown: false
                 }} component={LiveChatRoomListScreen} />
                 <Tab.Screen options={{
                     title: "設定"

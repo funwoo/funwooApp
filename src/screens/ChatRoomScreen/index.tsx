@@ -11,6 +11,7 @@ import { useMutation } from 'react-query'
 import { sentTextMessageToLiveChatRoom } from '../../network/apis'
 import { StreamRoomMessagesProps } from '../../types/StreamRoomMessagesPropsType'
 import AntDesign from 'react-native-vector-icons/dist/AntDesign'
+import Avatar from '../../components/crm/Avatar'
 const ChatRoomScreen = ({ route }) => {
     const navigation = useNavigation()
     const { sendJsonMessage, setRoomMessageChangeCallback, removeRoomMessageChangeCallcak } = useWebSocketContext()
@@ -49,7 +50,7 @@ const ChatRoomScreen = ({ route }) => {
                     createdAt: new Date(),
                     user: {
                         _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                        name: item.u.username,
+                        name: item.u.name,
                         avatar: getAvatar(item.u._id)
                     }
 
@@ -169,7 +170,7 @@ const ChatRoomScreen = ({ route }) => {
                             user: {
                                 _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
                                 avatar: getAvatar(item.u._id),
-                                name: item.u.username,
+                                name: item.u.name,
                             }
 
                         }
@@ -180,7 +181,7 @@ const ChatRoomScreen = ({ route }) => {
                             createdAt: item._updatedAt,
                             user: {
                                 _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                                name: item.u.username,
+                                name: item.u.name,
                                 avatar: getAvatar(item.u._id)
                             }
 
@@ -188,6 +189,7 @@ const ChatRoomScreen = ({ route }) => {
                     }
 
                 })
+                console.log(history, 'history')
                 setMessages(history)
 
             } catch (error) {
@@ -221,6 +223,9 @@ const ChatRoomScreen = ({ route }) => {
     return <View style={{ flex: 1, backgroundColor: 'white' }}>
         <GiftedChat
             showUserAvatar
+            renderAvatar={({ currentMessage }) => {
+                return <Avatar name={currentMessage?.user.name} uri={currentMessage?.user?.avatar as string} />
+            }}
             renderUsernameOnMessage
             renderSystemMessage={(props) => {
                 return <SystemMessage

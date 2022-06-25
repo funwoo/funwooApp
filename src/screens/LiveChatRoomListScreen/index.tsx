@@ -7,7 +7,6 @@ import moment from 'moment'
 import 'moment/locale/zh-tw'
 import uuid from 'react-native-uuid';
 import { useNavigation } from "@react-navigation/native"
-import { Avatar } from "react-native-gifted-chat"
 import { RoomChangeProps, useWebSocketContext, webSocketStatusType } from "../../context/WebsocketContextProvider"
 import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus"
 import { focusManager, useQuery } from "react-query"
@@ -17,24 +16,43 @@ import { VisitorRealmObject } from '../../models/visitor'
 import FastImage from "react-native-fast-image"
 import Config from '../../models'
 import RNUserdefaults from '@tranzerdev/react-native-user-defaults';
+import Avatar from "../../components/crm/Avatar"
+import ChatListItem from "../../components/crm/ChatListItem"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const LiveChatRoomListScreen = () => {
+
     const { setRoomChangeCallback, removeRoomChangeCallcak, webSocketStatus } = useWebSocketContext()
     const [liveChatRoomsData, setLiveChatRoomsData] = useState<LiveChatroomsStateProps>()
     const [extraDataKey, setExtraDataKey] = useState(uuid.v4())
-    const navigation = useNavigation()
     const currentUserInfoStateValue = useRecoilValue(currentUserInfoState)
     const { refetch, data, isLoading, isRefetching, } = useQuery<AxiosResponse<LiveChatroomsStateProps>, Error>(['livechatRooms', currentUserInfoStateValue.userId, currentUserInfoStateValue.authToken], () => fetchLiveChatRooms({
         agentId: currentUserInfoStateValue.userId,
         userId: currentUserInfoStateValue.userId,
         authToken: currentUserInfoStateValue.authToken
     }))
-
+    const getTimeString = useCallback((date: Date | number) => {
+        const a = moment()
+        const b = moment(date)
+        const days = a.diff(b, 'days')
+        if (days === 1) {
+            return '昨天'
+        } else if (days > 1 && days < 7) {
+            return b.format('dddd')
+        } else if (days >= 7) {
+            return b.format('YYYY-MM-DD')
+        } else {
+            return b.format('A hh:mm')
+        }
+    }, [])
     useRefreshOnFocus(refetch)
     useEffect(() => {
         let temp = data?.data
         if (temp) {
             temp.rooms?.sort?.((a, b) => new Date(b?._updatedAt)?.getTime?.() - new Date(a?._updatedAt)?.getTime?.())
+            temp.rooms.map((item) => {
+                item._updatedAt = getTimeString(item._updatedAt)
+            })
             setLiveChatRoomsData(temp)
         }
 
@@ -51,19 +69,26 @@ const LiveChatRoomListScreen = () => {
                 let newRoomInfo = value.fields.args[1]
                 newRoomInfo._updatedAt = new Date()
                 temp.rooms[roomIdx] = newRoomInfo
+                temp.rooms.map((item) => {
+
+                    item._updatedAt = getTimeString(item._updatedAt)
+                })
             }
             setLiveChatRoomsData(temp)
             setExtraDataKey(uuid.v4())
         }
 
     }
+    const { top } = useSafeAreaInsets()
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <WebsocketConnectStatus status={webSocketStatus} />
-            <FlatList extraData={extraDataKey} refreshing={isRefetching || isLoading} onRefresh={refetch} keyExtractor={item => item._id} data={liveChatRoomsData?.rooms ?? []} renderItem={(({ item }) => {
-                return (<ChatRoomItem authToken={currentUserInfoStateValue.authToken} userId={currentUserInfoStateValue.userId} item={item} />
-                )
-            })} />
+        <View style={{ flex: 1, backgroundColor: 'white', paddingTop: top }}>
+            <View style={{ height: 56, width: "100%" }}></View>
+            <FlatList extraData={extraDataKey} keyExtractor={item => item._id}
+                data={liveChatRoomsData?.rooms ?? []} renderItem={(({ item }) => {
+                    return (<ChatRoomItem authToken={currentUserInfoStateValue.authToken} userId={currentUserInfoStateValue.userId} item={item} />
+                    )
+                })} />
+            <WebsocketConnectStatus status={isRefetching || isLoading ? "嘗試連接中" : webSocketStatus} />
         </View>
     )
 }
@@ -79,7 +104,6 @@ const ChatRoomItem = ({ item, userId, authToken }: { item: Room, userId: string,
         (async () => {
             RNUserdefaults.setFromSuite(JSON.stringify(visitor?.toJSON() || data?.data?.visitor?.livechatData), item.v._id, "group.com.funwoo.funwoochat.onesignal");
             const value = await RNUserdefaults.getFromSuite(item.v._id, "group.com.funwoo.funwoochat.onesignal",);
-            console.log(value, item.v._id)
         })()
 
     }, [data?.data, visitor])
@@ -99,22 +123,8 @@ const ChatRoomItem = ({ item, userId, authToken }: { item: Room, userId: string,
         return visitor?.toJSON().avatar || data?.data?.visitor?.livechatData?.avatar
     }, [data?.data, visitor])
     const navigation = useNavigation()
-    const getTimeString = useCallback((date: Date | number) => {
-        const a = moment()
-        const b = moment(date)
-        const days = a.diff(b, 'days')
-        if (days === 1) {
-            return '昨天'
-        } else if (days > 1 && days < 7) {
-            return b.format('dddd')
-        } else if (days >= 7) {
-            return b.format('YYYY-MM-DD')
-        } else {
-            return b.format('A hh:mm')
-        }
-    }, [])
-    return (
-        <Pressable onPress={() => navigation.navigate('ChatRoom' as never, {
+    const itemPress = useCallback(() => {
+        navigation.navigate('ChatRoom' as never, {
             //@ts-ignore
             roomId: item._id,
             //@ts-ignore
@@ -125,44 +135,18 @@ const ChatRoomItem = ({ item, userId, authToken }: { item: Room, userId: string,
             avatar: avatar ?? undefined,
             //@ts-ignore
             client_Id: item.v._id
-        })} style={{ minHeight: 56, paddingVertical: 10, justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center', paddingLeft: 16, width: "100%" }}>
-            {avatar ? <FastImage source={{ uri: avatar }} style={{ width: 38, height: 38, borderRadius: 19 }} /> : <Avatar currentMessage={{
-                _id: item._id,
-                text: item?.lastMessage?.msg ?? "",
-                createdAt: item.lastMessage._updatedAt,
-                user: {
-                    _id: item._id,
-                    name: item.fname,
-                }
-            }} />}
-
-
-            <View style={{ flexDirection: 'column', marginLeft: 10, flex: 1, borderBottomColor: "#e2e2e2", borderBottomWidth: 1, paddingBottom: 15, paddingRight: 16 }}>
-                <View style={{ width: "100%" }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 5 }}>{item.fname}</Text>
-                        <Text style={{ color: "#9d9d9d", fontSize: 14 }}>{getTimeString(item._updatedAt)}</Text>
-                    </View>
-
-                </View>
-                <Text numberOfLines={2} style={{ fontSize: 16, color: "gray" }}>{item?.lastMessage?.msg}</Text>
-            </View>
-
-        </Pressable>
+        })
+    }, [item, navigation])
+    return (
+        <ChatListItem updatedAt={item._updatedAt as unknown as string ?? ""} msg={item?.lastMessage?.msg} name={item.fname} platform={item.v.username} uri={avatar} onPress={itemPress} />
     )
 }
 const WebsocketConnectStatus = ({ status }: { status: webSocketStatusType }) => {
     if (status === "已連接") return null
-    return <View style={{ width: "100%", height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: "#ADD8E6", }}>
-        <Text style={{ color: "white" }}>{status}</Text>
+    return <View style={{ width: "100%", height: 30, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: "lightblue", position: 'absolute', bottom: 0 }}>
+        <ActivityIndicator />
+        <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>{status}</Text>
     </View>
-}
-const colors = [
-    "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50",
-    "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"
-]
-interface AvatarProps {
-    name: string
 }
 // const Avatar: FC<AvatarProps> = ({ name }) => {
 //     const getBgColor = () => {
