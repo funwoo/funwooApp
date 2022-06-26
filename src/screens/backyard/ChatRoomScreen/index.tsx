@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { GiftedChat, IMessage, SystemMessage } from 'react-native-gifted-chat'
 import { useRecoilValue } from 'recoil'
 import { useWebSocketContext } from '../../../context/WebsocketContextProvider'
@@ -13,6 +13,7 @@ import { StreamRoomMessagesProps } from '../../../types/StreamRoomMessagesPropsT
 import AntDesign from 'react-native-vector-icons/dist/AntDesign'
 import Avatar from '../../../components/crm/Avatar'
 const ChatRoomScreen = ({ route }) => {
+
     const navigation = useNavigation()
     const { sendJsonMessage, setRoomMessageChangeCallback, removeRoomMessageChangeCallcak } = useWebSocketContext()
     const [messages, setMessages] = useState<IMessage[]>([]);

@@ -11,7 +11,8 @@ export class LivechatRoomRealmObject extends Realm.Object {
     phone!: string[];
     line_id?: string;
     roomId!: string
-    msg!: string
+    msg!: string;
+    unread!: number
     static generate(props: {
         id: string,
         name: string,
@@ -22,7 +23,8 @@ export class LivechatRoomRealmObject extends Realm.Object {
         phone: string[],
         line_id?: string,
         roomId: string,
-        msg: string
+        msg: string,
+        unread: number
     }) {
         return {
             ...props
@@ -40,7 +42,8 @@ export class LivechatRoomRealmObject extends Realm.Object {
             phone: "string[]",
             line_id: "string",
             roomId: "string",
-            msg: "string"
+            msg: "string",
+            unread: "int"
         },
         primaryKey: "id",
     };

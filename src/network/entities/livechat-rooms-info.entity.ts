@@ -45,5 +45,6 @@ export interface LivechatRoomsInfo {
     visitorEmails: VisitorEmail[];
     livechatData: LivechatData;
     msg: string,
-    roomId: string
+    roomId: string,
+    unread: number
 }

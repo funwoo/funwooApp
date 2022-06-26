@@ -3,6 +3,6 @@ import { LivechatRoomRealmObject } from "./livechatRoom";
 
 const config = {
     schema: [LivechatRoomRealmObject],
-    schemaVersion: 5,
+    schemaVersion: 6,
 };
 export default createRealmContext(config);

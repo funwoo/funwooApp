@@ -1,7 +1,7 @@
 import moment from "moment"
 import React, { FC, useCallback } from "react"
 import { Pressable, Text, useWindowDimensions, View } from "react-native"
-import Avatar from "./Avatar"
+import Avatar from "../../../../components/crm/Avatar"
 
 interface ChatListItemProps {
     onPress: () => void,
@@ -9,11 +9,13 @@ interface ChatListItemProps {
     platform?: string,
     uri?: string,
     msg?: string,
-    updatedAt: string
+    updatedAt: string,
+    unread: number
 }
-const ChatListItem: FC<ChatListItemProps> = ({ onPress, name, platform, uri, msg, updatedAt }) => {
+const ChatListItem: FC<ChatListItemProps> = ({ onPress, name, platform, uri, msg, updatedAt, unread }) => {
     const { width } = useWindowDimensions()
     const getTimeString = useCallback((date: Date | number | string) => {
+        if (date === "") return ""
         const a = moment()
         const b = moment(date)
         const days = a.diff(b, 'days')
@@ -32,13 +34,14 @@ const ChatListItem: FC<ChatListItemProps> = ({ onPress, name, platform, uri, msg
             width: "100%",
             height: 64,
             flexDirection: 'row',
-            padding: 8,
+            paddingHorizontal: 16,
+            paddingVertical: 8,
             justifyContent: 'space-between'
         }}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', flex: 3 }}>
                 <Avatar name={name} platform={platform} uri={uri} />
                 <View style={{
-                    width: width * 0.6,
+                    width: "60%",
                     marginLeft: 16,
                     justifyContent: 'center',
                     height: "100%"
@@ -52,8 +55,21 @@ const ChatListItem: FC<ChatListItemProps> = ({ onPress, name, platform, uri, msg
                     }}>{msg}</Text>
                 </View>
             </View>
-            <View >
-                <Text style={{ color: "#616161", fontSize: 14, fontWeight: "400", lineHeight: 24 }}>{getTimeString(updatedAt)}</Text>
+            <View style={{ flex: 1 }}>
+                <Text style={{ color: "#616161", fontSize: 14, fontWeight: "400", lineHeight: 24, textAlign: 'right' }}>{getTimeString(updatedAt)}</Text>
+                {unread > 0 && <View style={{
+                    backgroundColor: "#38A169",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingVertical: 2,
+                    paddingHorizontal: 8,
+                    borderRadius: 24,
+
+                    alignSelf: 'flex-end'
+                }}>
+                    <Text style={{ textAlign: 'right', color: "white" }}>{unread}</Text>
+                </View>}
+
             </View>
         </Pressable>
     )
