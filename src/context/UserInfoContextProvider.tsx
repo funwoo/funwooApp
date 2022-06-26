@@ -17,7 +17,6 @@ const UserInfoContextProvider: FC<{}> = ({ children }) => {
         realm.write(() => {
             realm.deleteAll()
         })
-
         setUserInfo(undefined)
     }, [setUserInfo])
     useEffect(() => {

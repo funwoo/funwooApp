@@ -153,7 +153,8 @@ const LiveChatRoomListScreen = () => {
                             avatar: item?.avatar,
                             roomName: item.name,
                             platform: item.username?.includes('facebook') ? "facebook" : item.username?.includes('line') ? "line" : "unknow",
-                            username: item.username
+                            username: item.username,
+                            id: item.id
                         })
                     }} />
                     )

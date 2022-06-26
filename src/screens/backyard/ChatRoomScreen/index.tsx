@@ -16,13 +16,13 @@ import { MessageRealmObject } from '../../../models/message'
 import { useUserInfoContextProvider } from '../../../context/UserInfoContextProvider'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRefreshOnFocus } from '../../../hooks/useRefreshOnFocus'
+import { LivechatRoomRealmObject } from '../../../models/livechatRoom'
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const ChatRoomScreen = ({ route }) => {
     const realm = useRealm()
     const { bottom } = useSafeAreaInsets()
     const navigation = useNavigation()
     const { sendJsonMessage, setRoomMessageChangeCallback, removeRoomMessageChangeCallcak } = useWebSocketContext()
-    const [messages, setMessages] = useState<IMessage[]>([]);
     const roomUUID = useRef(uuid.v4()).current
     const mutation = useMutation(apis.sentTextMessageToLiveChatRoom)
     const [isEnd, setIsEnd] = useState(false)
@@ -68,6 +68,25 @@ const ChatRoomScreen = ({ route }) => {
             }
         }
     })
+    useEffect(() => {
+        realm.write(() => {
+            if (!realm.isInTransaction) realm.beginTransaction()
+            const livechatRoom = realm.objectForPrimaryKey('livechatRoom', route.params.id)?.toJSON()
+            realm.create('livechatRoom', LivechatRoomRealmObject.generate({
+                id: livechatRoom.id,
+                name: livechatRoom.name,
+                username: livechatRoom.username,
+                token: livechatRoom.token,
+                phone: livechatRoom.phone ?? [],
+                roomId: livechatRoom.roomId ?? "",
+                msg: livechatRoom.msg ?? "",
+                line_id: livechatRoom?.line_id ?? "",
+                date: livechatRoom.date,
+                avatar: livechatRoom?.avatar ?? "",
+                unread: 0
+            }), Realm.UpdateMode.Modified)
+        })
+    }, [route.params.id])
     const webhookResponseMessageParser = (data: StreamRoomMessagesProps) => {
         realm.write(() => {
             if (!realm.isInTransaction) realm.beginTransaction()
@@ -203,7 +222,6 @@ const ChatRoomScreen = ({ route }) => {
                     }
                 })
             })
-
         } catch (error) {
             console.log(error, 'realm write fail')
         } finally {

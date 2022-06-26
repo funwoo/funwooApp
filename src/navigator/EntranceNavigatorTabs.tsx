@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Text } from 'react-native';
 import { CustomTabIcon } from '../assets/fonts';
 import HomeScreen from '../screens/entrance/HomeScreen';
-import { MoreScreenStack } from './EntranceNavigatorStack';
+import MoreScreen from '../screens/entrance/MoreScreen';
 import { PageNames } from './PageNames';
 const Tab = createBottomTabNavigator();
 const EntranceNavigatorTabs = () => {
@@ -89,7 +89,7 @@ const EntranceNavigatorTabs = () => {
             <Tab.Screen name={PageNames.more} options={{
                 title: "更多",
                 headerShown: false
-            }} component={MoreScreenStack} />
+            }} component={MoreScreen} />
         </Tab.Navigator>
     )
 }

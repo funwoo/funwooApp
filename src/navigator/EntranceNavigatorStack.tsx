@@ -19,16 +19,4 @@ const EntranceNavigatorStack = () => {
         </Stack.Navigator>
     )
 }
-const MoreScreenStack = () => {
-    return (
-        <Stack.Navigator screenOptions={{
-            headerShown: false
-        }} initialRouteName={PageNames.more}   >
-            <Stack.Screen name={PageNames.more} component={MoreScreen} />
-
-        </Stack.Navigator>
-    )
-
-}
-export { MoreScreenStack }
 export default EntranceNavigatorStack
