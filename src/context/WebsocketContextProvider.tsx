@@ -44,7 +44,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
     } = useWebSocket(socketUrl, {
         onMessage: (event) => {
             const data = JSON.parse(event.data)
-            if (!currentUserInfoStateValue.authToken) return null
+            if (!currentUserInfoStateValue.authToke) return null
             if (data?.result?.type === 'resume') {
                 // sendJsonMessage(
                 //     {
@@ -104,7 +104,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                 "method": "login",
                 "id": uuid.v4(),
                 "params": [
-                    { "resume": currentUserInfoStateValue?.authToken }
+                    { "resume": currentUserInfoStateValue.authToke }
                 ]
             })
 

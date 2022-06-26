@@ -13,11 +13,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-funwooChatApp-funwooChatAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-funwooChatApp-funwooChatAppTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		FA57E8BB281D861E00E54BB8 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = FA57E8BA281D861E00E54BB8 /* Fonts */; };
+		81AB9BB82411601600AC10FF /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* SplashScreen.storyboard */; };
 		FA88C8B92859E91B002E46AC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		FAAAA49E2817949C006DF613 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAAA49D2817949C006DF613 /* NotificationService.swift */; };
 		FAAAA4A22817949C006DF613 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAAAA49B2817949C006DF613 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FAAB686C2868349F0038A9F9 /* NotoSansTC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB68672868349F0038A9F9 /* NotoSansTC-Bold.otf */; };
+		FAAB686D2868349F0038A9F9 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB68682868349F0038A9F9 /* OpenSans-Bold.ttf */; };
+		FAAB686E2868349F0038A9F9 /* NotoSansTC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB68692868349F0038A9F9 /* NotoSansTC-Medium.otf */; };
+		FAAB686F2868349F0038A9F9 /* NotoSansTC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB686A2868349F0038A9F9 /* NotoSansTC-Regular.otf */; };
+		FAAB6873286836450038A9F9 /* IcoMoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB6871286834CF0038A9F9 /* IcoMoon.ttf */; };
 		FAB68B4F285AF7E400FD752F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB68B4E285AF7E400FD752F /* UserModel.swift */; };
 		FCE81C3ACEB4D7FCED9185FE /* libPods-funwooChatApp-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A43913268505CACB855EEAF0 /* libPods-funwooChatApp-OneSignalNotificationServiceExtension.a */; };
 /* End PBXBuildFile section */
@@ -70,16 +74,20 @@
 		5B7EB9410499542E8C5724F5 /* Pods-funwooChatApp-funwooChatAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-funwooChatApp-funwooChatAppTests.debug.xcconfig"; path = "Target Support Files/Pods-funwooChatApp-funwooChatAppTests/Pods-funwooChatApp-funwooChatAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-funwooChatApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-funwooChatApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F78E461D908B7D59833F6FD /* Pods-funwooChatApp-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-funwooChatApp-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-funwooChatApp-OneSignalNotificationServiceExtension/Pods-funwooChatApp-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = funwooChatApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = funwooChatApp/SplashScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-funwooChatApp-funwooChatAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-funwooChatApp-funwooChatAppTests.release.xcconfig"; path = "Target Support Files/Pods-funwooChatApp-funwooChatAppTests/Pods-funwooChatApp-funwooChatAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		A43913268505CACB855EEAF0 /* libPods-funwooChatApp-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-funwooChatApp-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FA57E8BA281D861E00E54BB8 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		FAAAA477281792C6006DF613 /* funwooChatApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = funwooChatApp.entitlements; path = funwooChatApp/funwooChatApp.entitlements; sourceTree = "<group>"; };
 		FAAAA49B2817949C006DF613 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAAAA49D2817949C006DF613 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		FAAAA49F2817949C006DF613 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAAAA4A6281795F2006DF613 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		FAAB68672868349F0038A9F9 /* NotoSansTC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Bold.otf"; sourceTree = "<group>"; };
+		FAAB68682868349F0038A9F9 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		FAAB68692868349F0038A9F9 /* NotoSansTC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Medium.otf"; sourceTree = "<group>"; };
+		FAAB686A2868349F0038A9F9 /* NotoSansTC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansTC-Regular.otf"; sourceTree = "<group>"; };
+		FAAB6871286834CF0038A9F9 /* IcoMoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = IcoMoon.ttf; sourceTree = "<group>"; };
 		FAB68B4E285AF7E400FD752F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,7 +144,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				81AB9BB72411601600AC10FF /* SplashScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = funwooChatApp;
@@ -163,7 +171,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				FA57E8BA281D861E00E54BB8 /* Fonts */,
+				FAAB683A286832D20038A9F9 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* funwooChatApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* funwooChatAppTests */,
@@ -209,6 +217,18 @@
 				FAB68B4E285AF7E400FD752F /* UserModel.swift */,
 			);
 			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		FAAB683A286832D20038A9F9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FAAB6871286834CF0038A9F9 /* IcoMoon.ttf */,
+				FAAB68672868349F0038A9F9 /* NotoSansTC-Bold.otf */,
+				FAAB68692868349F0038A9F9 /* NotoSansTC-Medium.otf */,
+				FAAB686A2868349F0038A9F9 /* NotoSansTC-Regular.otf */,
+				FAAB68682868349F0038A9F9 /* OpenSans-Bold.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,8 +351,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA57E8BB281D861E00E54BB8 /* Fonts in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				FAAB6873286836450038A9F9 /* IcoMoon.ttf in Resources */,
+				FAAB686F2868349F0038A9F9 /* NotoSansTC-Regular.otf in Resources */,
+				81AB9BB82411601600AC10FF /* SplashScreen.storyboard in Resources */,
+				FAAB686C2868349F0038A9F9 /* NotoSansTC-Bold.otf in Resources */,
+				FAAB686D2868349F0038A9F9 /* OpenSans-Bold.ttf in Resources */,
+				FAAB686E2868349F0038A9F9 /* NotoSansTC-Medium.otf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

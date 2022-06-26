@@ -17,6 +17,7 @@ import {
 import useAppState from 'react-native-appstate-hook';
 import { focusManager, QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
+import UserInfoContextProvider from './src/context/UserInfoContextProvider';
 import Config from './src/models/index';
 import Main from './src/screens';
 LogBox.ignoreAllLogs(true)
@@ -36,7 +37,9 @@ const App = () => {
       <RealmProvider>
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <Main />
+            <UserInfoContextProvider>
+              <Main />
+            </UserInfoContextProvider>
           </RecoilRoot>
         </QueryClientProvider>
       </RealmProvider>
