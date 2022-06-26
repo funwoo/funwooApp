@@ -4,6 +4,7 @@ import useWebSocket from 'react-native-use-websocket';
 import { useRecoilValue } from 'recoil';
 import { currentUserInfoState } from '../state/currentUserInfoState';
 import { StreamRoomMessagesProps } from '../types/StreamRoomMessagesPropsType';
+import { useUserInfoContextProvider } from './UserInfoContextProvider';
 interface WebsocketContextProviderProps {
     sendJsonMessage: (value: Object) => void
     setRoomChangeCallback: (callback: (value: RoomChangeProps) => void) => void
@@ -18,8 +19,8 @@ const WebsocketContext = createContext({
 export type webSocketStatusType = "嘗試連接中" | "錯誤" | "已連接"
 const socketUrl = 'wss://crm.funwoo.com.tw/websocket';
 const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
+    const { userInfo } = useUserInfoContextProvider()
     const [webSocketStatus, setWebsocketStatus] = useState<webSocketStatusType>("嘗試連接中")
-    const currentUserInfoStateValue = useRecoilValue(currentUserInfoState)
     const RoomChangeCallbackRef = useRef<(value: RoomChangeProps) => void>()
     const RoomMessageChangeCallbackRef = useRef<(value: StreamRoomMessagesProps) => void>()
     const setRoomMessageChangeCallback = (callback: (value: StreamRoomMessagesProps) => void) => {
@@ -44,7 +45,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
     } = useWebSocket(socketUrl, {
         onMessage: (event) => {
             const data = JSON.parse(event.data)
-            if (!currentUserInfoStateValue.authToke) return null
+            if (!userInfo?.authToken) return null
             if (data?.result?.type === 'resume') {
                 // sendJsonMessage(
                 //     {
@@ -64,7 +65,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                         "id": uuid.v4(),
                         "name": "stream-notify-user",
                         "params": [
-                            `${currentUserInfoStateValue.userId}/rooms-changed`,
+                            `${userInfo.userId}/rooms-changed`,
                             false
                         ]
                     }
@@ -83,7 +84,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                 sendJsonMessage({
                     msg: 'pong'
                 })
-            } else if (data?.collection === 'stream-notify-user' && data?.fields?.eventName === `${currentUserInfoStateValue.userId}/rooms-changed`) {
+            } else if (data?.collection === 'stream-notify-user' && data?.fields?.eventName === `${userInfo.userId}/rooms-changed`) {
                 RoomChangeCallbackRef.current && RoomChangeCallbackRef?.current(data)
             } else if (data.collection === 'stream-room-messages') {
                 RoomMessageChangeCallbackRef.current && RoomMessageChangeCallbackRef.current(data)
@@ -104,7 +105,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                 "method": "login",
                 "id": uuid.v4(),
                 "params": [
-                    { "resume": currentUserInfoStateValue.authToke }
+                    { "resume": userInfo?.authToken }
                 ]
             })
 

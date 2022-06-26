@@ -3,13 +3,12 @@ import React from 'react'
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios'
-import { rocketChatHttpClient } from "../../network/httpClient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRecoilRefresher_UNSTABLE } from "recoil";
-import { currentUserInfoState } from "../../state/currentUserInfoState";
 import OneSignal from "react-native-onesignal";
 import FastImage from "react-native-fast-image";
 import InAppBrowser from "react-native-inappbrowser-reborn";
+import { useUserInfoContextProvider } from "../../../context/UserInfoContextProvider";
+import { backyardAPIHttpClient } from "../../../network/httpClient";
 type FormData = {
     user: string;
     password: string;
@@ -19,23 +18,23 @@ const LoginScreen = () => {
     const { top, bottom } = useSafeAreaInsets()
     const { control, handleSubmit, formState: { errors, isValid, isSubmitting }, } = useForm<FormData>({
         defaultValues: {
-            user: '',
-            password: ''
+            user: 'rocket.chat.admin',
+            password: 'YjsYfaPtyKV6zXk3HQ9nwGqyN'
         },
         mode: "all"
     });
-    const refreshUserInfo = useRecoilRefresher_UNSTABLE(currentUserInfoState);
+    const { userInfo, setUserInfo } = useUserInfoContextProvider()
     const onSubmit = async (data: FormData) => {
         try {
-            const { data: result } = await axios.post('https://funwoo-apis-av33oxrlwq-de.a.run.app/auth/pwd', {
+            const { data: result } = await backyardAPIHttpClient.post('/auth/google/auth/pwd', {
                 pwd: data.password,
                 usr: data.user
             })
-            OneSignal.setExternalUserId(result.data.userId, (result) => {
+            OneSignal.setExternalUserId(result.userId, (result) => {
                 console.log(result)
             })
             await AsyncStorage.setItem('userInfo', JSON.stringify(result))
-            refreshUserInfo()
+            setUserInfo(result)
         } catch (error) {
             console.log(error)
         }
@@ -43,7 +42,7 @@ const LoginScreen = () => {
     const onGoogleSignInPress = async () => {
         try {
             const deepLinkUrl = "com.googleusercontent.apps.120470042915-bjcbrvkvn1818rep0j0sg536fcvu3tto://"
-            const { data: { authURL } } = await axios.get('https://funwoo-apis-av33oxrlwq-de.a.run.app/auth/google/issue', {
+            const { data: { authURL } } = await backyardAPIHttpClient.get('/auth/google/issue', {
                 params: {
                     state: deepLinkUrl
                 },
@@ -67,7 +66,7 @@ const LoginScreen = () => {
                     query[key] = value
                 })
 
-                const { data } = await axios.post('https://funwoo-apis-av33oxrlwq-de.a.run.app/auth/google/auth/mobile', {
+                const { data } = await backyardAPIHttpClient.post('/auth/google/auth/mobile', {
                     code: query.code,
                     scope: query.scope,
                     authuser: query.authuser,
@@ -81,7 +80,7 @@ const LoginScreen = () => {
                     }
                 })
                 await AsyncStorage.setItem('userInfo', JSON.stringify(data))
-                refreshUserInfo()
+                setUserInfo(data)
             }
         } catch (error) {
 

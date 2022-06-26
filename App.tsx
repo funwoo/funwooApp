@@ -19,7 +19,7 @@ import { focusManager, QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import UserInfoContextProvider from './src/context/UserInfoContextProvider';
 import Config from './src/models/index';
-import Main from './src/screens';
+import Main from './src/navigator';
 LogBox.ignoreAllLogs(true)
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },

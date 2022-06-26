@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react'
 import Icon from 'react-native-vector-icons/dist/AntDesign'
-import LiveChatRoomListScreen from '../screens/LiveChatRoomListScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import LiveChatRoomListScreen from '../screens/backyard/LiveChatRoomListScreen';
+import SettingsScreen from '../screens/backyard/SettingsScreen';
 const Tab = createBottomTabNavigator();
-export const CrmNavigatorTabs = () => {
+export const BackyardNavigatorTabs = () => {
     return (
         <>
             <Tab.Navigator screenOptions={({ route }) => ({

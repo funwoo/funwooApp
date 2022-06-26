@@ -1,145 +1,159 @@
-import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native"
-import React, { FC, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useRecoilRefresher_UNSTABLE, useRecoilValue, useRecoilValueLoadable } from "recoil"
-import { liveChatroomsState, LiveChatroomsStateProps, Room } from "../../state/liveChatRooms"
-import { currentUserInfoState } from "../../state/currentUserInfoState"
+import { ActivityIndicator, FlatList, Text, View } from "react-native"
+import React, { useCallback, useEffect, useState } from 'react'
 import moment from 'moment'
 import 'moment/locale/zh-tw'
 import uuid from 'react-native-uuid';
 import { useNavigation } from "@react-navigation/native"
-import { RoomChangeProps, useWebSocketContext, webSocketStatusType } from "../../context/WebsocketContextProvider"
-import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus"
-import { focusManager, useQuery } from "react-query"
-import { fetchLiveChatRooms, fetchVistiorInfo } from "../../network/apis"
-import { AxiosResponse } from "axios"
-import { VisitorRealmObject } from '../../models/visitor'
-import FastImage from "react-native-fast-image"
-import Config from '../../models'
+import { RoomChangeProps, useWebSocketContext, webSocketStatusType } from "../../../context/WebsocketContextProvider"
+import { useRefreshOnFocus } from "../../../hooks/useRefreshOnFocus"
+import Apis from "../../../network/apis"
+import { LivechatRoomRealmObject } from '../../../models/livechatRoom'
+import Config from '../../../models'
 import RNUserdefaults from '@tranzerdev/react-native-user-defaults';
-import Avatar from "../../components/crm/Avatar"
-import ChatListItem from "../../components/crm/ChatListItem"
+import ChatListItem from "../../../components/crm/ChatListItem"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { LivechatRoomsInfo } from "../../../network/entities/livechat-rooms-info.entity"
+import { PageNames } from "../../../navigator/PageNames"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const LiveChatRoomListScreen = () => {
-
+    const realm = useRealm();
     const { setRoomChangeCallback, removeRoomChangeCallcak, webSocketStatus } = useWebSocketContext()
-    const [liveChatRoomsData, setLiveChatRoomsData] = useState<LiveChatroomsStateProps>()
+    const [liveChatRoomsData, setLiveChatRoomsData] = useState<LivechatRoomsInfo[]>()
     const [extraDataKey, setExtraDataKey] = useState(uuid.v4())
-    const currentUserInfoStateValue = useRecoilValue(currentUserInfoState)
-    const { refetch, data, isLoading, isRefetching, } = useQuery<AxiosResponse<LiveChatroomsStateProps>, Error>(['livechatRooms', currentUserInfoStateValue.userId, currentUserInfoStateValue.authToken], () => fetchLiveChatRooms({
-        agentId: currentUserInfoStateValue.userId,
-        userId: currentUserInfoStateValue.userId,
-        authToken: currentUserInfoStateValue.authToke
-    }))
-    console.log(currentUserInfoStateValue.authToke, '\n', data)
-    const getTimeString = useCallback((date: Date | number) => {
-        const a = moment()
-        const b = moment(date)
-        const days = a.diff(b, 'days')
-        if (days === 1) {
-            return '昨天'
-        } else if (days > 1 && days < 7) {
-            return b.format('dddd')
-        } else if (days >= 7) {
-            return b.format('YYYY-MM-DD')
-        } else {
-            return b.format('A hh:mm')
-        }
-    }, [])
-    useRefreshOnFocus(refetch)
-    useEffect(() => {
-        let temp = data?.data
-        if (temp) {
-            temp.rooms?.sort?.((a, b) => new Date(b?._updatedAt)?.getTime?.() - new Date(a?._updatedAt)?.getTime?.())
-            temp.rooms.map((item) => {
-                item._updatedAt = getTimeString(item._updatedAt)
-            })
-            setLiveChatRoomsData(temp)
-        }
+    const [isLoading, setIsLoading] = useState(true)
+    const livechatRooms = useRealmQuery('livechatRoom')
+    const refresh = useCallback(async () => {
+        setIsLoading(true)
+        if (realm) {
+            try {
+                realm.write(async () => {
+                    const livechatRoomLastTimeUpdate = await AsyncStorage.getItem("livechatRoomLastTimeUpdate")
+                    const { data } = await Apis.getLiveChatRoomList(livechatRoomLastTimeUpdate)
+                    realm.beginTransaction()
+                    data.sort((a, b) => moment(a.updatedAt).isBefore(moment(b.updatedAt))).map((item) => {
+                        const livechatRoom = realm.objectForPrimaryKey('livechatRoom', item.id)
+                        if (livechatRoom) {
+                            realm.create('livechatRoom', LivechatRoomRealmObject.generate({
+                                id: item.id,
+                                name: item.name,
+                                username: item.username,
+                                token: item.token,
+                                phone: item?.phone?.map((item) => item?.phoneNumber || item) ?? [],
+                                roomId: item.roomId ?? "",
+                                msg: item.msg ?? "",
+                                line_id: item?.livechatData?.line_id ?? "",
+                                date: moment(item.updatedAt).toISOString(),
+                                avatar: item?.livechatData?.avatar ?? ""
+                            }), Realm.UpdateMode.Modified)
+                        } else {
+                            realm.create('livechatRoom', LivechatRoomRealmObject.generate({
+                                id: item.id,
+                                name: item.name,
+                                username: item.username,
+                                token: item.token,
+                                phone: item?.phone?.map((item) => item?.phoneNumber || item) ?? [],
+                                roomId: item.roomId ?? "",
+                                msg: item.msg ?? "",
+                                line_id: item?.livechatData?.line_id ?? "",
+                                avatar: item?.livechatData?.avatar ?? "",
+                                date: moment(item.updatedAt).toISOString()
+                            }))
+                        }
+                    })
+                    realm.commitTransaction()
+                    await AsyncStorage.setItem("livechatRoomLastTimeUpdate", new Date().toISOString())
+                })
+            } catch (error) {
+                console.warn('error', error)
+            } finally {
+                setIsLoading(false)
+            }
 
-    }, [data])
+        }
+    }, [realm, setIsLoading])
+    useEffect(() => {
+        refresh()
+    }, [])
+    useRefreshOnFocus(() => refresh())
     useEffect(() => {
         setRoomChangeCallback(roomChangeEventHandler)
         return (() => removeRoomChangeCallcak())
-    }, [liveChatRoomsData])
+    }, [realm])
     const roomChangeEventHandler = (value: RoomChangeProps) => {
-        const roomIdx = liveChatRoomsData?.rooms.findIndex((item) => item?._id === value?.fields?.args?.[1]?._id)
-        if (roomIdx != undefined && roomIdx != -1) {
-            let temp = liveChatRoomsData
-            if (temp) {
-                let newRoomInfo = value.fields.args[1]
-                newRoomInfo._updatedAt = new Date()
-                temp.rooms[roomIdx] = newRoomInfo
-                temp.rooms.map((item) => {
+        realm.write(() => {
+            if (!realm.isInTransaction)
+                realm.beginTransaction()
 
-                    item._updatedAt = getTimeString(item._updatedAt)
-                })
+            const livechatRoom = realm.objectForPrimaryKey('livechatRoom', value.fields.args[1].v._id)?.toJSON()
+            const item = value.fields.args[1]
+            if (livechatRoom) {
+                realm.create('livechatRoom', LivechatRoomRealmObject.generate({
+                    id: item.v._id,
+                    name: item.fname,
+                    username: item.username,
+                    token: item.v.token,
+                    phone: livechatRoom.phone ?? [],
+                    roomId: item._id ?? "",
+                    msg: item.lastMessage.msg ?? "",
+                    line_id: livechatRoom?.line_id ?? "",
+                    date: livechatRoom.date,
+                    avatar: livechatRoom?.avatar ?? ""
+                }), Realm.UpdateMode.Modified)
+            } else {
+                realm.create('livechatRoom', LivechatRoomRealmObject.generate({
+                    id: item.v._id,
+                    name: item.fname,
+                    username: item.username,
+                    token: item.v.token,
+                    phone: [],
+                    roomId: item._id ?? "",
+                    msg: item.lastMessage.msg ?? "",
+                    line_id: "",
+                    avatar: "",
+                    date: moment(item.ts.date).toISOString()
+                }))
             }
-            setLiveChatRoomsData(temp)
-            setExtraDataKey(uuid.v4())
-        }
-
+        })
     }
     const { top } = useSafeAreaInsets()
     return (
         <View style={{ flex: 1, backgroundColor: 'white', paddingTop: top }}>
             <View style={{ height: 56, width: "100%" }}></View>
-            <FlatList extraData={extraDataKey} keyExtractor={item => item._id}
-                data={liveChatRoomsData?.rooms ?? []} renderItem={(({ item }) => {
-                    return (<ChatRoomItem authToken={currentUserInfoStateValue.authToke} userId={currentUserInfoStateValue.userId} item={item} />
+            <FlatList extraData={extraDataKey} keyExtractor={item => item.id}
+                data={livechatRooms.toJSON().sort((a, b) => moment(a.date).isBefore(moment(b.date)))} renderItem={(({ item }) => {
+                    return (<ChatRoomItem item={item} />
                     )
                 })} />
-            <WebsocketConnectStatus status={isRefetching || isLoading ? "嘗試連接中" : webSocketStatus} />
+            <WebsocketConnectStatus status={isLoading ? "嘗試連接中" : webSocketStatus} />
         </View>
     )
 }
-const ChatRoomItem = ({ item, userId, authToken }: { item: Room, userId: string, authToken: string }) => {
-    const realm = useRealm();
-    const visitor = useObject(VisitorRealmObject, item.v._id);
-    const { refetch, data, isLoading, isRefetching, } = useQuery<AxiosResponse<any>, Error>(['livechatVisitor' + item.v._id, userId, authToken], () => fetchVistiorInfo({
-        visitorId: item.v._id,
-        userId: userId,
-        authToken: authToken
-    }), { enabled: !visitor?.toJSON().date || new Date() < visitor?.toJSON().date.getDate() + 1 })
-    useEffect(() => {
-        (async () => {
-            RNUserdefaults.setFromSuite(JSON.stringify(visitor?.toJSON() || data?.data?.visitor?.livechatData), item.v._id, "group.com.funwoo.funwoochat.onesignal");
-            const value = await RNUserdefaults.getFromSuite(item.v._id, "group.com.funwoo.funwoochat.onesignal",);
-        })()
-
-    }, [data?.data, visitor])
-    useEffect(() => {
-        realm.write(() => {
-            if (data?.data) {
-                const visitor = realm.objectForPrimaryKey('visitor', item.v._id)
-                if (visitor) {
-                    realm.create('visitor', VisitorRealmObject.generate(item.v._id, item.fname, item.v.username, data?.data?.visitor?.livechatData?.avatar), Realm.UpdateMode.Modified)
-                } else {
-                    realm.create('visitor', VisitorRealmObject.generate(item.v._id, item.fname, item.v.username, data?.data?.visitor?.livechatData?.avatar))
-                }
-            }
-        })
-    }, [data?.data, realm])
-    const avatar = useMemo(() => {
-        return visitor?.toJSON().avatar || data?.data?.visitor?.livechatData?.avatar
-    }, [data?.data, visitor])
+const ChatRoomItem = ({ item }: {
+    item: {
+        id: string;
+        name: string;
+        username: string;
+        token: string;
+        avatar?: string;
+        date?: Date;
+        phone: string[];
+        line_id?: string;
+        roomId: string
+        msg: string
+    }
+}) => {
     const navigation = useNavigation()
     const itemPress = useCallback(() => {
-        navigation.navigate('ChatRoom' as never, {
-            //@ts-ignore
-            roomId: item._id,
-            //@ts-ignore
-            token: item.v.token ?? "",
-            //@ts-ignore
-            name: item.fname,
-            //@ts-ignore
-            avatar: avatar ?? undefined,
-            //@ts-ignore
-            client_Id: item.v._id
+        navigation.navigate(PageNames.chatroom, {
+            roomId: item.id,
+            token: item.token,
+            name: item.name,
+            avatar: item?.avatar
         })
     }, [item, navigation])
     return (
-        <ChatListItem updatedAt={item._updatedAt as unknown as string ?? ""} msg={item?.lastMessage?.msg} name={item.fname} platform={item.v.username} uri={avatar} onPress={itemPress} />
+        <ChatListItem updatedAt={item.date as unknown as string ?? ""} msg={item.msg} name={item.name} platform={item.username} uri={item.avatar} onPress={itemPress} />
     )
 }
 const WebsocketConnectStatus = ({ status }: { status: webSocketStatusType }) => {
@@ -149,20 +163,4 @@ const WebsocketConnectStatus = ({ status }: { status: webSocketStatusType }) => 
         <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>{status}</Text>
     </View>
 }
-// const Avatar: FC<AvatarProps> = ({ name }) => {
-//     const getBgColor = () => {
-//         let num = name.split(" ")?.[0]?.length + name.split(" ")?.[1]?.length ?? 0
-//         return colors[num % 20] ?? colors[0]
-//     }
-//     return (
-//         <View style={{ width: 50, height: 50, backgroundColor: getBgColor(), borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}>
-//             <Text style={{ color: 'white', fontSize: 20 }}>{name.includes(" ") ? name.split(" ")?.[0][0].toUpperCase() + name.split(" ")?.[1][0].toUpperCase() : name.split(" ")?.[0][0].toUpperCase()}</Text>
-//         </View>
-//     )
-// }
-const LiveChatRoomListScreenContainer = () => {
-    return <Suspense fallback={<View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator size={'large'} /></View>}>
-        <LiveChatRoomListScreen />
-    </Suspense>
-}
-export default LiveChatRoomListScreenContainer
+export default LiveChatRoomListScreen

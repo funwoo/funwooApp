@@ -1,9 +1,24 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const rocketChatHttpClient = axios.create({
-    baseURL: "https://crm.funwoo.com.tw"
-})
 const backyardAPIHttpClient = axios.create({
-    baseURL: "https://backyard-api-av33oxrlwq-de.a.run.app"
+    // baseURL: "https://funwoo-apis-av33oxrlwq-de.a.run.app/"
+    baseURL: "http://localhost:8080/"
 })
-export { rocketChatHttpClient, backyardAPIHttpClient }
+backyardAPIHttpClient.interceptors.request.use(async (config) => {
+    try {
+        const userInfo = await AsyncStorage.getItem('userInfo')
+        if (userInfo === null) return config
+        config.headers = {
+            ...config.headers,
+            'authorization': "Bearer " + JSON.parse(userInfo).jwt
+        }
+        return config
+    } catch (error) {
+        return config
+    }
+
+}, (error) => {
+    return Promise.reject(error);
+})
+export { backyardAPIHttpClient }

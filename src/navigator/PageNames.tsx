@@ -3,5 +3,7 @@ export const PageNames = {
     "search": "search",
     "fav": "fav",
     "sell": "sell",
-    "more": "more"
+    "more": "more",
+    "signIn": "signIn",
+    chatroom: "chatroom"
 }

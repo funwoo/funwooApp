@@ -1,8 +1,8 @@
 import { createRealmContext } from "@realm/react";
-import { VisitorRealmObject } from "./visitor";
+import { LivechatRoomRealmObject } from "./livechatRoom";
 
 const config = {
-    schema: [VisitorRealmObject],
-    schemaVersion: 2,
+    schema: [LivechatRoomRealmObject],
+    schemaVersion: 5,
 };
 export default createRealmContext(config);

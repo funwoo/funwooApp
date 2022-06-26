@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useCallback } from 'react'
-import { Animated, Text } from 'react-native';
-import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
+import { Text } from 'react-native';
 import { CustomTabIcon } from '../assets/fonts';
 import HomeScreen from '../screens/entrance/HomeScreen';
+import { MoreScreenStack } from './EntranceNavigatorStack';
 import { PageNames } from './PageNames';
 const Tab = createBottomTabNavigator();
 const EntranceNavigatorTabs = () => {
@@ -65,6 +65,7 @@ const EntranceNavigatorTabs = () => {
             defaultScreenOptions={{
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
+                headerShown: false,
                 tabBarLabelStyle: {
                     marginBottom: 5,
                 }
@@ -88,7 +89,7 @@ const EntranceNavigatorTabs = () => {
             <Tab.Screen name={PageNames.more} options={{
                 title: "更多",
                 headerShown: false
-            }} component={HomeScreen} />
+            }} component={MoreScreenStack} />
         </Tab.Navigator>
     )
 }
