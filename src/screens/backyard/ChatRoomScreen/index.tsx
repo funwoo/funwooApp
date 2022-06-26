@@ -2,69 +2,113 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Pressable, View } from 'react-native'
 import { GiftedChat, IMessage, SystemMessage } from 'react-native-gifted-chat'
-import { useRecoilValue } from 'recoil'
 import { useWebSocketContext } from '../../../context/WebsocketContextProvider'
-import { rocketChatHttpClient } from '../../../network/httpClient'
-import { currentUserInfoState } from '../../../state/currentUserInfoState'
+import { rockatchatAPIHttpClient } from '../../../network/httpClient'
 import uuid from 'react-native-uuid';
 import { useMutation } from 'react-query'
-import { sentTextMessageToLiveChatRoom } from '../../../network/apis'
+import apis from '../../../network/apis'
 import { StreamRoomMessagesProps } from '../../../types/StreamRoomMessagesPropsType'
-import AntDesign from 'react-native-vector-icons/dist/AntDesign'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import Avatar from '../../../components/crm/Avatar'
+import Config from '../../../models'
+import moment from 'moment'
+import { MessageRealmObject } from '../../../models/message'
+import { useUserInfoContextProvider } from '../../../context/UserInfoContextProvider'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useRefreshOnFocus } from '../../../hooks/useRefreshOnFocus'
+const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const ChatRoomScreen = ({ route }) => {
-
+    const realm = useRealm()
+    const { bottom } = useSafeAreaInsets()
     const navigation = useNavigation()
     const { sendJsonMessage, setRoomMessageChangeCallback, removeRoomMessageChangeCallcak } = useWebSocketContext()
     const [messages, setMessages] = useState<IMessage[]>([]);
     const roomUUID = useRef(uuid.v4()).current
-    const currentUserInfoStateValue = useRecoilValue(currentUserInfoState)
-    const mutation = useMutation(sentTextMessageToLiveChatRoom)
-    const getAvatar = (id: string) => {
-        if (id === route.params.client_Id) {
-            return route.params.avatar
-        } else {
-            return undefined
-        }
-    }
-    const webhookResponseMessageParser = useCallback((data: StreamRoomMessagesProps) => {
-        let messages: any[] = []
-        data.fields.args.forEach((item) => {
-            if (item?.attachments?.length) {
-                messages.push({
-                    _id: item._id,
-                    text: item.msg,
-                    createdAt: new Date(),
-                    image: !item.attachments[0].image_url.includes('http') ? "https://crm.funwoo.com.tw" + item.attachments[0].image_url : item.attachments[0].image_url,
-                    user: {
-                        _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                        avatar: getAvatar(item.u._id),
-                        name: item.u.name,
-                    }
-
-
-                })
-            } else {
-                messages.push({
-                    _id: item._id,
-                    text: item.msg,
-                    createdAt: new Date(),
-                    user: {
-                        _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                        name: item.u.name,
-                        avatar: getAvatar(item.u._id)
-                    }
-
-                })
+    const mutation = useMutation(apis.sentTextMessageToLiveChatRoom)
+    const [isEnd, setIsEnd] = useState(false)
+    const { userInfo } = useUserInfoContextProvider()
+    const [isLoadingEarlier, setIsLoadingEarlier] = useState(false)
+    const messagesDB = useRealmQuery('message').filtered(`roomId == '${route.params.roomId}'`).sorted('date', true).map((item) => {
+        const element: {
+            _id: string;
+            text?: string;
+            name: string;
+            username: string;
+            avatar?: string;
+            date?: string;
+            //text,image,file
+            type: string
+            image?: string
+            isEarliest: boolean
+            userId?: string
+            roomId: string
+        } = item.toJSON()
+        if (element.type === 'system') {
+            return {
+                _id: element._id,
+                text: element.text,
+                createdAt: moment(element.date).toDate(),
+                system: true,
+                // Any additional custom parameters are passed through
             }
+        } else {
+            return {
+                _id: element._id,
+                text: element.text,
+                createdAt: moment(element.date).toDate(),
+                user: {
+                    _id: element.userId,
+                    name: element.userId === userInfo?.userId ? userInfo?.name : element.name,
+                    avatar: element.avatar,
+                },
+                image: element.image,
+                sent: true,
+                received: true,
+                pending: true,
+            }
+        }
+    })
+    const webhookResponseMessageParser = (data: StreamRoomMessagesProps) => {
+        realm.write(() => {
+            if (!realm.isInTransaction) realm.beginTransaction()
+            data.fields.args.forEach((item) => {
+                const message = realm.objectForPrimaryKey('message', item._id)
+                if (message) {
+                    realm.create('message', MessageRealmObject.generate({
+                        _id: item._id,
+                        name: item?.u?.name ?? "",
+                        username: item?.u?.username ?? "",
+                        type: getType(item),
+                        isEarliest: false,
+                        roomId: item.rid,
+                        userId: item.u._id,
+                        image: item?.attachments?.length > 0 ? item?.attachments?.[0].image_url : "",
+                        text: getText(item),
+                        date: moment().toISOString(),
+                        avatar: route.params.username === item.u.username ? route.params.avatar : ""
+
+                    }), Realm.UpdateMode.Modified)
+                } else {
+                    realm.create('message', MessageRealmObject.generate({
+                        _id: item._id,
+                        name: item?.u?.name ?? "",
+                        username: item?.u?.username ?? "",
+                        type: getType(item),
+                        isEarliest: false,
+                        roomId: item.rid,
+                        userId: item.u._id,
+                        image: item?.attachments?.length > 0 ? item.attachments[0].image_url : "",
+                        text: getText(item),
+                        date: moment().toISOString(),
+                        avatar: route.params.username === item.u.username ? route.params.avatar : ""
+
+                    }))
+                }
+            })
         })
-        return messages
-    }, [])
-    const onRoomMessageChangeHandler = (data: StreamRoomMessagesProps) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, webhookResponseMessageParser(data)))
     }
     useEffect(() => {
-        setRoomMessageChangeCallback(onRoomMessageChangeHandler)
+        setRoomMessageChangeCallback(webhookResponseMessageParser)
         sendJsonMessage({
             "msg": "sub",
             "id": roomUUID,
@@ -82,151 +126,166 @@ const ChatRoomScreen = ({ route }) => {
             })
         })
     }, [])
-    useEffect(() => {
-        (async () => {
-            try {
-
-                const { data } = await rocketChatHttpClient.get<LiveChatMessagesHistoryProps>(`/api/v1/livechat/messages.history/${route.params.roomId}`, {
-                    params: {
-                        token: route.params.token,
-                        limit: 300,
-                    }
-                })
-                const history: IMessage[] = data.messages.map((item) => {
-                    if (item.t === 'livechat-started') {
-                        return {
-                            _id: item._id,
-                            system: true,
-                            text: `${item.u.name} 已加入 Livechat ID: ${item.u.username}`,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: 1,
-                                name: route.params.name,
-                            }
-                        }
-                    } else if (item.t === "command" && item.msg == "connected") {
-                        return {
-                            _id: item._id,
-                            system: true,
-                            text: `顧問${item.u.username} 已開始接手`,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: 1,
-                                name: route.params.name,
-                            }
-                        }
-                    } else if (item.t === "livechat_transfer_history") {
-                        return {
-                            _id: item._id,
-                            system: true,
-                            text: `顧問${item.u.username} 轉交了聊天室給 ${item?.transferData?.transferredTo?.name}`,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: 1,
-                                name: route.params.name,
-                            }
-                        }
-                    } else if (item.t === "ul") {
-                        return {
-                            _id: item._id,
-                            system: true,
-                            text: `顧問${item.u.username} 已離開聊天室`,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: 1,
-                                name: route.params.name,
-                            }
-                        }
-                    } else if (item.t === "uj") {
-                        return {
-                            _id: item._id,
-                            system: true,
-                            text: `顧問${item.u.username} 已加入聊天室`,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: 1,
-                                name: route.params.name,
-                            }
-                        }
-                    } else if (item?.attachments?.[0]?.image_url) {
-                        return {
-                            _id: item._id,
-                            text: item.msg,
-                            createdAt: item._updatedAt,
-                            image: !item.attachments[0].image_url.includes('http') ? "https://crm.funwoo.com.tw" + item.attachments[0].image_url : item.attachments[0].image_url,
-                            user: {
-                                _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                                avatar: getAvatar(item.u._id),
-                                name: item.u.name,
-                            }
-
-                        }
-                    } else if (item.fileUpload) {
-                        return {
-
-                            _id: item._id,
-                            text: item.msg,
-                            createdAt: item._updatedAt,
-                            image: item.fileUpload.publicFilePath,
-                            user: {
-                                _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                                avatar: getAvatar(item.u._id),
-                                name: item.u.name,
-                            }
-
-                        }
-                    } else {
-                        return {
-                            _id: item._id,
-                            text: item.msg,
-                            createdAt: item._updatedAt,
-                            user: {
-                                _id: currentUserInfoStateValue.userId === item.u._id ? 1 : 0,
-                                name: item.u.name,
-                                avatar: getAvatar(item.u._id)
-                            }
-
-                        }
-                    }
-
-                })
-                console.log(history, 'history')
-                setMessages(history)
-
-            } catch (error) {
-                console.log(error)
+    const getType = useCallback((item: Message) => {
+        if (item.t === 'livechat-started' || item.t === "command" || item.t === "livechat_transfer_history" || item.t === '' || item.t === "ul" || item.t === "uj") {
+            return "system"
+        } else if (item?.attachments?.length > 0) {
+            return "image"
+        } else {
+            return "text"
+        }
+    }, [])
+    const getText = useCallback((item: Message) => {
+        if (item.t === 'livechat-started') {
+            return `${item.u.name} 已加入 `
+        } else if (item.t === "command" && item.msg == "connected") {
+            return `顧問${item.u.username} 已開始接手`
+        } else if (item.t === "livechat_transfer_history") {
+            return `顧問${item.u.username} 轉交了聊天室給 ${item?.transferData?.transferredTo?.name}`
+        } else if (item.t === "ul") {
+            return `顧問${item.u.username} 已離開聊天室`
+        } else if (item.t === "uj") {
+            return `顧問${item.u.username} 已加入聊天室`
+        } else {
+            return item.msg
+        }
+    }, [])
+    const onLoadEarlier = useCallback(async () => {
+        try {
+            setIsLoadingEarlier(true)
+            if (isEnd) return
+            const { data } = await rockatchatAPIHttpClient.get<LiveChatMessagesHistoryProps>(`/api/v1/livechat/messages.history/${route.params.roomId}`, {
+                params: {
+                    token: route.params.token,
+                    limit: 100,
+                    end: messagesDB.length > 0 ? moment(messagesDB[messagesDB.length - 1].createdAt).toISOString() : undefined,
+                }
+            })
+            if (data.messages.length < 100) {
+                setIsEnd(true)
             }
 
+            realm.write(() => {
+                if (!realm.isInTransaction) realm.beginTransaction()
+                data.messages.sort((a, b) => moment(a._updatedAt).isBefore(moment(b._updatedAt)) ? 0 : -1).map((item) => {
+                    const message = realm.objectForPrimaryKey('message', item._id)
+                    if (message) {
 
-        })()
+                        realm.create('message', MessageRealmObject.generate({
+                            _id: item._id,
+                            name: item?.u?.name ?? "",
+                            username: item?.u?.username ?? "",
+                            type: getType(item),
+                            isEarliest: false,
+                            roomId: item.rid,
+                            userId: item.u._id,
+                            image: item?.attachments?.length > 0 ? item.attachments[0].image_url : "",
+                            text: getText(item),
+                            date: item?._updatedAt ? moment(item?._updatedAt).toISOString() : "",
+                            avatar: route.params.username === item.u.username ? route.params.avatar : ""
 
-    }, [route.params.roomId])
+                        }), Realm.UpdateMode.Modified)
+                    } else {
+                        realm.create('message', MessageRealmObject.generate({
+                            _id: item._id,
+                            name: item?.u?.name ?? "",
+                            username: item?.u?.username ?? "",
+                            type: getType(item),
+                            isEarliest: false,
+                            roomId: item.rid,
+                            userId: item.u._id,
+                            image: item?.attachments?.length > 0 ? item.attachments[0].image_url : "",
+                            text: getText(item),
+                            date: item?._updatedAt ? moment(item?._updatedAt).toISOString() : "",
+                            avatar: route.params.username === item.u.username ? route.params.avatar : ""
+
+                        }))
+                    }
+                })
+            })
+
+        } catch (error) {
+            console.log(error, 'realm write fail')
+        } finally {
+            setIsLoadingEarlier(false)
+        }
+    }, [isEnd, setIsEnd, messagesDB])
+    const onInit = useCallback(async () => {
+        try {
+            const { data } = await rockatchatAPIHttpClient.get<LiveChatMessagesHistoryProps>(`/api/v1/livechat/messages.history/${route.params.roomId}`, {
+                params: {
+                    token: route.params.token,
+                    limit: 100,
+
+                }
+            })
+            realm.write(() => {
+                if (!realm.isInTransaction) realm.beginTransaction()
+                data.messages.sort((a, b) => moment(a._updatedAt).isBefore(moment(b._updatedAt)) ? 0 : -1).map((item) => {
+                    const message = realm.objectForPrimaryKey('message', item._id)
+                    if (message) {
+
+                        realm.create('message', MessageRealmObject.generate({
+                            _id: item._id,
+                            name: item.u.name,
+                            username: item.u.username,
+                            type: getType(item),
+                            isEarliest: false,
+                            roomId: item.rid,
+                            userId: item.u._id,
+                            image: item?.attachments?.length > 0 ? item.attachments[0].image_url : "",
+                            text: getText(item),
+                            date: item?._updatedAt ? moment(item?._updatedAt).toISOString() : "",
+                            avatar: route.params.username === item.u.username ? route.params.avatar : ""
+
+                        }), Realm.UpdateMode.Modified)
+                    } else {
+                        realm.create('message', MessageRealmObject.generate({
+                            _id: item._id,
+                            name: item.u.name,
+                            username: item.u.username,
+                            type: getType(item),
+                            isEarliest: false,
+                            roomId: item.rid,
+                            userId: item.u._id,
+                            image: item?.attachments?.length > 0 ? item.attachments[0].image_url : "",
+                            text: getText(item),
+                            date: item?._updatedAt ? moment(item?._updatedAt).toISOString() : "",
+                            avatar: route.params.username === item.u.username ? route.params.avatar : ""
+
+                        }))
+                    }
+                })
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }, [route.params.roomId, getType, getText])
+    useRefreshOnFocus(onInit)
+    useEffect(() => {
+        onInit()
+    }, [route.params.roomId, getType, getText])
+
     const onSend = (messages: IMessage[]) => {
         mutation.mutate({
             rid: route.params.roomId,
             msg: messages[0].text,
-            token: currentUserInfoStateValue.authToken,
-            userId: currentUserInfoStateValue.userId
         })
-        // sendJsonMessage({ "msg": "method", "method": "sendMessageLivechat", "params": [{ "_id": uuid.v4(), "rid": route.params.roomId, "msg": messages[0].text, "token": currentUserInfoStateValue.authToken }], "id": "11" })
+        // sendJsonMessage({ "msg": "method", "method": "sendMessageLivechat", "params": [{ "_id": uuid.v4(), "rid": route.params.roomId, "msg": messages[0].text, "token": userInfo?.authToken }], "id": "11" })
     }
-    React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <Pressable onPress={() => navigation.navigate('ChatRoomInfo', {
-                    name: route.params.name + '的詳細資料'
-                })}  >
-                    <AntDesign name="infocirlceo" size={24} color="black" />
-                </Pressable>
-            ),
-        });
-    }, [navigation]);
-    return <View style={{ flex: 1, backgroundColor: 'white' }}>
+    return <View style={{ flex: 1, backgroundColor: 'white', paddingBottom: bottom }}>
         <GiftedChat
+            wrapInSafeArea={false}
+            onLoadEarlier={() => onLoadEarlier()}
             showUserAvatar
             renderAvatar={({ currentMessage }) => {
-                return <Avatar name={currentMessage?.user.name} uri={currentMessage?.user?.avatar as string} />
+                return <Avatar name={currentMessage?.user?.name} uri={currentMessage?.user?.avatar as string} />
             }}
+            isLoadingEarlier={isLoadingEarlier}
+            infiniteScroll
+            loadEarlier
             renderUsernameOnMessage
             renderSystemMessage={(props) => {
                 return <SystemMessage
@@ -240,10 +299,10 @@ const ChatRoomScreen = ({ route }) => {
                     }}
                 />
             }}
-            messages={messages}
+            messages={messagesDB}
             onSend={onSend}
             user={{
-                _id: 1,
+                _id: userInfo?.userId,
             }}
         />
     </View>

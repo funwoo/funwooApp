@@ -1,6 +1,6 @@
 import { LiveChatroomsStateProps } from "../state/liveChatRooms"
 import { LivechatRoomsInfo } from "./entities/livechat-rooms-info.entity"
-import { backyardAPIHttpClient } from "./httpClient"
+import { backyardAPIHttpClient, rockatchatAPIHttpClient } from "./httpClient"
 
 class Apis {
     getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
@@ -8,6 +8,18 @@ class Apis {
             params: {
                 updatedSince: livechatRoomLastTimeUpdate
             }
+        })
+    }
+    sentTextMessageToLiveChatRoom = (props: {
+        rid: string,
+        msg: string,
+    }) => {
+        return rockatchatAPIHttpClient.post<LiveChatroomsStateProps>('/api/v1/chat.sendMessage', {
+            message: {
+                msg: props.msg,
+                rid: props.rid
+            }
+        }, {
         })
     }
 }

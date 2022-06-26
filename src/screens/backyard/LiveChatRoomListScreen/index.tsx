@@ -147,12 +147,13 @@ const LiveChatRoomListScreen = () => {
                 })} renderItem={(({ item }) => {
                     return (<ChatListItem unread={item.unread} updatedAt={item.date as unknown as string ?? ""} msg={item.msg} name={item.name} platform={item.username} uri={item.avatar} onPress={() => {
                         navigation.navigate(PageNames.chatroom, {
-                            roomId: item.id,
+                            roomId: item.roomId,
                             token: item.token,
                             name: item.name,
                             avatar: item?.avatar,
                             roomName: item.name,
-                            platform: item.username?.includes('facebook') ? "facebook" : item.username?.includes('line') ? "line" : "unknow"
+                            platform: item.username?.includes('facebook') ? "facebook" : item.username?.includes('line') ? "line" : "unknow",
+                            username: item.username
                         })
                     }} />
                     )
