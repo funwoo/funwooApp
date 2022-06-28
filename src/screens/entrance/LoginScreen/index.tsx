@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button, Platform, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Button, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native"
 import React from 'react'
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Controller, useForm } from 'react-hook-form';
@@ -88,7 +88,7 @@ const LoginScreen = () => {
 
     }
     return (
-        <View style={{ flex: 1, paddingTop: top, paddingBottom: bottom, backgroundColor: 'white', paddingHorizontal: 16 }}>
+        <ScrollView style={{ flex: 1, paddingTop: top, paddingBottom: bottom, backgroundColor: 'white', paddingHorizontal: 16 }}>
             <View style={{ flex: 2, justifyContent: 'flex-end' }}>
                 <Controller rules={{ required: true }} name='user' control={control} render={({ field: {
                     onBlur,
@@ -159,7 +159,7 @@ const LoginScreen = () => {
                     </Pressable>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 export default LoginScreen
