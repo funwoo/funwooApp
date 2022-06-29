@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { checkPermission } from '../../../../lib/Permission';
-import { launchCamera } from 'react-native-image-picker';
+
 import { PageNames } from '../../../../navigator/PageNames';
 interface ActionButtonProps {
     showActions: boolean,

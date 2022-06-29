@@ -7,6 +7,7 @@ import { openLimitedPhotoLibraryPicker } from "react-native-permissions"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import apis from "../../../network/apis"
 import { getImagePath } from "../../../nativeModule/CameraRollFetcher"
+import ImageResizer from 'react-native-image-resizer';
 const PhotoLibraryScreen = ({ route }) => {
     const { bottom } = useSafeAreaInsets()
     const navigation = useNavigation()
@@ -58,9 +59,13 @@ const PhotoLibraryScreen = ({ route }) => {
         try {
             setLoading(true)
             const realPath = await getImagePath(selectedPhoto?.node.image.uri!)
+            const maxWidth = Math.min(selectedPhoto?.node.image.width, 1024)
+            const aspectRatio = selectedPhoto?.node.image.width / selectedPhoto?.node.image.height ?? 1
+            const resizeResult = await ImageResizer.createResizedImage(realPath, maxWidth, maxWidth / aspectRatio, 'JPEG', 1, 0, undefined)
+            console.log('resizeResult', resizeResult, realPath)
             const response = await apis.setImageMessage({
                 filename: selectedPhoto?.node.image.filename!,
-                filepath: realPath,
+                filepath: resizeResult.uri.replace("file://", ""),
                 name: 'file'
             }, route.params.roomId)
 

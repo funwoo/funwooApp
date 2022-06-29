@@ -22,6 +22,7 @@ import { Composer } from './components/Composer'
 import { checkPermission } from '../../../lib/Permission'
 import { PageNames } from '../../../navigator/PageNames'
 import { PERMISSIONS } from 'react-native-permissions'
+import { launchCamera } from 'react-native-image-picker';
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const ChatRoomScreen = ({ route }) => {
     const realm = useRealm()

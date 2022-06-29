@@ -1,10 +1,9 @@
 import { LiveChatroomsStateProps } from "../state/liveChatRooms"
 import { LivechatRoomsInfo } from "./entities/livechat-rooms-info.entity"
 import { backyardAPIHttpClient, rockatchatAPIHttpClient } from "./httpClient"
-import RNFS from 'react-native-fs'
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import axios from "axios"
 import RNFetchBlob from "rn-fetch-blob"
+
 class Apis {
     getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
         return backyardAPIHttpClient.get<LivechatRoomsInfo[]>('/crm/livechat/rooms', {

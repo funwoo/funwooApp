@@ -47,17 +47,6 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
             const data = JSON.parse(event.data)
             if (!userInfo?.authToken) return null
             if (data?.result?.type === 'resume') {
-                // sendJsonMessage(
-                //     {
-                //         "msg": "sub",
-                //         "id": uuid.v4(),
-                //         "name": "stream-notify-user",
-                //         "params": [
-                //             `${currentUserInfoStateValue.userId}/event`,
-                //             false
-                //         ]
-                //     }
-                // )
                 setWebsocketStatus("已連接")
                 sendJsonMessage(
                     {
@@ -70,16 +59,6 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                         ]
                     }
                 )
-
-                // sendJsonMessage({
-                //     "msg": "sub",
-                //     "id": uuid.v4(),
-                //     "name": "stream-notify-all",
-                //     "params": [
-                //         "event",
-                //         false
-                //     ]
-                // })
             } else if (data?.msg === "ping") {
                 sendJsonMessage({
                     msg: 'pong'
@@ -108,34 +87,8 @@ const WebsocketContextProviderProvider: FC<{}> = ({ children }) => {
                     { "resume": userInfo?.authToken }
                 ]
             })
-
-
-            // sendJsonMessage({
-            //     "msg": "connect",
-            //     "version": "1",
-            //     "support": ["1"]
-            // })
-
-            // sendJsonMessage({
-            //     "msg": "sub",
-            //     "id": uuid.v4(),
-            //     "name": "stream-notify-all",
-            //     "params": [
-            //         "event",
-            //         false
-            //     ]
-            // })
-            // sendJsonMessage({
-            //     "msg": "connect",
-            //     "version": "1",
-            //     "support": ["1"]
-            // })
-
-
-
             console.log('open')
         },
-        //Will attempt to reconnect on all close events, such as server shutting down
         shouldReconnect: (closeEvent) => true,
         onClose: (event) => {
             setWebsocketStatus("嘗試連接中")
