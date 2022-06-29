@@ -17,9 +17,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Avatar from "../../../components/crm/Avatar";
 import { useUserInfoContextProvider } from "../../../context/UserInfoContextProvider";
 import Feather from 'react-native-vector-icons/Feather'
+import { useQuery } from "react-query";
+import apis from "../../../network/apis";
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const LiveChatRoomListScreen = () => {
     const realm = useRealm();
+    const query = useQuery('setUserStatus', apis.setUserStatus)
     const navigation = useNavigation()
     const { setRoomChangeCallback, removeRoomChangeCallcak, webSocketStatus } = useWebSocketContext()
     const { userInfo } = useUserInfoContextProvider()

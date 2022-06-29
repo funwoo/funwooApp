@@ -1,7 +1,10 @@
 import { LiveChatroomsStateProps } from "../state/liveChatRooms"
 import { LivechatRoomsInfo } from "./entities/livechat-rooms-info.entity"
 import { backyardAPIHttpClient, rockatchatAPIHttpClient } from "./httpClient"
-
+import RNFS from 'react-native-fs'
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
+import RNFetchBlob from "rn-fetch-blob"
 class Apis {
     getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
         return backyardAPIHttpClient.get<LivechatRoomsInfo[]>('/crm/livechat/rooms', {
@@ -21,6 +24,57 @@ class Apis {
             }
         }, {
         })
+    }
+    sentImageMessageToLiveChatRoom = (props: {
+        rid: string,
+        image_url: string
+    }) => {
+        return rockatchatAPIHttpClient.post<LiveChatroomsStateProps>('/api/v1/chat.sendMessage', {
+            message: {
+                rid: props.rid,
+                attachments: [{
+                    image_url: props.image_url
+                }]
+            }
+
+        }, {
+        })
+    }
+    setUserStatus() {
+        return rockatchatAPIHttpClient.post('/api/v1/users.setStatus', {
+            message: "",
+            status: "online"
+        })
+    }
+    setImageMessage(file: {
+        name: string,
+        filename: string,
+        filepath: string,
+    }, rid: string,) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const userInfo = await AsyncStorage.getItem('userInfo')
+                if (userInfo == null) {
+                    reject("userInfo empty")
+                    return
+                }
+                const response = await RNFetchBlob.fetch('POST', `https://crm.funwoo.com.tw/api/v1/rooms.upload/${rid}`, {
+                    'Content-Type': 'multipart/form-data',
+                    'X-User-Id': JSON.parse(userInfo).userId,
+                    'X-Auth-Token': JSON.parse(userInfo).authToken
+                }, [{
+                    name: file.name,
+                    type: `image/${file!.filepath!.split(/[#?]/)[0].split('.').pop().trim()}`,
+                    filename: file.filename,
+                    data: RNFetchBlob.wrap(decodeURI(file.filepath))
+                }])
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            }
+
+        })
+
     }
 }
 // const fetchLiveChatRooms = ({ agentId, authToken, userId }: { agentId: string, authToken: string, userId: string }) => {

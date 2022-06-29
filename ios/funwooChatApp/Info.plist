@@ -52,8 +52,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>想要存取你的相機權限</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>想要存取你的相簿權限</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>想要存取你的相簿權限</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>INSendMessageIntent</string>

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Pressable, View } from 'react-native'
+import { Platform, Pressable, View } from 'react-native'
 import { GiftedChat, IMessage, SystemMessage } from 'react-native-gifted-chat'
 import { useWebSocketContext } from '../../../context/WebsocketContextProvider'
 import { rockatchatAPIHttpClient } from '../../../network/httpClient'
@@ -8,7 +8,6 @@ import uuid from 'react-native-uuid';
 import { useMutation } from 'react-query'
 import apis from '../../../network/apis'
 import { StreamRoomMessagesProps } from '../../../types/StreamRoomMessagesPropsType'
-import AntDesign from 'react-native-vector-icons/AntDesign'
 import Avatar from '../../../components/crm/Avatar'
 import Config from '../../../models'
 import moment from 'moment'
@@ -17,6 +16,12 @@ import { useUserInfoContextProvider } from '../../../context/UserInfoContextProv
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRefreshOnFocus } from '../../../hooks/useRefreshOnFocus'
 import { LivechatRoomRealmObject } from '../../../models/livechatRoom'
+import ImageMessageRender from './components/ImageMessageRender'
+import ActionButton from './components/ActionButton'
+import { Composer } from './components/Composer'
+import { checkPermission } from '../../../lib/Permission'
+import { PageNames } from '../../../navigator/PageNames'
+import { PERMISSIONS } from 'react-native-permissions'
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const ChatRoomScreen = ({ route }) => {
     const realm = useRealm()
@@ -26,6 +31,7 @@ const ChatRoomScreen = ({ route }) => {
     const roomUUID = useRef(uuid.v4()).current
     const mutation = useMutation(apis.sentTextMessageToLiveChatRoom)
     const [isEnd, setIsEnd] = useState(false)
+    const [showActions, setShowActions] = useState(true)
     const { userInfo } = useUserInfoContextProvider()
     const [isLoadingEarlier, setIsLoadingEarlier] = useState(false)
     const messagesDB = useRealmQuery('message').filtered(`roomId == '${route.params.roomId}'`).sorted('date', true).map((item) => {
@@ -286,15 +292,47 @@ const ChatRoomScreen = ({ route }) => {
         onInit()
     }, [route.params.roomId, getType, getText])
 
-    const onSend = (messages: IMessage[]) => {
+    const onSend = useCallback((messages: IMessage[]) => {
         mutation.mutate({
             rid: route.params.roomId,
             msg: messages[0].text,
         })
-        // sendJsonMessage({ "msg": "method", "method": "sendMessageLivechat", "params": [{ "_id": uuid.v4(), "rid": route.params.roomId, "msg": messages[0].text, "token": userInfo?.authToken }], "id": "11" })
-    }
+    }, [mutation])
+    const onCameraButtonPress = useCallback(async () => {
+        if (Platform.OS === 'ios') {
+            const result = await checkPermission(PERMISSIONS.IOS.CAMERA)
+        } else {
+            // checkPermission(PERMISSIONS.ANDROID)
+        }
+        try {
+            const result = await launchCamera({
+                mediaType: 'photo',
+                presentationStyle: "fullScreen"
+            }, (props) => {
+                console.log(props)
+            });
+
+            console.log('result', result)
+        } catch (error) {
+            console.log('error', error)
+        }
+
+    }, [])
+    const onImageButtonPress = useCallback(async () => {
+        if (Platform.OS === 'ios') {
+            const result = await checkPermission(PERMISSIONS.IOS.PHOTO_LIBRARY)
+            navigation.navigate(PageNames.photoLibrary, {
+                permission: "result",
+                roomId: route?.params?.roomId
+            })
+        } else {
+            // checkPermission(PERMISSIONS.ANDROID)
+        }
+
+    }, [navigation])
     return <View style={{ flex: 1, backgroundColor: 'white', paddingBottom: bottom }}>
         <GiftedChat
+            keyboardShouldPersistTaps={'never'}
             wrapInSafeArea={false}
             onLoadEarlier={() => onLoadEarlier()}
             showUserAvatar
@@ -304,6 +342,21 @@ const ChatRoomScreen = ({ route }) => {
             isLoadingEarlier={isLoadingEarlier}
             infiniteScroll
             loadEarlier
+            renderComposer={(props) => {
+                return <Composer  {...props} onEndEditing={() => {
+                    setShowActions(true)
+                }} onPressIn={() => {
+                    setShowActions(false)
+                }} />
+            }}
+            renderMessageImage={(props) => {
+                return <ImageMessageRender props={props} />
+            }}
+            renderActions={() => {
+                return (
+                    <ActionButton onCameraButtonPress={onCameraButtonPress} onImageButtonPress={onImageButtonPress} navigation={navigation} setShowActions={setShowActions} showActions={showActions} />
+                )
+            }}
             renderUsernameOnMessage
             renderSystemMessage={(props) => {
                 return <SystemMessage
@@ -320,7 +373,7 @@ const ChatRoomScreen = ({ route }) => {
             messages={messagesDB}
             onSend={onSend}
             user={{
-                _id: userInfo?.userId,
+                _id: userInfo?.userId ?? "",
             }}
         />
     </View>
