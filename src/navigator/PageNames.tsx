@@ -7,5 +7,6 @@ export const PageNames = {
     "signIn": "signIn",
     chatroom: "chatroom",
     "photoLibrary": "photoLibrary",
-    imageViewer: "imageViewer"
+    imageViewer: "imageViewer",
+    userContact: "userContact"
 }

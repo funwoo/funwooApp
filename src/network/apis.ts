@@ -3,6 +3,8 @@ import { LivechatRoomsInfo } from "./entities/livechat-rooms-info.entity"
 import { backyardAPIHttpClient, rockatchatAPIHttpClient } from "./httpClient"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import RNFetchBlob from "rn-fetch-blob"
+import { Contact, ContactProps } from "./entities/contact-enity"
+import { CustomFieldsProps } from "./entities/custom-fields.entity"
 
 class Apis {
     getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
@@ -74,6 +76,16 @@ class Apis {
 
         })
 
+    }
+    getCustomFields() {
+        return rockatchatAPIHttpClient.get<CustomFieldsProps>('/api/v1/livechat/custom-fields')
+    }
+    getUserContact(contactId: string) {
+        return rockatchatAPIHttpClient.get<ContactProps>('/api/v1/omnichannel/contact', {
+            params: {
+                contactId: contactId
+            }
+        })
     }
 }
 // const fetchLiveChatRooms = ({ agentId, authToken, userId }: { agentId: string, authToken: string, userId: string }) => {

@@ -20,6 +20,7 @@ import { RecoilRoot } from 'recoil';
 import UserInfoContextProvider from './src/context/UserInfoContextProvider';
 import Config from './src/models/index';
 import Main from './src/navigator';
+import Toast from 'react-native-toast-message';
 LogBox.ignoreAllLogs(true)
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },
@@ -43,6 +44,7 @@ const App = () => {
           </RecoilRoot>
         </QueryClientProvider>
       </RealmProvider>
+      <Toast />
     </Suspense>
   );
 };
