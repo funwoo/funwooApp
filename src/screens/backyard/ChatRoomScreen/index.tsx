@@ -23,6 +23,7 @@ import { checkPermission } from '../../../lib/Permission'
 import { PageNames } from '../../../navigator/PageNames'
 import { PERMISSIONS } from 'react-native-permissions'
 import { launchCamera } from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer'
 const { useRealm, useQuery: useRealmQuery, useObject } = Config;
 const ChatRoomScreen = ({ route }) => {
     const realm = useRealm()
@@ -314,6 +315,16 @@ const ChatRoomScreen = ({ route }) => {
             });
 
             console.log('result', result)
+
+            const maxWidth = Math.min(result.assets[0].width, 1024)
+            const aspectRatio = result.assets[0].width / result.assets[0].height ?? 1
+            const resizeResult = await ImageResizer.createResizedImage(result.assets[0].uri, maxWidth, maxWidth / aspectRatio, 'JPEG', 1, 0, undefined)
+            await apis.setImageMessage({
+                filename: result.assets[0].fileName ?? "",
+                filepath: resizeResult.uri.replace("file://", ""),
+                name: 'file',
+
+            }, route.params.roomId)
         } catch (error) {
             console.log('error', error)
         }
