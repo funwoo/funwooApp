@@ -18,6 +18,9 @@ import Config from './src/models/index';
 import Main from './src/navigator';
 import Toast from 'react-native-toast-message';
 import DimensionsContextProvider from './src/context/DimensionsContext';
+import {TailwindProvider} from 'tailwind-rn';
+import utilities from './tailwind.json';
+import {MyFavoriteContextProvider} from './src/context/MyFavoriteContext';
 
 LogBox.ignoreAllLogs(true);
 const queryClient = new QueryClient({
@@ -33,20 +36,24 @@ const App = () => {
     onChange: onAppStateChange,
   });
   return (
-    <Suspense fallback={<View style={{flex: 1}} />}>
-      <DimensionsContextProvider>
-        <RealmProvider>
-          <QueryClientProvider client={queryClient}>
-            <RecoilRoot>
-              <UserInfoContextProvider>
-                <Main />
-              </UserInfoContextProvider>
-            </RecoilRoot>
-          </QueryClientProvider>
-        </RealmProvider>
-      </DimensionsContextProvider>
-      <Toast />
-    </Suspense>
+    <TailwindProvider utilities={utilities}>
+      <Suspense fallback={<View style={{flex: 1}} />}>
+        <DimensionsContextProvider>
+          <RealmProvider>
+            <QueryClientProvider client={queryClient}>
+              <RecoilRoot>
+                <UserInfoContextProvider>
+                  <MyFavoriteContextProvider>
+                    <Main />
+                  </MyFavoriteContextProvider>
+                </UserInfoContextProvider>
+              </RecoilRoot>
+            </QueryClientProvider>
+          </RealmProvider>
+        </DimensionsContextProvider>
+        <Toast />
+      </Suspense>
+    </TailwindProvider>
   );
 };
 

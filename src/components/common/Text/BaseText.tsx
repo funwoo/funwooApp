@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {StyleSheet, TextProps as RCTTextProps, TextStyle} from 'react-native';
 import {Text as RCTText} from 'react-native-magnus';
-import {DimensionsContext} from '../../../context/DimensionsContext';
+import {useDimensionsContext} from '../../../context/DimensionsContext';
 import {ColorsType} from '../../../constants';
 
 export enum TextStringSizeEnum {
@@ -9,6 +9,7 @@ export enum TextStringSizeEnum {
   sm = 12,
   md = 13,
   lg = 15,
+  base = 16,
   xl = 17,
   '2xl' = 19,
   '3xl' = 21,
@@ -34,7 +35,6 @@ export interface BaseTextStyle extends TextStyle {
 export interface TextProps extends RCTTextProps {
   style?: BaseTextStyle;
   fontSize?: TextStringSizeEnum;
-  children: string;
   fontFamily?: 'NotoSansTC-Regular' | 'OpenSans-Bold';
 }
 
@@ -44,20 +44,29 @@ export enum Colors {
   DARK_GREY = '#1c1e21',
 }
 
-class Text extends React.Component<TextProps> {
-  scale = (fontSize: number) => (this.context.width / 390) * fontSize;
-  getFontSize = () => {
-    const {fontSize, style} = this.props;
+const Text: React.FC<TextProps> = ({
+  children,
+  fontSize,
+  style,
+  fontFamily,
+  ...props
+}) => {
+  const {width} = useDimensionsContext();
+
+  const scale = useCallback((size: number) => (width / 390) * size, [width]);
+
+  const _fontSize = useMemo(() => {
     if (fontSize) {
-      return this.scale(fontSize);
+      return scale(fontSize);
     } else if (style?.fontSize) {
-      return this.scale(style?.fontSize);
+      return scale(style?.fontSize);
     } else {
-      return this.scale(12);
+      return scale(12);
     }
-  };
-  getColor = (value: string | ColorsType | undefined) => {
-    switch (value) {
+  }, [fontSize, style]);
+
+  const color = useMemo(() => {
+    switch (style?.color) {
       case 'white':
         return '#ffffff';
       case 'gray50':
@@ -81,33 +90,28 @@ class Text extends React.Component<TextProps> {
       case undefined:
         return '#000000';
       default:
-        return value;
+        return style?.color;
     }
-  };
+  }, [style?.color]);
 
-  render() {
-    const {style, fontFamily, children} = this.props;
+  return (
+    <RCTText
+      allowFontScaling={false}
+      {...props}
+      style={StyleSheet.flatten([
+        style,
+        {
+          fontSize: _fontSize,
+          fontFamily: fontFamily || style?.fontFamily || 'NotoSansTC-Regular',
+          lineHeight: style?.lineHeight
+            ? scale(style?.lineHeight)
+            : _fontSize + 4,
+          color,
+        },
+      ])}>
+      {children}
+    </RCTText>
+  );
+};
 
-    return (
-      <RCTText
-        allowFontScaling={false}
-        {...this.props}
-        style={StyleSheet.flatten([
-          style,
-          {
-            fontSize: this.getFontSize(),
-            fontFamily: fontFamily || style?.fontFamily || 'NotoSansTC-Regular',
-            lineHeight: style?.lineHeight
-              ? this.scale(style?.lineHeight)
-              : this.getFontSize() + 4,
-            color: this.getColor(style?.color),
-          },
-        ])}>
-        {children}
-      </RCTText>
-    );
-  }
-}
-
-Text.contextType = DimensionsContext;
 export default Text;

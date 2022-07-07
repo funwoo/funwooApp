@@ -14,7 +14,6 @@ import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import tailwind from '../../lib/tailwind';
 import useOnScrollAnimated from '../../hooks/useOnScrollAnimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDimensionsContext} from '../../context/DimensionsContext';
@@ -25,6 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 import BaseIcon from '../common/icons/Icons/BaseIcon';
 import {PageNames} from '../../navigator/PageNames';
 import LogoHeader from './LogoHeader';
+import {useTailwind} from 'tailwind-rn';
 
 interface Props {
   style?: StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>;
@@ -43,6 +43,8 @@ const AnimationFunwooHeader: React.FC<Props> = ({
   disableAnimated = false,
 }) => {
   const {translationY, onAnimatedScroll} = useOnScrollAnimated();
+  const tailwind = useTailwind();
+
   return (
     <React.Fragment>
       <StatusBar
@@ -50,7 +52,7 @@ const AnimationFunwooHeader: React.FC<Props> = ({
         backgroundColor={'#00000000'}
         barStyle={'default'}
       />
-      <View style={tailwind`justify-center w-full flex-1`}>
+      <View style={tailwind('justify-center w-full flex-1')}>
         <Animated.ScrollView
           onScroll={onAnimatedScroll}
           scrollEventThrottle={16}

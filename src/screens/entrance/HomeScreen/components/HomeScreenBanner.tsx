@@ -2,8 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {LayoutRectangle, Pressable, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NavigationProp} from '@react-navigation/core/src/types';
-
-import tailwind from '../../../../lib/tailwind';
 import {PageNames} from '../../../../navigator/PageNames';
 
 import {ImageProvider} from '../../../../assets';
@@ -12,6 +10,7 @@ import {useDimensionsContext} from '../../../../context/DimensionsContext';
 import Text from '../../../../components/common/Text/BaseText';
 import BaseIcon from '../../../../components/common/icons/Icons/BaseIcon';
 import CacheImage from '../../../../components/common/CacheImage';
+import {useTailwind} from 'tailwind-rn';
 
 const HomeScreenBanner = () => {
   const [layout, setLayout] = useState<LayoutRectangle>({
@@ -21,6 +20,7 @@ const HomeScreenBanner = () => {
     width: 0,
   });
   const {width} = useDimensionsContext();
+  const tailwind = useTailwind();
 
   const navigation = useNavigation<NavigationProp<EntranceTabParamsList>>();
   const handlePress = useCallback(
@@ -41,7 +41,7 @@ const HomeScreenBanner = () => {
           paddingTop: layout.height * 0.5,
         }}>
         <Text
-          style={tailwind`text-3xl text-white font-sans`}
+          style={tailwind('text-3xl text-white font-sans')}
           accessibilityRole="header">
           成就你的理想生活
         </Text>
@@ -50,12 +50,14 @@ const HomeScreenBanner = () => {
           style={{
             width: width - 32,
             maxWidth: 250,
-            ...tailwind`py-2 bg-white justify-center items-center flex-row mt-4`,
+            ...tailwind(
+              'py-2 bg-white justify-center items-center flex-row mt-4',
+            ),
           }}>
           <Text
             style={{
               fontFamily: 'NotoSansTC-Regular',
-              ...tailwind`text-base text-left text-gray900 pl-5 mx-2`,
+              ...tailwind('text-base text-left text-gray900 pl-5 mx-2'),
             }}>
             開始找屋
           </Text>
@@ -63,7 +65,7 @@ const HomeScreenBanner = () => {
             color={'#000000'}
             type={'Feather'}
             name={'arrow-right'}
-            style={tailwind`flex justify-center items-center w-5 h-5`}
+            style={tailwind('flex justify-center items-center w-5 h-5')}
             size={20}
           />
         </Pressable>
