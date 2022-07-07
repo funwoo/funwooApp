@@ -1,5 +1,8 @@
-import { Animated } from "react-native";
-import { createIconSetFromIcoMoon } from "react-native-vector-icons";
+import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 
-const CustomTabIcon = createIconSetFromIcoMoon(require('../selection.json'), 'icomoon', 'IcoMoon.ttf');
-export { CustomTabIcon }
+const CustomTabIcon = createIconSetFromIcoMoon(
+  require('../selection.json'),
+  'icomoon',
+  'IcoMoon.ttf',
+);
+export {CustomTabIcon};
