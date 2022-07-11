@@ -5,6 +5,7 @@ import {CustomTabIcon} from '../assets/fonts';
 import HomeScreen from '../screens/entrance/HomeScreen';
 import MoreScreen from '../screens/entrance/MoreScreen';
 import {PageNames} from './PageNames';
+import SearchHouseScreen from '../screens/entrance/SearchHouseScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ const EntranceNavigatorTabs = () => {
     switch (name) {
       case PageNames.home:
         return '首頁';
-      case PageNames.search:
+      case PageNames.searchHouse:
         return '買屋';
       case PageNames.fav:
         return '我的收藏';
@@ -57,7 +58,7 @@ const EntranceNavigatorTabs = () => {
                   color={color}
                 />
               );
-            case PageNames.search:
+            case PageNames.searchHouse:
               return (
                 <CustomTabIcon
                   name={`search-${state}`}
@@ -111,12 +112,12 @@ const EntranceNavigatorTabs = () => {
         component={HomeScreen}
       />
       <Tab.Screen
-        name={PageNames.search}
+        name={PageNames.searchHouse}
         options={{
           title: '買屋',
           headerShown: false,
         }}
-        component={HomeScreen}
+        component={SearchHouseScreen}
       />
       <Tab.Screen
         name={PageNames.fav}

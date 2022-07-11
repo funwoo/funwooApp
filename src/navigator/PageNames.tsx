@@ -1,7 +1,7 @@
 export const PageNames = {
   entranceTabs: 'entranceTabs',
   home: 'home',
-  search: 'search',
+  searchHouse: 'searchHouse',
   house: 'house',
   fav: 'fav',
   sell: 'sell',

@@ -21,6 +21,7 @@ import DimensionsContextProvider from './src/context/DimensionsContext';
 import {TailwindProvider} from 'tailwind-rn';
 import utilities from './tailwind.json';
 import {MyFavoriteContextProvider} from './src/context/MyFavoriteContext';
+import Spinner from './src/components/feature/Spinner';
 
 LogBox.ignoreAllLogs(true);
 const queryClient = new QueryClient({
@@ -44,6 +45,7 @@ const App = () => {
               <RecoilRoot>
                 <UserInfoContextProvider>
                   <MyFavoriteContextProvider>
+                    <Spinner />
                     <Main />
                   </MyFavoriteContextProvider>
                 </UserInfoContextProvider>

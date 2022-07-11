@@ -32,6 +32,8 @@ interface Props {
   name?: string;
   type?: 'black' | 'white';
   disableAnimated?: boolean;
+  headerRight?: React.ReactNode;
+  stickyAfterHeader?: React.ReactNode;
 }
 
 const AnimationFunwooHeader: React.FC<Props> = ({
@@ -41,6 +43,8 @@ const AnimationFunwooHeader: React.FC<Props> = ({
   name = '',
   type = 'white',
   disableAnimated = false,
+  headerRight,
+  stickyAfterHeader,
 }) => {
   const {translationY, onAnimatedScroll} = useOnScrollAnimated();
   const tailwind = useTailwind();
@@ -52,7 +56,25 @@ const AnimationFunwooHeader: React.FC<Props> = ({
         backgroundColor={'#00000000'}
         barStyle={'default'}
       />
+      {back ? (
+        <AnimationDefaultHeader
+          scrollY={disableAnimated ? undefined : translationY}
+          sticky={true}
+          type={type}
+          title={name}
+          back={true}
+          headerRight={headerRight}
+        />
+      ) : (
+        <LogoHeader
+          black={type === 'black'}
+          name={name}
+          scrollY={disableAnimated ? undefined : translationY}
+          headerRight={headerRight}
+        />
+      )}
       <View style={tailwind('justify-center w-full flex-1')}>
+        {stickyAfterHeader}
         <Animated.ScrollView
           onScroll={onAnimatedScroll}
           scrollEventThrottle={16}
@@ -65,21 +87,6 @@ const AnimationFunwooHeader: React.FC<Props> = ({
           {children}
         </Animated.ScrollView>
       </View>
-      {back ? (
-        <AnimationDefaultHeader
-          scrollY={disableAnimated ? undefined : translationY}
-          sticky={true}
-          type={type}
-          title={name}
-          back={true}
-        />
-      ) : (
-        <LogoHeader
-          black={type === 'black'}
-          name={name}
-          scrollY={disableAnimated ? undefined : translationY}
-        />
-      )}
     </React.Fragment>
   );
 };

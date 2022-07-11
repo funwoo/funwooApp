@@ -87,6 +87,9 @@ const sharedImgProvider = {
   oncard_share_enabled: {
     uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/oncard-share-enabled.png',
   },
+  chevron_down_icon: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/chevron_down_icon.png',
+  },
 };
 const lottieProvider = {
   'loading-Animation-Black': require('./lottie/loading-Animation-Black.json'),

@@ -24,7 +24,7 @@ const HomeScreenBanner = () => {
 
   const navigation = useNavigation<NavigationProp<EntranceTabParamsList>>();
   const handlePress = useCallback(
-    () => navigation.navigate(PageNames.search),
+    () => navigation.navigate(PageNames.searchHouse),
     [navigation],
   );
   return (

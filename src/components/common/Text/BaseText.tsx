@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {StyleSheet, TextProps as RCTTextProps, TextStyle} from 'react-native';
+import {TextProps as RCTTextProps, TextStyle} from 'react-native';
 import {Text as RCTText} from 'react-native-magnus';
 import {useDimensionsContext} from '../../../context/DimensionsContext';
 import {ColorsType} from '../../../constants';
@@ -7,12 +7,12 @@ import {ColorsType} from '../../../constants';
 export enum TextStringSizeEnum {
   xs = 11,
   sm = 12,
-  md = 13,
+  md = 14,
   lg = 15,
   base = 16,
-  xl = 17,
+  xl = 18,
   '2xl' = 19,
-  '3xl' = 21,
+  '3xl' = 20,
   '4xl' = 24,
   '5xl' = 27,
   '6xl' = 32,
@@ -35,7 +35,11 @@ export interface BaseTextStyle extends TextStyle {
 export interface TextProps extends RCTTextProps {
   style?: BaseTextStyle;
   fontSize?: TextStringSizeEnum;
-  fontFamily?: 'NotoSansTC-Regular' | 'OpenSans-Bold';
+  fontFamily?:
+    | 'NotoSansTC-Regular'
+    | 'NotoSansTC-Medium'
+    | 'NotoSansTC-Bold'
+    | 'OpenSans-Bold';
 }
 
 export enum Colors {
@@ -47,7 +51,7 @@ export enum Colors {
 const Text: React.FC<TextProps> = ({
   children,
   fontSize,
-  style,
+  style = {},
   fontFamily,
   ...props
 }) => {
@@ -98,17 +102,15 @@ const Text: React.FC<TextProps> = ({
     <RCTText
       allowFontScaling={false}
       {...props}
-      style={StyleSheet.flatten([
-        style,
-        {
-          fontSize: _fontSize,
-          fontFamily: fontFamily || style?.fontFamily || 'NotoSansTC-Regular',
-          lineHeight: style?.lineHeight
-            ? scale(style?.lineHeight)
-            : _fontSize + 4,
-          color,
-        },
-      ])}>
+      style={{
+        fontSize: _fontSize,
+        fontFamily: fontFamily || style?.fontFamily || 'NotoSansTC-Regular',
+        lineHeight: style?.lineHeight
+          ? scale(style?.lineHeight)
+          : _fontSize + 4,
+        color,
+        ...style,
+      }}>
       {children}
     </RCTText>
   );

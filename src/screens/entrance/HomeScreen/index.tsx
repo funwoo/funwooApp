@@ -13,7 +13,6 @@ import HouseCard from '../../../components/feature/HouseCard';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {PageNames} from '../../../navigator/PageNames';
 import {Agent} from '../../../swagger/funwoo.api';
-import CacheImage from '../../../components/common/CacheImage';
 import {ImageProvider} from '../../../assets';
 import BaseIcon from '../../../components/common/icons/Icons/BaseIcon';
 
@@ -60,7 +59,7 @@ const HomeScreen = () => {
           style={tailwind('py-2 bg-black justify-center items-center')}
           onPress={() => {
             navigation.navigate(PageNames.entranceTabs, {
-              screen: PageNames.search,
+              screen: PageNames.searchHouse,
             });
           }}>
           <Text
@@ -215,7 +214,7 @@ const AdMarkingInfo: React.FC = () => {
         style={tailwind('mb-8 py-2 text-white text-center')}>
         對的房屋，呈現給對的買家
       </Text>
-      <CacheImage
+      <Image
         onLayout={event => setLayout(event.nativeEvent.layout)}
         resizeMode={'contain'}
         style={{

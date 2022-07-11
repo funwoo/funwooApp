@@ -1,5 +1,5 @@
 export const isSet = <Whatever>(
-  whatever: Whatever | null | undefined
+  whatever: Whatever | null | undefined,
 ): whatever is Whatever =>
   whatever !== null &&
   whatever !== undefined &&
@@ -7,7 +7,7 @@ export const isSet = <Whatever>(
   whatever !== void 0;
 
 export const isNotSet = <Whatever>(
-  whatever: Whatever | null | undefined
+  whatever: Whatever | null | undefined,
 ): whatever is null | undefined =>
   whatever === null ||
   whatever === undefined ||
@@ -15,7 +15,7 @@ export const isNotSet = <Whatever>(
   whatever === void 0;
 
 export const isString = <Whatever>(
-  whatever: Whatever | string
+  whatever: Whatever | string,
 ): whatever is string => typeof whatever === 'string';
 
 export const isEmptyString = (string: string) => string.length === 0;
@@ -36,11 +36,11 @@ export const isTrue = (whatever: any): whatever is true =>
   isBoolean(whatever) && whatever === true;
 
 export const isNotTrue = <ExceptTrue>(
-  whatever: ExceptTrue | true
+  whatever: ExceptTrue | true,
 ): whatever is ExceptTrue => whatever !== true;
 
 export const isObject = <Object extends Record<string, any>>(
-  whatever: Object | any
+  whatever: Object | any,
 ): whatever is Object => {
   return (
     typeof whatever === 'object' && isSet(whatever) && !Array.isArray(whatever)

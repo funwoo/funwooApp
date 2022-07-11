@@ -21,7 +21,7 @@ export declare global {
 
   interface EntranceTabParamsList {
     [PageNames.home]?: undefined;
-    [PageNames.search]?: undefined;
+    [PageNames.searchHouse]?: undefined;
     [PageNames.fav]?: undefined;
     [PageNames.sell]?: undefined;
     [PageNames.more]?: undefined;

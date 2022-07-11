@@ -51,6 +51,7 @@ const CacheImage = (props: FastImageProps & MagnusStyle & AnimationProps) => {
     animation = 'fade',
     timing = 500,
   } = props;
+
   const imgOpacity = useRef(new Animated.Value(0)).current;
   const AnimatedRef = useRef(
     Animated.timing(imgOpacity, {
@@ -66,13 +67,14 @@ const CacheImage = (props: FastImageProps & MagnusStyle & AnimationProps) => {
       subscription.stop();
     };
   }, []);
+
   const startAnimation = () => {
     AnimatedRef.current.start();
   };
+
   if (typeof props?.source !== 'number') {
     if (animation === 'none') {
       return (
-        // @ts-ignore
         <FastImage
           {...props}
           style={[
@@ -96,7 +98,6 @@ const CacheImage = (props: FastImageProps & MagnusStyle & AnimationProps) => {
         />
       );
     } else if (animation === 'fade') {
-      // @ts-ignore
       const AnimationFastImage = Animated.createAnimatedComponent(FastImage);
       return (
         <AnimationFastImage
