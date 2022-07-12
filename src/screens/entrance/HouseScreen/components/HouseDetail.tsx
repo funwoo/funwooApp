@@ -215,6 +215,11 @@ const HouseDetail: React.FC<ListingDetail> = props => {
           />
         );
       })}
+      <Text
+        fontSize={TextStringSizeEnum.sm}
+        style={tailwind('p-4 text-gray500')}>
+        本物件照片中之相關裝飾或其他物品，僅係提供買方做為參考之用，並不隨同該物件買賣或贈與。於簽訂相關買賣契約前，請您詳細確認附隨買賣之設備或家飾、贈品。
+      </Text>
     </View>
   );
 };

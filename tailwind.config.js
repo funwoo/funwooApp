@@ -10,6 +10,7 @@ module.exports = {
         'sans-b': ['NotoSansTC-Bold'],
       },
       colors: {
+        origin: 'rgb(239, 124, 65)',
         windowsBlue: 'rgba(49, 130, 206)',
         gray50: 'rgba(250, 250, 250)',
         gray300: 'rgba(224, 224, 224)',

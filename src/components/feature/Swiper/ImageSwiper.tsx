@@ -11,16 +11,23 @@ import {ListingStatusEnum} from '../../../swagger/funwoo.api';
 import CacheImage from '../../common/CacheImage';
 import Badge from '../Badge';
 import {RecyclerListViewState} from 'recyclerlistview/src/core/RecyclerListView';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 interface Props {
   width: number;
   height: number;
-  imageUrls: string[];
+  imageUrls: Array<string>;
+  videoUrls?: Array<string>;
   onItemPress: () => void;
   status: ListingStatusEnum;
   customRef?:
     | LegacyRef<RecyclerListView<RecyclerListViewProps, RecyclerListViewState>>
     | undefined;
+}
+
+interface Data {
+  type: 'image' | 'video';
+  url: string;
 }
 
 const dataProvider = new DataProvider((r1, r2) => {
@@ -31,6 +38,7 @@ const ImageSwiper: React.FC<Props> = ({
   width,
   height,
   imageUrls,
+  videoUrls,
   onItemPress,
   status,
   customRef,
@@ -51,7 +59,18 @@ const ImageSwiper: React.FC<Props> = ({
     );
   }, [width, height]);
 
-  if (!imageUrls || imageUrls.length === 0) {
+  const displayData = useMemo<Array<Data>>(() => {
+    return ([] as Array<Data>)
+      .concat(
+        imageUrls.map(url => ({
+          type: 'image',
+          url,
+        })),
+      )
+      .concat(videoUrls?.map(url => ({type: 'video', url})) ?? []);
+  }, [imageUrls, videoUrls]);
+
+  if (!displayData || displayData.length === 0) {
     return <View style={{minHeight: 240}} />;
   }
 
@@ -80,10 +99,11 @@ const ImageSwiper: React.FC<Props> = ({
         }}
         style={{width, height}}
         layoutProvider={_layoutProvider}
-        dataProvider={dataProvider.cloneWithRows(imageUrls ?? [])}
-        rowRenderer={(_, url: string) => (
+        dataProvider={dataProvider.cloneWithRows(displayData ?? [])}
+        rowRenderer={(_, data: Data) => (
           <RowRenderer
-            url={url}
+            type={data.type}
+            url={data.url}
             width={width}
             enableTouch={enableTouch.current}
             onItemPress={onItemPress}
@@ -92,7 +112,7 @@ const ImageSwiper: React.FC<Props> = ({
       />
       <View style={{position: 'absolute', height: 10, bottom: 10}}>
         <AnimatedDotsCarousel
-          length={imageUrls?.length}
+          length={displayData?.length}
           currentIndex={page}
           maxIndicators={4}
           interpolateOpacityAndColor={true}
@@ -126,37 +146,66 @@ const ImageSwiper: React.FC<Props> = ({
 
 export default ImageSwiper;
 
-interface RowRendererProps {
-  url: string;
+interface RowRendererProps extends Data {
   enableTouch: boolean;
   onItemPress: () => void;
   width: number;
 }
 
 const RowRenderer: React.FC<RowRendererProps> = ({
+  type,
   url,
   onItemPress,
   enableTouch,
   width,
 }) => {
-  return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        if (enableTouch) {
-          onItemPress();
-        }
-      }}>
-      <CacheImage
-        animation={'none'}
-        style={{
-          width: width,
-          aspectRatio: 3 / 2,
-        }}
-        source={{
-          uri: url || 'https://i.imgur.com/fMuoheX.png',
-        }}
-        resizeMode="contain"
-      />
-    </TouchableWithoutFeedback>
-  );
+  if (type === 'video') {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => {
+          if (enableTouch) {
+            onItemPress();
+          }
+        }}>
+        <View
+          style={[
+            {
+              width: width,
+              aspectRatio: 3 / 2,
+              backgroundColor: 'black',
+            },
+          ]}>
+          <YoutubePlayer
+            height={(width / 3) * 2}
+            videoId={url.replace('https://www.youtube.com/watch?v=', '')}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  if (type === 'image') {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => {
+          if (enableTouch) {
+            onItemPress();
+          }
+        }}>
+        <CacheImage
+          animation={'none'}
+          style={{
+            width: width,
+            aspectRatio: 3 / 2,
+          }}
+          source={{
+            uri: url || 'https://i.imgur.com/fMuoheX.png',
+          }}
+          resizeMode="contain"
+        />
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  return null;
 };

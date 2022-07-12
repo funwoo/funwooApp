@@ -26,11 +26,17 @@ import {RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {RecyclerListViewState} from 'recyclerlistview/src/core/RecyclerListView';
 import {
   chineseNumeralFormatter,
+  isNotEmptyArray,
+  isSet,
   labelAreaFormatter,
   patternFormatter,
   totalSizeFormatter,
 } from '../../../utils';
 import HouseDetail from './components/HouseDetail';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import classNames from 'classnames';
+import HouseFeature from './components/HouseFeature';
+import HouseEnvironment from './components/HouseEnvironment';
 
 const HouseScreen = () => {
   const {
@@ -69,9 +75,22 @@ const HouseScreen = () => {
     [sortedImages],
   );
 
+  const videoUrls = useMemo(() => {
+    const result =
+      data?.listing_video?.map(video => video.video_url) ??
+      data?.youtube_video_ids?.map(
+        id => `https://www.youtube.com/watch?v=${id}`,
+      ) ??
+      [];
+    return result.filter(isSet);
+  }, [data]);
+
   const firstLayoutImageIndex = useMemo(() => {
     return sortedImages.findIndex(image => image.tag === 'layout');
   }, [sortedImages]);
+
+  const hasLayoutImage = firstLayoutImageIndex >= 0;
+  const hasVideo = isNotEmptyArray(videoUrls);
 
   if (!data) {
     return null;
@@ -117,32 +136,63 @@ const HouseScreen = () => {
           width={itemWidth}
           height={itemHeight}
           imageUrls={imageUrls}
+          videoUrls={videoUrls}
           onItemPress={noop}
           status={data.status!}
           customRef={imageSwiperScrollViewRef}
         />
-        <ConditionalFragment condition={firstLayoutImageIndex >= 0}>
+        <ConditionalFragment condition={hasLayoutImage || hasVideo}>
           <View
             style={tailwind('flex-row items-center justify-center pt-4 pb-2')}>
-            <Pressable
-              onPress={() => {
-                imageSwiperScrollViewRef.current?.scrollToIndex(
-                  firstLayoutImageIndex,
-                );
-              }}
-              style={tailwind(
-                'flex-row items-center py-1 px-4 border rounded-extreme',
-              )}>
-              <Image
-                source={ImageProvider.layout_icon}
-                style={tailwind('w-6 h-6 mr-2.5')}
-              />
-              <Text
-                fontFamily={'NotoSansTC-Medium'}
-                fontSize={TextStringSizeEnum.md}>
-                格局圖
-              </Text>
-            </Pressable>
+            <ConditionalFragment condition={hasVideo}>
+              <Pressable
+                onPress={() => {
+                  imageSwiperScrollViewRef.current?.scrollToIndex(
+                    imageUrls.length,
+                  );
+                }}
+                style={tailwind(
+                  classNames(
+                    'flex-row items-center py-1 px-4 border rounded-extreme',
+                    {
+                      'mr-4': hasLayoutImage,
+                    },
+                  ),
+                )}>
+                <View
+                  style={tailwind(
+                    'items-center justify-center w-6 h-6 mr-2.5',
+                  )}>
+                  <Icon name={'play'} />
+                </View>
+                <Text
+                  fontFamily={'NotoSansTC-Medium'}
+                  fontSize={TextStringSizeEnum.md}>
+                  影片
+                </Text>
+              </Pressable>
+            </ConditionalFragment>
+            <ConditionalFragment condition={hasLayoutImage}>
+              <Pressable
+                onPress={() => {
+                  imageSwiperScrollViewRef.current?.scrollToIndex(
+                    firstLayoutImageIndex,
+                  );
+                }}
+                style={tailwind(
+                  'flex-row items-center py-1 px-4 border rounded-extreme',
+                )}>
+                <Image
+                  source={ImageProvider.layout_icon}
+                  style={tailwind('w-6 h-6 mr-2.5')}
+                />
+                <Text
+                  fontFamily={'NotoSansTC-Medium'}
+                  fontSize={TextStringSizeEnum.md}>
+                  格局圖
+                </Text>
+              </Pressable>
+            </ConditionalFragment>
           </View>
         </ConditionalFragment>
         <View style={tailwind('px-4')}>
@@ -204,9 +254,23 @@ const HouseScreen = () => {
           </Text>
         </View>
         <HouseDetail {...data} />
+        <Divider />
+        <HouseFeature {...data} />
+        <Divider />
+        <HouseEnvironment {...data} />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default HouseScreen;
+
+const Divider = () => {
+  const tailwind = useTailwind();
+
+  return (
+    <View style={tailwind('py-2 px-4')}>
+      <View style={tailwind('w-full h-px bg-gray300')} />
+    </View>
+  );
+};

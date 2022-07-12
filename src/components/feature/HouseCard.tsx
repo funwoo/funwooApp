@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {
   ListingDetail,
   ListingImage,
@@ -56,7 +56,7 @@ const HouseCard: React.FC<Props> = ({data}) => {
         status={data?.status as ListingStatusEnum}
         onItemPress={onPress}
       />
-      <View style={tailwind('py-2')}>
+      <Pressable onPress={onPress} style={tailwind('py-2')}>
         <View
           style={tailwind('flex flex-row items-center justify-between mb-2')}>
           <Text
@@ -101,7 +101,7 @@ const HouseCard: React.FC<Props> = ({data}) => {
           style={tailwind('text-gray700')}>
           {`${data.address}`}
         </Text>
-      </View>
+      </Pressable>
     </View>
   );
 };
