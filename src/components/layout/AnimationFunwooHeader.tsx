@@ -3,7 +3,6 @@ import {
   Pressable,
   StatusBar,
   StyleProp,
-  StyleSheet,
   TextStyle,
   View,
   ViewStyle,
@@ -25,13 +24,15 @@ import BaseIcon from '../common/icons/Icons/BaseIcon';
 import {PageNames} from '../../navigator/PageNames';
 import LogoHeader from './LogoHeader';
 import {useTailwind} from 'tailwind-rn';
+import ConditionalFragment from '../common/ConditionalFragment';
 
 interface Props {
-  style?: StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>;
+  style?: StyleProp<ViewStyle>;
   back?: boolean;
   name?: string;
   type?: 'black' | 'white';
   disableAnimated?: boolean;
+  scrollEnabled?: boolean;
   headerRight?: React.ReactNode;
   stickyAfterHeader?: React.ReactNode;
 }
@@ -43,6 +44,7 @@ const AnimationFunwooHeader: React.FC<Props> = ({
   name = '',
   type = 'white',
   disableAnimated = false,
+  scrollEnabled = true,
   headerRight,
   stickyAfterHeader,
 }) => {
@@ -75,17 +77,19 @@ const AnimationFunwooHeader: React.FC<Props> = ({
       )}
       <View style={tailwind('justify-center w-full flex-1')}>
         {stickyAfterHeader}
-        <Animated.ScrollView
-          onScroll={onAnimatedScroll}
-          scrollEventThrottle={16}
-          style={StyleSheet.flatten([
-            {
-              flex: 1,
-            },
-            style,
-          ])}>
-          {children}
-        </Animated.ScrollView>
+        <ConditionalFragment condition={scrollEnabled}>
+          <Animated.ScrollView
+            onScroll={onAnimatedScroll}
+            scrollEventThrottle={16}
+            scrollEnabled={scrollEnabled}
+            style={[tailwind('flex-1'), style]}
+            nestedScrollEnabled>
+            {children}
+          </Animated.ScrollView>
+        </ConditionalFragment>
+        <ConditionalFragment condition={!scrollEnabled}>
+          <View style={[tailwind('flex-1'), style]}>{children}</View>
+        </ConditionalFragment>
       </View>
     </React.Fragment>
   );

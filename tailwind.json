@@ -295,6 +295,30 @@
 			"borderBottomLeftRadius": 999
 		}
 	},
+	"rounded-[1px]": {
+		"style": {
+			"borderTopLeftRadius": 1,
+			"borderTopRightRadius": 1,
+			"borderBottomRightRadius": 1,
+			"borderBottomLeftRadius": 1
+		}
+	},
+	"rounded-[2px]": {
+		"style": {
+			"borderTopLeftRadius": 2,
+			"borderTopRightRadius": 2,
+			"borderBottomRightRadius": 2,
+			"borderBottomLeftRadius": 2
+		}
+	},
+	"rounded-[4px]": {
+		"style": {
+			"borderTopLeftRadius": 4,
+			"borderTopRightRadius": 4,
+			"borderBottomRightRadius": 4,
+			"borderBottomLeftRadius": 4
+		}
+	},
 	"border": {
 		"style": {
 			"borderTopWidth": 1,

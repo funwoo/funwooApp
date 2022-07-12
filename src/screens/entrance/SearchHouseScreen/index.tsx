@@ -5,7 +5,9 @@ import Text, {
 } from '../../../components/common/Text/BaseText';
 import {useTailwind} from 'tailwind-rn';
 import {
+  FlatList,
   Image,
+  Linking,
   Pressable,
   PressableProps,
   StyleProp,
@@ -21,18 +23,25 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import classNames from 'classnames';
-import AreaFilter from './components/AreaFilter';
+import AreaFilter, {CountryLabel} from './components/AreaFilter';
 import {
   HouseFilterContextProvider,
   useHouseFilterContext,
 } from '../../../context/HouseFilterContext';
+import BuildingTypeFilter from './components/BuildingTypeFilter';
+import HouseCard from '../../../components/feature/HouseCard';
+import ConditionalFragment from '../../../components/common/ConditionalFragment';
+import {CountryEnum} from '../../../swagger/funwoo.api';
+import {isEmptyArray} from '../../../utils';
 
 const SearchHouseScreen = () => {
   const tailwind = useTailwind();
   return (
     <HouseFilterContextProvider>
       <AreaFilter />
+      <BuildingTypeFilter />
       <AnimationFunwooHeader
+        scrollEnabled={false}
         disableAnimated
         type={'black'}
         headerRight={
@@ -40,12 +49,22 @@ const SearchHouseScreen = () => {
             買屋
           </Text>
         }
-        style={{
-          backgroundColor: 'white',
-          flex: 1,
-        }}
-        stickyAfterHeader={<Filter />}
-      />
+        style={tailwind('flex-1 bg-white')}
+        stickyAfterHeader={<Filter />}>
+        <View style={tailwind('px-4 pt-4')}>
+          <Pressable
+            style={tailwind('py-2 border')}
+            onPress={() => Linking.openURL('tel://0900-289-518')}>
+            <Text
+              fontFamily={'NotoSansTC-Medium'}
+              fontSize={TextStringSizeEnum.base}
+              style={tailwind('text-center')}>
+              更多優質房源？撥打客服 0900-289-518
+            </Text>
+          </Pressable>
+        </View>
+        <Data />
+      </AnimationFunwooHeader>
     </HouseFilterContextProvider>
   );
 };
@@ -55,8 +74,15 @@ export default SearchHouseScreen;
 const Filter = () => {
   const tailwind = useTailwind();
 
-  const {triggerAreaFilter, triggerTypeFilter, showAreaFilter, showTypeFilter} =
-    useHouseFilterContext();
+  const {
+    triggerAreaFilter,
+    triggerBuildingTypeFilter,
+    showAreaFilter,
+    showBuildingTypeFilter,
+    country,
+    cities,
+    buildingType,
+  } = useHouseFilterContext();
 
   return (
     <React.Fragment>
@@ -73,10 +99,15 @@ const Filter = () => {
           open={showAreaFilter}
           onPressIn={triggerAreaFilter}
           style={tailwind('border-r border-solid border-black')}>
-          全部區域
+          {CountryLabel[country]}
+          <ConditionalFragment condition={country === CountryEnum.TW}>
+            ｜{cities.join('、')}
+          </ConditionalFragment>
         </PressableButton>
-        <PressableButton open={showTypeFilter} onPressIn={triggerTypeFilter}>
-          全部類型
+        <PressableButton
+          open={showBuildingTypeFilter}
+          onPressIn={triggerBuildingTypeFilter}>
+          {isEmptyArray(buildingType) ? '全部類型' : buildingType.join('、')}
         </PressableButton>
       </View>
     </React.Fragment>
@@ -128,7 +159,11 @@ const PressableButton: React.FC<
         style,
         tailwind('px-[1.125rem] flex-row items-center flex-1 bg-white'),
       ]}>
-      <Text fontSize={TextStringSizeEnum.md} style={tailwind('flex-1 py-4')}>
+      <Text
+        lineBreakMode={'clip'}
+        numberOfLines={1}
+        fontSize={TextStringSizeEnum.md}
+        style={tailwind('flex-1 py-4')}>
         {children}
       </Text>
       <Animated.View style={[animationStyle]}>
@@ -138,5 +173,22 @@ const PressableButton: React.FC<
         />
       </Animated.View>
     </Pressable>
+  );
+};
+
+const Data = () => {
+  const {data, turnPage, registryListRef} = useHouseFilterContext();
+  const tailwind = useTailwind();
+
+  return (
+    <FlatList
+      ref={registryListRef}
+      contentContainerStyle={tailwind('p-4')}
+      data={data}
+      keyExtractor={item => item.id}
+      renderItem={({item}) => <HouseCard data={item} />}
+      onEndReached={turnPage}
+      onEndReachedThreshold={0.16}
+    />
   );
 };
