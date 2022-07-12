@@ -150,6 +150,11 @@
 			"marginBottom": -8
 		}
 	},
+	"mr-2.5": {
+		"style": {
+			"marginRight": 10
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"

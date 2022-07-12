@@ -3,6 +3,7 @@ import React from 'react';
 import LoginScreen from '../screens/entrance/LoginScreen';
 import EntranceNavigatorTabs from './EntranceNavigatorTabs';
 import {PageNames} from './PageNames';
+import HouseScreen from '../screens/entrance/HouseScreen/HouseScreen';
 
 const Stack = createNativeStackNavigator<EntranceRootStackParamsList>();
 
@@ -26,6 +27,7 @@ const EntranceNavigatorStack = () => {
         name={PageNames.signIn}
         component={LoginScreen}
       />
+      <Stack.Screen name={PageNames.house} component={HouseScreen} />
     </Stack.Navigator>
   );
 };

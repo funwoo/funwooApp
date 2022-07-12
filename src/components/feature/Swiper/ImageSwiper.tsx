@@ -1,10 +1,16 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, {LegacyRef, useMemo, useRef, useState} from 'react';
 import {Animated, TouchableWithoutFeedback, View} from 'react-native';
-import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import {
+  DataProvider,
+  LayoutProvider,
+  RecyclerListView,
+  RecyclerListViewProps,
+} from 'recyclerlistview';
 import AnimatedDotsCarousel from 'react-native-animated-dots-carousel';
 import {ListingStatusEnum} from '../../../swagger/funwoo.api';
 import CacheImage from '../../common/CacheImage';
 import Badge from '../Badge';
+import {RecyclerListViewState} from 'recyclerlistview/src/core/RecyclerListView';
 
 interface Props {
   width: number;
@@ -12,6 +18,9 @@ interface Props {
   imageUrls: string[];
   onItemPress: () => void;
   status: ListingStatusEnum;
+  customRef?:
+    | LegacyRef<RecyclerListView<RecyclerListViewProps, RecyclerListViewState>>
+    | undefined;
 }
 
 const dataProvider = new DataProvider((r1, r2) => {
@@ -24,6 +33,7 @@ const ImageSwiper: React.FC<Props> = ({
   imageUrls,
   onItemPress,
   status,
+  customRef,
 }) => {
   const [page, setPage] = useState(0);
   let index = useRef(new Animated.Value(0)).current;
@@ -55,6 +65,7 @@ const ImageSwiper: React.FC<Props> = ({
       }}>
       <Badge status={status} />
       <RecyclerListView
+        ref={customRef}
         scrollThrottle={20}
         renderAheadOffset={width}
         isHorizontal

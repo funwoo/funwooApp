@@ -90,6 +90,9 @@ const sharedImgProvider = {
   chevron_down_icon: {
     uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/chevron_down_icon.png',
   },
+  layout_icon: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/layout-icon.png',
+  },
 };
 const lottieProvider = {
   'loading-Animation-Black': require('./lottie/loading-Animation-Black.json'),
