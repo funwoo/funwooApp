@@ -1,7 +1,25 @@
 import numbro from 'numbro';
 import {ListingDetail} from '../swagger/funwoo.api';
-import {isNotEmptyArray, isNotSet} from './formatChecker';
+import {
+  isNotEmptyArray,
+  isNotEmptyString,
+  isNotSet,
+  isSet,
+  isTrue,
+} from './formatChecker';
 
+const potionCategory = [
+  '公寓',
+  '公寓(5樓含以下無電梯)',
+  '大樓',
+  '住宅大樓(11層含以上有電梯)',
+  '華廈',
+  '華廈(10層含以下有電梯)',
+  '店面',
+  '店面(店鋪)',
+  '辦公商業大樓',
+  '套房(1房1廳1衛)',
+];
 const WAN = 1e4;
 const YI = 1e8;
 export const countryUnitMap: Map<
@@ -83,6 +101,13 @@ export const patternFormatter = ({
   }
 };
 
+export const unitAreaFormatter = (country: string): string => {
+  return `${countryUnitMap.get(country)?.areaUnit}`;
+};
+export const labelAreaFormatter = (country: string): string => {
+  return `${countryUnitMap.get(country)?.areaLabel}`;
+};
+
 export const areaFormatter = (
   input: string | null,
   {omit = [], country = 'TW'}: {omit?: Array<string | null>; country: string},
@@ -137,4 +162,86 @@ export const totalSizeFormatter = (
   }
 
   return displaySize;
+};
+
+export const getFloorInformation = ({
+  floor,
+  total_floor,
+  floor_note,
+  detail_floor,
+}: ListingDetail) => {
+  if (isSet(floor_note)) {
+    return floor_note;
+  } else if (isSet(floor) && isSet(total_floor)) {
+    return `${floor} 樓 / ${total_floor} 層`;
+  } else if (detail_floor) {
+    return detail_floor;
+  } else {
+    return '-';
+  }
+};
+
+export const getBuildingAge = ({
+  year_of_building_completion: buildingYear,
+  month_of_building_completion: buildingMonth,
+}: ListingDetail) => {
+  if (!buildingYear || !buildingMonth) {
+    return '-';
+  }
+
+  let currentYear = new Date().getFullYear();
+  let currentMonth = new Date().getMonth() + 1;
+
+  if (currentYear - buildingYear == 0 && currentMonth - buildingMonth <= 0) {
+    return '預計' + buildingYear + '完工';
+  } else if (
+    currentYear - buildingYear == 0 &&
+    currentMonth - buildingMonth > 0
+  ) {
+    return `${currentMonth - buildingMonth} 個月`;
+  } else if (currentYear - buildingYear < 0) {
+    return '預計' + buildingYear + '完工';
+  } else {
+    return `${currentYear - buildingYear} 年`;
+  }
+};
+
+export const amenitiesFormatter_special = (id: string): string => {
+  if (id === '102437') {
+    return '(含車位)';
+  }
+  return '';
+};
+
+export const lotSizeTitleTitleFormatter = (type: string | null) => {
+  if (potionCategory.some(category => category === type)) {
+    return '土地 (持分) 坪數';
+  } else {
+    return '土地坪數';
+  }
+};
+
+export const itemHasOrNotFormatter = (input: boolean | null): string =>
+  `${isTrue(input) ? '有' : '無'}`;
+
+export const getParkingDetail = ({
+  parking_detail,
+  detail_parking,
+}: ListingDetail) => {
+  const checkedDetail = parking_detail?.filter(
+    ({num, parking_space_type}) => num && parking_space_type,
+  );
+  if (checkedDetail && isNotEmptyArray(checkedDetail)) {
+    return checkedDetail.map(
+      ({num, parking_space_type}) => `${num} / ${parking_space_type}`,
+    );
+  } else if (
+    detail_parking &&
+    isNotEmptyString(detail_parking) &&
+    detail_parking !== 'false'
+  ) {
+    return [detail_parking];
+  } else {
+    return ['-'];
+  }
 };

@@ -24,6 +24,13 @@ import {ImageProvider} from '../../../assets';
 import ConditionalFragment from '../../../components/common/ConditionalFragment';
 import {RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {RecyclerListViewState} from 'recyclerlistview/src/core/RecyclerListView';
+import {
+  chineseNumeralFormatter,
+  labelAreaFormatter,
+  patternFormatter,
+  totalSizeFormatter,
+} from '../../../utils';
+import HouseDetail from './components/HouseDetail';
 
 const HouseScreen = () => {
   const {
@@ -71,7 +78,7 @@ const HouseScreen = () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={tailwind('bg-white')}>
       <View style={tailwind('flex-row items-center justify-between py-1')}>
         <View style={tailwind('flex-row')}>
           <Pressable
@@ -138,6 +145,65 @@ const HouseScreen = () => {
             </Pressable>
           </View>
         </ConditionalFragment>
+        <View style={tailwind('px-4')}>
+          <View style={tailwind('mb-2 py-2 flex-row justify-between')}>
+            <View>
+              <Text fontSize={TextStringSizeEnum.base}>
+                {chineseNumeralFormatter(data.price ?? 0)}
+              </Text>
+              <Text
+                fontSize={TextStringSizeEnum.md}
+                style={tailwind('text-gray700')}>
+                總價位
+              </Text>
+            </View>
+            <View>
+              <Text
+                fontSize={TextStringSizeEnum.base}
+                style={tailwind('text-center')}>
+                {patternFormatter(data)}
+              </Text>
+              <Text
+                fontSize={TextStringSizeEnum.md}
+                style={tailwind('text-gray700 text-center')}>
+                格局
+              </Text>
+            </View>
+            <View>
+              <Text
+                fontSize={TextStringSizeEnum.base}
+                style={tailwind('text-right')}>
+                {totalSizeFormatter(data)}
+              </Text>
+              <Text
+                fontSize={TextStringSizeEnum.md}
+                style={tailwind('text-gray700 text-right')}>
+                {labelAreaFormatter(data.country!)}
+              </Text>
+            </View>
+          </View>
+          <View style={tailwind('flex-row items-center')}>
+            <Text
+              fontSize={TextStringSizeEnum.base}
+              style={tailwind('text-gray700')}>
+              {data.title}
+            </Text>
+            <ConditionalFragment condition={data.display_building_project}>
+              <View style={tailwind('mx-2.5 w-px h-4 bg-gray700')} />
+              <Text
+                fontSize={TextStringSizeEnum.base}
+                style={tailwind('text-gray700')}>
+                {data.building_project}
+              </Text>
+            </ConditionalFragment>
+          </View>
+          <Text
+            fontSize={TextStringSizeEnum.base}
+            style={tailwind('text-gray700')}>
+            {data.display_address}
+          </Text>
+        </View>
+        <HouseDetail {...data} />
       </ScrollView>
     </SafeAreaView>
   );

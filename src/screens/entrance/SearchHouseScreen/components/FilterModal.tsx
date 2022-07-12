@@ -68,11 +68,11 @@ const FilterModal: React.FC<Props> = ({
         <Pressable onPress={() => Linking.openURL('tel://0900-289-518')}>
           <Text
             fontSize={TextStringSizeEnum.md}
-            style={tailwind('p-4 text-[#616161]')}>
+            style={tailwind('p-4 text-gray700')}>
             篩選不到合適物件？撥打{' '}
             <Text
               fontSize={TextStringSizeEnum.md}
-              style={tailwind('underline text-[#616161]')}>
+              style={tailwind('underline text-gray700')}>
               0900-289-518
             </Text>
             ，我們將提供高效專業的買代尋服務。

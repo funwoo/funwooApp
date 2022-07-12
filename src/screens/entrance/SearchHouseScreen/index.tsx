@@ -215,11 +215,11 @@ const EmptyResult = () => {
         </Text>
         <View style={tailwind('flex-row items-center mb-2')}>
           <View style={tailwind('items-center justify-center w-5')}>
-            <View style={tailwind('w-1 h-1 rounded-extreme bg-[#616161]')} />
+            <View style={tailwind('w-1 h-1 rounded-extreme bg-gray700')} />
           </View>
           <Text
             fontSize={TextStringSizeEnum.base}
-            style={tailwind('text-[#616161]')}>
+            style={tailwind('text-gray700')}>
             放寬篩選條件：
           </Text>
         </View>
