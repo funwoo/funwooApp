@@ -6,6 +6,7 @@ import Text, {
 import {useTailwind} from 'tailwind-rn';
 import {
   FlatList,
+  GestureResponderEvent,
   Image,
   Linking,
   Pressable,
@@ -33,6 +34,7 @@ import HouseCard from '../../../components/feature/HouseCard';
 import ConditionalFragment from '../../../components/common/ConditionalFragment';
 import {CountryEnum} from '../../../swagger/funwoo.api';
 import {isEmptyArray} from '../../../utils';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SearchHouseScreen = () => {
   const tailwind = useTailwind();
@@ -180,6 +182,10 @@ const Data = () => {
   const {data, turnPage, registryListRef} = useHouseFilterContext();
   const tailwind = useTailwind();
 
+  if (isEmptyArray(data)) {
+    return <EmptyResult />;
+  }
+
   return (
     <FlatList
       ref={registryListRef}
@@ -190,5 +196,79 @@ const Data = () => {
       onEndReached={turnPage}
       onEndReachedThreshold={0.16}
     />
+  );
+};
+
+const EmptyResult = () => {
+  const tailwind = useTailwind();
+  const {buildingType, setBuildingType, cities, setCities, search} =
+    useHouseFilterContext();
+
+  return (
+    <View style={tailwind('p-4')}>
+      <View style={tailwind('py-8 px-4 bg-[#fafafa]')}>
+        <Text
+          fontFamily={'NotoSansTC-Medium'}
+          fontSize={TextStringSizeEnum.xl}
+          style={tailwind('mb-4 text-center')}>
+          0 筆結果，可嘗試：
+        </Text>
+        <View style={tailwind('flex-row items-center mb-2')}>
+          <View style={tailwind('items-center justify-center w-5')}>
+            <View style={tailwind('w-1 h-1 rounded-extreme bg-[#616161]')} />
+          </View>
+          <Text
+            fontSize={TextStringSizeEnum.base}
+            style={tailwind('text-[#616161]')}>
+            放寬篩選條件：
+          </Text>
+        </View>
+        <View
+          style={[tailwind('flex-row flex-wrap self-start px-6 -mr-4 -mb-2')]}>
+          {buildingType.map(type => (
+            <HighlightLabel
+              key={type}
+              type={type}
+              onPress={async () => {
+                setBuildingType(type, true);
+                await search(true);
+              }}
+            />
+          ))}
+          {cities.map(city => (
+            <HighlightLabel
+              key={city}
+              type={city}
+              onPress={async () => {
+                setCities(city, true);
+                await search(true);
+              }}
+            />
+          ))}
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const HighlightLabel: React.FC<{
+  type: string;
+  onPress: (event: GestureResponderEvent) => void;
+}> = ({type, onPress}) => {
+  const tailwind = useTailwind();
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={tailwind(
+        'flex-row items-center px-2 py-2.5 mr-4 mb-2 bg-[#f5f5f5]',
+      )}>
+      <Text fontSize={TextStringSizeEnum.base} style={tailwind('mr-2')}>
+        {type}
+      </Text>
+      <View style={tailwind('items-center justify-center w-5 h-5')}>
+        <Icon name={'close'} size={20} />
+      </View>
+    </Pressable>
   );
 };

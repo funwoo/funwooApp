@@ -36,12 +36,12 @@ interface HouseFilterContextStore {
   triggerAreaFilter: () => void;
   triggerBuildingTypeFilter: () => void;
   setCountry: (country: CountryOfAreaFilter) => void;
-  setCities: (city: string) => void;
-  setBuildingType: (type: string) => void;
+  setCities: (city: string, concurrently?: boolean) => void;
+  setBuildingType: (type: string, concurrently?: boolean) => void;
   resetArea: () => void;
   resetBuildingType: () => void;
   turnPage: () => void;
-  search: () => void;
+  search: (skipCache?: boolean) => void;
   registryListRef: (ref: FlatList<ListingDetail>) => void;
 }
 
@@ -170,21 +170,38 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
     [],
   );
 
-  const setCities = useCallback((city: string) => {
-    _setCities(prev =>
-      prev.includes(city)
+  const setCities = useCallback((city: string, concurrently?: boolean) => {
+    _setCities(prev => {
+      const result = prev.includes(city)
         ? prev.filter(_city => _city !== city)
-        : prev.concat(city),
-    );
+        : prev.concat(city);
+
+      if (concurrently) {
+        console.log('_setCities', {concurrently, result});
+        cachedCities.current = result;
+      }
+
+      return result;
+    });
   }, []);
 
-  const setBuildingType = useCallback((type: string) => {
-    _setBuildingType(prev =>
-      prev.includes(type)
-        ? prev.filter(_type => _type !== type)
-        : prev.concat(type),
-    );
-  }, []);
+  const setBuildingType = useCallback(
+    (type: string, concurrently?: boolean) => {
+      _setBuildingType(prev => {
+        const result = prev.includes(type)
+          ? prev.filter(_type => _type !== type)
+          : prev.concat(type);
+
+        if (concurrently) {
+          console.log('_setBuildingType', {concurrently, result});
+          cachedBuildingType.current = result;
+        }
+
+        return result;
+      });
+    },
+    [],
+  );
 
   const resetArea = useCallback(() => {
     _setCities([]);
@@ -219,27 +236,33 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
     );
   }, [data]);
 
-  const search = useCallback(() => {
-    cachedCountry.current = country;
-    cachedCities.current = cities;
-    cachedBuildingType.current = buildingType;
-    loadHouse({
-      country:
-        cachedCountry.current === 'ALL' ? undefined : cachedCountry.current,
-      cities: cachedCities.current,
-      buildingType: cachedBuildingType.current,
-      paging: {
-        page: 1,
-        pageSize: 6,
-      },
-    });
-    setShowAreaFilter(false);
-    setShowBuildingTypeFilter(false);
+  const search = useCallback(
+    async (skipCache?: boolean) => {
+      if (!skipCache) {
+        cachedCountry.current = country;
+        cachedCities.current = cities;
+        cachedBuildingType.current = buildingType;
+      }
 
-    if (listRef.current) {
-      listRef.current?.scrollToIndex({index: 0});
-    }
-  }, [country, cities, buildingType]);
+      await loadHouse({
+        country:
+          cachedCountry.current === 'ALL' ? undefined : cachedCountry.current,
+        cities: cachedCities.current,
+        buildingType: cachedBuildingType.current,
+        paging: {
+          page: 1,
+          pageSize: 6,
+        },
+      });
+      setShowAreaFilter(false);
+      setShowBuildingTypeFilter(false);
+
+      if (listRef.current) {
+        listRef.current?.scrollToIndex({index: 0});
+      }
+    },
+    [country, cities, buildingType],
+  );
 
   const registryListRef = useCallback((ref: FlatList<ListingDetail>) => {
     listRef.current = ref;

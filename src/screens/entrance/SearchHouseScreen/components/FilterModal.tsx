@@ -90,7 +90,7 @@ const FilterModal: React.FC<Props> = ({
             </Pressable>
           </View>
           <Pressable
-            onPress={search}
+            onPress={() => search()}
             style={tailwind('items-center justify-center flex-1 bg-black')}>
             <Text
               fontFamily={'NotoSansTC-Medium'}

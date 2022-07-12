@@ -125,6 +125,31 @@
 			"marginTop": 16
 		}
 	},
+	"mr-2": {
+		"style": {
+			"marginRight": 8
+		}
+	},
+	"mr-4": {
+		"style": {
+			"marginRight": 16
+		}
+	},
+	"-mr-4": {
+		"style": {
+			"marginRight": -16
+		}
+	},
+	"-mb-4": {
+		"style": {
+			"marginBottom": -16
+		}
+	},
+	"-mb-2": {
+		"style": {
+			"marginBottom": -8
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -238,6 +263,16 @@
 	"w-[0.625rem]": {
 		"style": {
 			"width": 10
+		}
+	},
+	"w-10": {
+		"style": {
+			"width": 40
+		}
+	},
+	"w-1": {
+		"style": {
+			"width": 4
 		}
 	},
 	"flex-1": {
@@ -432,6 +467,24 @@
 			"backgroundColor": "rgb(0 0 0 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-[#fafafa]": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(250 250 250 / var(--tw-bg-opacity))"
+		}
+	},
+	"bg-[#616161]": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(97 97 97 / var(--tw-bg-opacity))"
+		}
+	},
+	"bg-[#f5f5f5]": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(245 245 245 / var(--tw-bg-opacity))"
+		}
+	},
 	"p-4": {
 		"style": {
 			"paddingTop": 16,
@@ -446,6 +499,14 @@
 			"paddingRight": 0,
 			"paddingBottom": 0,
 			"paddingLeft": 0
+		}
+	},
+	"p-2": {
+		"style": {
+			"paddingTop": 8,
+			"paddingRight": 8,
+			"paddingBottom": 8,
+			"paddingLeft": 8
 		}
 	},
 	"py-1": {
@@ -500,6 +561,30 @@
 		"style": {
 			"paddingTop": 12,
 			"paddingBottom": 12
+		}
+	},
+	"py-8": {
+		"style": {
+			"paddingTop": 32,
+			"paddingBottom": 32
+		}
+	},
+	"px-6": {
+		"style": {
+			"paddingLeft": 24,
+			"paddingRight": 24
+		}
+	},
+	"px-2": {
+		"style": {
+			"paddingLeft": 8,
+			"paddingRight": 8
+		}
+	},
+	"py-2.5": {
+		"style": {
+			"paddingTop": 10,
+			"paddingBottom": 10
 		}
 	},
 	"pt-4": {
@@ -583,6 +668,18 @@
 		"style": {
 			"fontSize": 16,
 			"lineHeight": 24
+		}
+	},
+	"text-xl": {
+		"style": {
+			"fontSize": 20,
+			"lineHeight": 28
+		}
+	},
+	"text-lg": {
+		"style": {
+			"fontSize": 18,
+			"lineHeight": 28
 		}
 	},
 	"text-windowsBlue": {
