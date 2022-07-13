@@ -8,7 +8,7 @@ import {PageNames} from './PageNames';
 import SearchHouseScreen from '../screens/entrance/SearchHouseScreen';
 import SellScreen from '../screens/entrance/SellScreen';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<EntranceTabParamsList>();
 
 const EntranceNavigatorTabs = () => {
   const getRouteTitle = useCallback((name: string) => {

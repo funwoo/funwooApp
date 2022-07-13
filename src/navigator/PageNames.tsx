@@ -19,3 +19,10 @@ export const PageNames = {
   entrance: 'entrance',
   backyard: 'backyard',
 } as const;
+
+export const HouseStackPageName = {
+  detail: 'detail',
+  addAddress: 'addAddress',
+  map: 'map',
+  street: 'street',
+} as const;

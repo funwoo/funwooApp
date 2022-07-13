@@ -41,7 +41,7 @@ import HouseEnvironment from './components/HouseEnvironment';
 const HouseScreen = () => {
   const {
     params: {sid},
-  } = useRoute<RouteProp<EntranceRootStackParamsList, 'house'>>();
+  } = useRoute<RouteProp<HouseScreenStackParamsList, 'detail'>>();
   const navigate = useNavigation<NavigationProp<EntranceRootStackParamsList>>();
   const tailwind = useTailwind();
   const {sids, updateFavorite} = useMyFavoriteContext();
@@ -258,6 +258,7 @@ const HouseScreen = () => {
         <HouseFeature {...data} />
         <Divider />
         <HouseEnvironment {...data} />
+        <Divider />
       </ScrollView>
     </SafeAreaView>
   );

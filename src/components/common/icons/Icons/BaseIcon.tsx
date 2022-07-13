@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextProps} from 'react-native';
+import {TextProps, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -68,10 +68,12 @@ class BaseIcon extends React.Component<BaseIconProps> {
   };
 
   render() {
-    const {color, size, type, name, ...props} = this.props;
+    const {color, size, type, name, style, ...props} = this.props;
     const Icon = Icons[type];
     return (
-      <Icon color={color} {...props} name={name} size={this.scale(size)} />
+      <View style={[style, {justifyContent: 'center', alignItems: 'center'}]}>
+        <Icon color={color} {...props} name={name} size={this.scale(size)} />
+      </View>
     );
   }
 }

@@ -245,3 +245,11 @@ export const getParkingDetail = ({
     return ['-'];
   }
 };
+
+export const splitValueAndUnits = (
+  set: string = '',
+): {value: number; unit: string} => {
+  const regex = /(\d+\.\d+)\s{0,}(.*)?/;
+  const [, value, unit] = regex.exec(set) || ['', '', ''];
+  return {value: parseFloat(value), unit: unit.toLocaleLowerCase()};
+};
