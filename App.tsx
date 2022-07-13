@@ -47,8 +47,8 @@ const App = () => {
               <RecoilRoot>
                 <UserInfoContextProvider>
                   <MyFavoriteContextProvider>
-                    <Spinner />
                     <Main />
+                    {/* <Spinner /> */}
                   </MyFavoriteContextProvider>
                 </UserInfoContextProvider>
               </RecoilRoot>
