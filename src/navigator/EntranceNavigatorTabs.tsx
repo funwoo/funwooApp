@@ -6,6 +6,7 @@ import HomeScreen from '../screens/entrance/HomeScreen';
 import MoreScreen from '../screens/entrance/MoreScreen';
 import {PageNames} from './PageNames';
 import SearchHouseScreen from '../screens/entrance/SearchHouseScreen';
+import SellScreen from '../screens/entrance/SellScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -133,7 +134,7 @@ const EntranceNavigatorTabs = () => {
           title: '賣屋',
           headerShown: false,
         }}
-        component={HomeScreen}
+        component={SellScreen}
       />
       <Tab.Screen
         name={PageNames.more}

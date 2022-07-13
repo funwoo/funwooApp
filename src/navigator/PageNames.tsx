@@ -1,5 +1,6 @@
 export const PageNames = {
   entranceTabs: 'entranceTabs',
+  backyardTabs: 'backyardTabs',
   home: 'home',
   searchHouse: 'searchHouse',
   house: 'house',
@@ -15,4 +16,6 @@ export const PageNames = {
   photoLibrary: 'photoLibrary',
   imageViewer: 'imageViewer',
   userContact: 'userContact',
+  entrance: 'entrance',
+  backyard: 'backyard',
 } as const;

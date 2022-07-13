@@ -20,6 +20,7 @@ const BackyardNavigatorStack = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          animation: 'fade',
         }}
         initialRouteName={'backyardTabs'}>
         <Stack.Screen name="backyardTabs" component={BackyardNavigatorTabs} />

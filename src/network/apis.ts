@@ -12,7 +12,8 @@ class Apis {
       '/crm/livechat/rooms',
       {
         params: {
-          updatedSince: livechatRoomLastTimeUpdate,
+          updatedSince:
+            livechatRoomLastTimeUpdate ?? '2021-04-23T12:25:20.287Z',
         },
       },
     );

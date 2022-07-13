@@ -4,7 +4,6 @@ import {
   Pressable,
   ScrollView,
   TouchableHighlight,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {
@@ -18,6 +17,7 @@ import { CountryEnum } from '../../../../swagger/funwoo.api';
 import ConditionalFragment from '../../../../components/common/ConditionalFragment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FilterModal from './FilterModal';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export const CountryLabel: Record<CountryOfAreaFilter, string> = {
   TW: '台灣',
@@ -73,7 +73,7 @@ const Radio: React.FC<{
   const { country, setCountry } = useHouseFilterContext();
 
   return (
-    <Pressable
+    <TouchableWithoutFeedback
       style={tailwind('flex-row items-center justify-between py-4')}
       onPress={() => setCountry(value)}>
       <Text fontSize={TextStringSizeEnum.base}>{label}</Text>
@@ -89,7 +89,7 @@ const Radio: React.FC<{
           />
         </ConditionalFragment>
       </View>
-    </Pressable>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -101,7 +101,7 @@ const Checkbox: React.FC<{
   const { cities, setCities } = useHouseFilterContext();
 
   return (
-    <Pressable
+    <TouchableWithoutFeedback
       style={tailwind('flex-row items-center justify-between py-4')}
       onPress={() => setCities(value)}>
       <Text fontSize={TextStringSizeEnum.base}>{label}</Text>
@@ -118,6 +118,6 @@ const Checkbox: React.FC<{
           </View>
         </ConditionalFragment>
       </View>
-    </Pressable>
+    </TouchableWithoutFeedback>
   );
 };
