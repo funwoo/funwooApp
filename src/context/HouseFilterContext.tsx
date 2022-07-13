@@ -7,17 +7,17 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {noop} from 'react-use/lib/misc/util';
+import { noop } from 'react-use/lib/misc/util';
 import {
   CountryEnum,
   ListingDetail,
   ListingPaginationEntity,
   SearchListingDto,
 } from '../swagger/funwoo.api';
-import {useAsync, useAsyncFn} from 'react-use';
-import {swaggerHttpClient} from '../swagger';
-import {isEmptyArray} from '../utils';
-import {FlatList} from 'react-native';
+import { useAsync, useAsyncFn } from 'react-use';
+import { swaggerHttpClient } from '../swagger';
+import { isEmptyArray } from '../utils';
+import { FlatList } from 'react-native';
 
 export type CountryOfAreaFilter = CountryEnum | 'ALL';
 
@@ -32,7 +32,7 @@ interface HouseFilterContextStore {
   buildingType: Array<string>;
   totalCount: number;
   listRef: MutableRefObject<FlatList<ListingDetail> | null>;
-
+  onClose: () => void;
   triggerAreaFilter: () => void;
   triggerBuildingTypeFilter: () => void;
   setCountry: (country: CountryOfAreaFilter) => void;
@@ -55,8 +55,8 @@ const HouseFilterContext = createContext<HouseFilterContextStore>({
   citiesData: [],
   buildingType: [],
   totalCount: 0,
-  listRef: {current: null},
-
+  listRef: { current: null },
+  onClose: () => { },
   triggerAreaFilter: noop,
   triggerBuildingTypeFilter: noop,
   setCountry: noop,
@@ -69,7 +69,7 @@ const HouseFilterContext = createContext<HouseFilterContextStore>({
   registryListRef: noop,
 });
 
-export const HouseFilterContextProvider: React.FC = ({children}) => {
+export const HouseFilterContextProvider: React.FC = ({ children }) => {
   const [showAreaFilter, setShowAreaFilter] = useState<boolean>(false);
   const [showBuildingTypeFilter, setShowBuildingTypeFilter] =
     useState<boolean>(false);
@@ -84,7 +84,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
 
   const listRef = useRef<FlatList<ListingDetail> | null>(null);
 
-  const [{value: data, loading}, loadHouse] = useAsyncFn(
+  const [{ value: data, loading }, loadHouse] = useAsyncFn(
     async (
       {
         cities: _cities = [],
@@ -111,7 +111,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
     [],
   );
 
-  const {value: totalCount = 0} = useAsync(async () => {
+  const { value: totalCount = 0 } = useAsync(async () => {
     if (!showAreaFilter && !showBuildingTypeFilter) {
       return 0;
     }
@@ -152,7 +152,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
   }, [showBuildingTypeFilter]);
 
   const {
-    value: {buildingTypesData, citiesData} = {
+    value: { buildingTypesData, citiesData } = {
       buildingTypesData: [],
       citiesData: [],
     },
@@ -177,7 +177,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
         : prev.concat(city);
 
       if (concurrently) {
-        console.log('_setCities', {concurrently, result});
+        console.log('_setCities', { concurrently, result });
         cachedCities.current = result;
       }
 
@@ -193,7 +193,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
           : prev.concat(type);
 
         if (concurrently) {
-          console.log('_setBuildingType', {concurrently, result});
+          console.log('_setBuildingType', { concurrently, result });
           cachedBuildingType.current = result;
         }
 
@@ -258,12 +258,14 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
       setShowBuildingTypeFilter(false);
 
       if (listRef.current) {
-        listRef.current?.scrollToIndex({index: 0});
+        listRef.current?.scrollToIndex({ index: 0 });
       }
     },
     [country, cities, buildingType],
   );
-
+  const onClose = useCallback(() => {
+    setShowAreaFilter(false)
+  }, [])
   const registryListRef = useCallback((ref: FlatList<ListingDetail>) => {
     listRef.current = ref;
   }, []);
@@ -281,7 +283,7 @@ export const HouseFilterContextProvider: React.FC = ({children}) => {
         buildingType,
         totalCount,
         listRef: listRef,
-
+        onClose: onClose,
         triggerAreaFilter,
         triggerBuildingTypeFilter,
         setCountry,
