@@ -38,6 +38,7 @@ import classNames from 'classnames';
 import HouseFeature from './components/HouseFeature';
 import HouseEnvironment from './components/HouseEnvironment';
 import HouseAgentSection from './components/HouseAgentSection';
+import HouseLoan from './components/HouseLoan';
 
 const HouseScreen = () => {
   const {
@@ -260,7 +261,10 @@ const HouseScreen = () => {
         <Divider />
         <HouseEnvironment {...data} />
         <Divider />
+        <HouseLoan {...data} />
+        <Divider />
         <HouseAgentSection {...data} />
+        <Divider />
       </ScrollView>
     </SafeAreaView>
   );
