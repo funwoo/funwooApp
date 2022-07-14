@@ -38,6 +38,10 @@
   z-index: 10
 }
 
+.z-50 {
+  z-index: 50
+}
+
 .m-0 {
   margin: 0px
 }
@@ -184,6 +188,18 @@
 
 .h-\[5\.625rem\] {
   height: 5.625rem
+}
+
+.h-24 {
+  height: 6rem
+}
+
+.h-20 {
+  height: 5rem
+}
+
+.h-16 {
+  height: 4rem
 }
 
 .w-12 {
@@ -537,6 +553,18 @@
 
 .pr-3 {
   padding-right: 0.75rem
+}
+
+.pb-20 {
+  padding-bottom: 5rem
+}
+
+.pb-24 {
+  padding-bottom: 6rem
+}
+
+.pb-\[6rem\] {
+  padding-bottom: 6rem
 }
 
 .text-left {

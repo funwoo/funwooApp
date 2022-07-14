@@ -1,23 +1,15 @@
 import {Image, Pressable, View} from 'react-native';
 import React from 'react';
-import {ListingDetail} from '../../../../swagger/funwoo.api';
 import {useTailwind} from 'tailwind-rn';
 import Text, {
   TextStringSizeEnum,
 } from '../../../../components/common/Text/BaseText';
-import {useAsync} from 'react-use';
-import {swaggerHttpClient} from '../../../../swagger';
+import {Agent} from '../../../../swagger/funwoo.api';
 
-const HouseAgentSection: React.FC<ListingDetail> = ({agent1_id}) => {
+const HouseAgentSection: React.FC<{agent: Agent | null | undefined}> = ({
+  agent,
+}) => {
   const tailwind = useTailwind();
-
-  const {value: agent} = useAsync(
-    async () =>
-      await swaggerHttpClient.agentApi
-        .findOne(agent1_id)
-        .then(response => response.data),
-    [agent1_id],
-  );
 
   return (
     <View style={tailwind('py-8 px-4')}>
