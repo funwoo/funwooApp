@@ -24,9 +24,9 @@ import Text, {
 } from '../../../components/common/Text/BaseText';
 import useGooglePlace, {API_KEY, Term} from '../../../hooks/useGooglePlace';
 import BaseIcon from '../../../components/common/icons/Icons/BaseIcon';
-import axios from 'axios';
 import classNames from 'classnames';
 import ConditionalFragment from '../../../components/common/ConditionalFragment';
+import {Client, TravelMode} from '@googlemaps/google-maps-services-js';
 
 export enum HouseAddAddressTravelModeEnum {
   driving = 'directions-car',
@@ -35,17 +35,16 @@ export enum HouseAddAddressTravelModeEnum {
   transit = 'directions-transit',
 }
 
-const travelModes: Array<keyof typeof HouseAddAddressTravelModeEnum> = [
-  'driving',
-  'walking',
-  'bicycling',
-  'transit',
+const travelModes: Array<TravelMode> = [
+  TravelMode.driving,
+  TravelMode.walking,
+  TravelMode.bicycling,
+  TravelMode.transit,
 ];
 
 const AddAddressScreen = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [mode, setMode] =
-    useState<keyof typeof HouseAddAddressTravelModeEnum>('driving');
+  const [mode, setMode] = useState<TravelMode>(TravelMode.driving);
   const [addressesLayout, setAddressesLayout] =
     useState<LayoutRectangle | null>(null);
   const [focusing, setFocusing] = useState<boolean>(false);
@@ -75,17 +74,16 @@ const AddAddressScreen = () => {
   const requestDirectionTime = useCallback(async () => {
     Keyboard.dismiss();
     try {
-      const {data} = await axios.get(
-        'https://maps.googleapis.com/maps/api/directions/json',
-        {
-          params: {
-            origin: `${params.region.lat},${params.region.lng}`,
-            destination: inputValue,
-            key: API_KEY,
-            mode,
-          },
+      const client = new Client();
+      const {data} = await client.directions({
+        params: {
+          origin: `${params.region.lat},${params.region.lng}`,
+          destination: inputValue,
+          key: API_KEY,
+          mode,
         },
-      );
+      });
+
       params.callback({
         name: inputValue,
         time: data?.routes?.[0]?.legs?.[0]?.duration?.text,
@@ -95,7 +93,7 @@ const AddAddressScreen = () => {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [inputValue]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

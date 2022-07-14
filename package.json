@@ -14,6 +14,7 @@
     "sync-api": "npx ts-node api.gen.ts"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.16",
     "@likashefqet/react-native-image-zoom": "^1.2.1",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-clipboard/clipboard": "^1.10.0",

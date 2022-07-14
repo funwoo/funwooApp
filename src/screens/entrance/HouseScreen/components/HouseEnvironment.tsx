@@ -52,7 +52,7 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
     'traffic_env_traffic',
   );
   const [selectedMarker, setSelectedMarker] = useState('');
-  const [direction, setDirection] = useState<
+  const [directions, setDirections] = useState<
     Array<HouseAddAddressCallbackParams>
   >([]);
 
@@ -131,7 +131,7 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
 
   const addAddressCallback = useCallback(
     (params: HouseAddAddressCallbackParams) => {
-      setDirection(prev => prev.concat(params));
+      setDirections(prev => prev.concat(params));
     },
     [],
   );
@@ -142,7 +142,7 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
       callback: addAddressCallback,
     });
   }, []);
-  console.log(direction);
+
   return (
     <View style={tailwind('py-8')}>
       <View style={tailwind('px-4')}>
@@ -152,6 +152,9 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
           style={tailwind('py-2 mb-2')}>
           周邊環境
         </Text>
+        {directions.map((direction, index) => (
+          <DirectionItem key={`${direction.name}-${index}`} {...direction} />
+        ))}
         <Pressable
           onPress={onAddAddressPress}
           style={tailwind('flex-row items-center py-4')}>
@@ -494,5 +497,32 @@ const EnvironmentItem: React.FC<
         </Text>
       </View>
     </Pressable>
+  );
+};
+
+const DirectionItem: React.FC<HouseAddAddressCallbackParams> = ({
+  type,
+  name,
+  time,
+}) => {
+  const tailwind = useTailwind();
+
+  return (
+    <View style={tailwind('flex-row items-center bg-gray100')}>
+      <BaseIcon
+        type={'MaterialIcons'}
+        size={24}
+        name={type}
+        color={'#616161'}
+        style={tailwind('w-12 h-12')}
+      />
+      <View style={tailwind('w-px h-5 bg-gray700 mr-3')} />
+      <Text
+        style={tailwind('flex-1')}
+        fontSize={TextStringSizeEnum.base}
+        fontFamily={'NotoSansTC-Medium'}>
+        至 <Text fontSize={TextStringSizeEnum.base}>{name}</Text> 需 {time}
+      </Text>
+    </View>
   );
 };
