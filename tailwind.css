@@ -134,6 +134,10 @@
   margin-right: 0.75rem
 }
 
+.mb-1 {
+  margin-bottom: 0.25rem
+}
+
 .flex {
   display: flex
 }
@@ -174,6 +178,10 @@
   height: 100%
 }
 
+.h-\[5\.625rem\] {
+  height: 5.625rem
+}
+
 .w-12 {
   width: 3rem
 }
@@ -208,6 +216,10 @@
 
 .w-9 {
   width: 2.25rem
+}
+
+.w-\[5\.625rem\] {
+  width: 5.625rem
 }
 
 .flex-1 {

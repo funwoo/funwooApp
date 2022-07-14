@@ -37,6 +37,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import classNames from 'classnames';
 import HouseFeature from './components/HouseFeature';
 import HouseEnvironment from './components/HouseEnvironment';
+import HouseAgentSection from './components/HouseAgentSection';
 
 const HouseScreen = () => {
   const {
@@ -259,6 +260,7 @@ const HouseScreen = () => {
         <Divider />
         <HouseEnvironment {...data} />
         <Divider />
+        <HouseAgentSection {...data} />
       </ScrollView>
     </SafeAreaView>
   );
