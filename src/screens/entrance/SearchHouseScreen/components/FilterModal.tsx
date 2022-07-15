@@ -1,21 +1,20 @@
 import classNames from 'classnames';
-import { Linking, Pressable, View } from 'react-native';
+import {Linking, Pressable, View} from 'react-native';
 import Text, {
   TextStringSizeEnum,
 } from '../../../../components/common/Text/BaseText';
 import Modal from 'react-native-modal';
 import React from 'react';
-import { useTailwind } from 'tailwind-rn';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useDimensions } from '@react-native-community/hooks';
-import { useHouseFilterContext } from '../../../../context/HouseFilterContext';
+import {useTailwind} from 'tailwind-rn';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useDimensions} from '@react-native-community/hooks';
+import {useHouseFilterContext} from '../../../../context/HouseFilterContext';
 
 interface Props {
   trigger: () => void;
   show: boolean;
   reset: () => void;
   label: string;
-  onClose: () => void;
 }
 
 const FilterModal: React.FC<Props> = ({
@@ -24,12 +23,11 @@ const FilterModal: React.FC<Props> = ({
   show,
   reset,
   label,
-  onClose
 }) => {
   const tailwind = useTailwind();
-  const { bottom } = useSafeAreaInsets();
-  const { width, height } = useDimensions().window;
-  const { totalCount, search, } = useHouseFilterContext();
+  const {bottom} = useSafeAreaInsets();
+  const {width, height} = useDimensions().window;
+  const {totalCount, search} = useHouseFilterContext();
 
   return (
     <Modal
@@ -38,7 +36,7 @@ const FilterModal: React.FC<Props> = ({
       swipeThreshold={height * 0.6}
       propagateSwipe={true}
       isVisible={show}
-      onBackdropPress={onClose}
+      onBackdropPress={trigger}
       style={tailwind(classNames('justify-end', 'm-0'))}>
       <View
         style={[

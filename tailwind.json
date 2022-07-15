@@ -196,6 +196,16 @@
 			"marginRight": 4
 		}
 	},
+	"mb-1.5": {
+		"style": {
+			"marginBottom": 6
+		}
+	},
+	"mb-2.5": {
+		"style": {
+			"marginBottom": 10
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -585,6 +595,12 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(158 158 158 / var(--tw-bg-opacity))"
+		}
+	},
+	"bg-origin": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(239 124 65 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-4": {

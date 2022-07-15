@@ -23,6 +23,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {AppColors} from '../../../../../constants';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {MoreStackPageName} from '../../../../../navigator/PageNames';
 
 const Features: Array<{
   image: {uri: string};
@@ -92,6 +94,7 @@ const AboutUsScreen = () => {
 
   const tailwind = useTailwind();
   const animation = useSharedValue(180);
+  const navigation = useNavigation<NavigationProp<MoreScreenParamsList>>();
 
   const rotation = useDerivedValue(() => {
     return interpolate(animation.value, [0, 360], [0, 360]);
@@ -251,6 +254,11 @@ const AboutUsScreen = () => {
             {FounderProfile.map(
               ({key, imageURL, name, position}, index, array) => (
                 <Pressable
+                  onPress={() =>
+                    navigation.navigate(MoreStackPageName.aboutFounder, {
+                      key,
+                    })
+                  }
                   key={key}
                   style={[
                     tailwind(

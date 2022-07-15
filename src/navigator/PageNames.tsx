@@ -32,6 +32,7 @@ export const HouseStackPageName = {
 export const MoreStackPageName = {
   navigate: 'navigate',
   aboutUs: 'aboutUs',
+  aboutFounder: 'aboutFounder',
   agents: 'agents',
   jobs: 'jobs',
   contactUs: 'contactUs',

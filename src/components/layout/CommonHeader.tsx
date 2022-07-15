@@ -5,8 +5,13 @@ import BaseIcon from '../common/icons/Icons/BaseIcon';
 import {AppColors} from '../../constants';
 import Text, {TextStringSizeEnum} from '../common/Text/BaseText';
 import {useNavigation} from '@react-navigation/native';
+import ConditionalFragment from '../common/ConditionalFragment';
+import {isNotSet, isSet} from '../../utils';
 
-const CommonHeader: React.FC<{title: string}> = ({title, children}) => {
+const CommonHeader: React.FC<{
+  title: string;
+  headerRight?: React.ReactNode;
+}> = ({title, headerRight, children}) => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
@@ -28,7 +33,12 @@ const CommonHeader: React.FC<{title: string}> = ({title, children}) => {
           fontSize={TextStringSizeEnum['3xl']}>
           {title}
         </Text>
-        <View style={tailwind('w-12 h-12')} />
+        <ConditionalFragment condition={isSet(headerRight)}>
+          {headerRight}
+        </ConditionalFragment>
+        <ConditionalFragment condition={isNotSet(headerRight)}>
+          <View style={tailwind('w-12 h-12')} />
+        </ConditionalFragment>
       </View>
       {children}
     </SafeAreaView>

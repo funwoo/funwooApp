@@ -4,6 +4,7 @@ export declare global {
   type MoreScreenParamsList = {
     [MoreStackPageName.navigate]?: undefined;
     [MoreStackPageName.aboutUs]?: undefined;
+    [MoreStackPageName.aboutFounder]: {key: string};
     [MoreStackPageName.agents]?: undefined;
     [MoreStackPageName.jobs]?: undefined;
     [MoreStackPageName.contactUs]?: undefined;

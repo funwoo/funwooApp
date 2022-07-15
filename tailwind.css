@@ -154,6 +154,14 @@
   margin-right: 0.25rem
 }
 
+.mb-1\.5 {
+  margin-bottom: 0.375rem
+}
+
+.mb-2\.5 {
+  margin-bottom: 0.625rem
+}
+
 .flex {
   display: flex
 }
@@ -438,6 +446,11 @@
 .bg-gray500 {
   --tw-bg-opacity: 1;
   background-color: rgb(158 158 158 / var(--tw-bg-opacity))
+}
+
+.bg-origin {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 124 65 / var(--tw-bg-opacity))
 }
 
 .p-4 {
