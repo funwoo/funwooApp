@@ -11,6 +11,7 @@ module.exports = {
       },
       colors: {
         origin: 'rgb(239, 124, 65)',
+        brandGold: 'rgb(180,153,97)',
         windowsBlue: 'rgba(49, 130, 206)',
         gray50: 'rgba(250, 250, 250)',
         gray100: 'rgba(245, 245, 245)',

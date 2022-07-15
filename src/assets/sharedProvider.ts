@@ -93,6 +93,18 @@ const sharedImgProvider = {
   layout_icon: {
     uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/layout-icon.png',
   },
+  icons_vp_tech: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/icons-vp-tech.png',
+  },
+  icons_vp_mkting: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/icons-vp-mkting.png',
+  },
+  icons_vp_agents: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/icons-vp-agents.png',
+  },
+  icons_vp_design: {
+    uri: 'https://storage.googleapis.com/funwoo-assets/assets/mobile/icons/icons-vp-design.png',
+  },
 };
 const lottieProvider = {
   'loading-Animation-Black': require('./lottie/loading-Animation-Black.json'),
