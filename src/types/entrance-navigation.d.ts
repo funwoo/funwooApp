@@ -24,7 +24,7 @@ export declare global {
   type EntranceTabParamsList = {
     [PageNames.home]?: undefined;
     [PageNames.searchHouse]?: undefined;
-    [PageNames.fav]?: undefined;
+    [PageNames.myFavorite]?: undefined;
     [PageNames.sell]?: undefined;
     [PageNames.more]?: undefined;
   };

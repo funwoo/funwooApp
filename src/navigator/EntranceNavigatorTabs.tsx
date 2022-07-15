@@ -7,6 +7,7 @@ import MoreScreen from '../screens/entrance/MoreScreen';
 import {PageNames} from './PageNames';
 import SearchHouseScreen from '../screens/entrance/SearchHouseScreen';
 import SellScreen from '../screens/entrance/SellScreen';
+import MyFavoriteScreen from '../screens/entrance/MyFavoriteScreen';
 
 const Tab = createBottomTabNavigator<EntranceTabParamsList>();
 
@@ -17,7 +18,7 @@ const EntranceNavigatorTabs = () => {
         return '首頁';
       case PageNames.searchHouse:
         return '買屋';
-      case PageNames.fav:
+      case PageNames.myFavorite:
         return '我的收藏';
       case PageNames.sell:
         return '賣屋';
@@ -67,7 +68,7 @@ const EntranceNavigatorTabs = () => {
                   color={color}
                 />
               );
-            case PageNames.fav:
+            case PageNames.myFavorite:
               return (
                 <CustomTabIcon
                   name={`fav-${state}`}
@@ -121,12 +122,12 @@ const EntranceNavigatorTabs = () => {
         component={SearchHouseScreen}
       />
       <Tab.Screen
-        name={PageNames.fav}
+        name={PageNames.myFavorite}
         options={{
           title: '我的收藏',
           headerShown: false,
         }}
-        component={HomeScreen}
+        component={MyFavoriteScreen}
       />
       <Tab.Screen
         name={PageNames.sell}

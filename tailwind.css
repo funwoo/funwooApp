@@ -114,10 +114,6 @@
   margin-top: auto
 }
 
-.mr-2\.5 {
-  margin-right: 0.625rem
-}
-
 .mr-2 {
   margin-right: 0.5rem
 }
@@ -134,6 +130,14 @@
   margin-top: 1rem
 }
 
+.mr-3 {
+  margin-right: 0.75rem
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem
+}
+
 .ml-2 {
   margin-left: 0.5rem
 }
@@ -142,12 +146,8 @@
   margin-right: -0.5rem
 }
 
-.mr-3 {
-  margin-right: 0.75rem
-}
-
-.mb-1 {
-  margin-bottom: 0.25rem
+.mr-2\.5 {
+  margin-right: 0.625rem
 }
 
 .mr-1 {
@@ -174,16 +174,24 @@
   height: 1.25rem
 }
 
-.h-6 {
-  height: 1.5rem
+.h-16 {
+  height: 4rem
 }
 
 .h-px {
   height: 1px
 }
 
+.h-6 {
+  height: 1.5rem
+}
+
 .h-1 {
   height: 0.25rem
+}
+
+.h-\[5\.625rem\] {
+  height: 5.625rem
 }
 
 .h-\[0\.625rem\] {
@@ -192,26 +200,6 @@
 
 .h-full {
   height: 100%
-}
-
-.h-\[5\.625rem\] {
-  height: 5.625rem
-}
-
-.h-24 {
-  height: 6rem
-}
-
-.h-20 {
-  height: 5rem
-}
-
-.h-16 {
-  height: 4rem
-}
-
-.h-\[2px\] {
-  height: 2px
 }
 
 .w-12 {
@@ -242,16 +230,16 @@
   width: 0.25rem
 }
 
+.w-\[5\.625rem\] {
+  width: 5.625rem
+}
+
 .w-\[0\.625rem\] {
   width: 0.625rem
 }
 
 .w-9 {
   width: 2.25rem
-}
-
-.w-\[5\.625rem\] {
-  width: 5.625rem
 }
 
 .flex-1 {
@@ -264,10 +252,6 @@
 
 .flex-\[1\.3\] {
   flex: 1.3
-}
-
-.flex-\[0\.2\] {
-  flex: 0.2
 }
 
 .flex-\[0\.3\] {
@@ -432,14 +416,24 @@
   background-color: rgb(158 158 158 / var(--tw-bg-opacity))
 }
 
-.bg-\[red\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 0 0 / var(--tw-bg-opacity))
+.bg-gray900\/\[0\.6\] {
+  background-color: rgb(33 33 33 / 0.6)
 }
 
-.bg-origin {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 124 65 / var(--tw-bg-opacity))
+.bg-gray900\/\[0\.95\] {
+  background-color: rgb(33 33 33 / 0.95)
+}
+
+.bg-gray900\/\[0\.1\] {
+  background-color: rgb(33 33 33 / 0.1)
+}
+
+.bg-gray900\/\[0\.8\] {
+  background-color: rgb(33 33 33 / 0.8)
+}
+
+.bg-opacity-60 {
+  --tw-bg-opacity: 0.6
 }
 
 .p-4 {
@@ -485,6 +479,11 @@
   padding-bottom: 0.25rem
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem
+}
+
 .px-\[1\.125rem\] {
   padding-left: 1.125rem;
   padding-right: 1.125rem
@@ -510,11 +509,6 @@
   padding-bottom: 0.625rem
 }
 
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem
-}
-
 .pt-\[4\.5rem\] {
   padding-top: 4.5rem
 }
@@ -535,10 +529,6 @@
   padding-top: 1rem
 }
 
-.pb-2 {
-  padding-bottom: 0.5rem
-}
-
 .pl-5 {
   padding-left: 1.25rem
 }
@@ -555,28 +545,20 @@
   padding-right: 1rem
 }
 
-.pb-4 {
-  padding-bottom: 1rem
-}
-
-.pt-2 {
-  padding-top: 0.5rem
+.pb-2 {
+  padding-bottom: 0.5rem
 }
 
 .pr-3 {
   padding-right: 0.75rem
 }
 
-.pb-20 {
-  padding-bottom: 5rem
+.pb-4 {
+  padding-bottom: 1rem
 }
 
-.pb-24 {
-  padding-bottom: 6rem
-}
-
-.pb-\[6rem\] {
-  padding-bottom: 6rem
+.pt-2 {
+  padding-top: 0.5rem
 }
 
 .text-left {
@@ -620,10 +602,6 @@
 
 .leading-\[1\.5rem\] {
   line-height: 1.5rem
-}
-
-.leading-\[1rem\] {
-  line-height: 1rem
 }
 
 .text-white {

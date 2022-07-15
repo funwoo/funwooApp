@@ -4,7 +4,7 @@ export const PageNames = {
   home: 'home',
   searchHouse: 'searchHouse',
   house: 'house',
-  fav: 'fav',
+  myFavorite: 'myFavorite',
   sell: 'sell',
   agent: 'agent',
   'agent-detail': 'agent-detail',

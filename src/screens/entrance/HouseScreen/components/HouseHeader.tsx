@@ -44,11 +44,11 @@ const HouseHeader: React.FC<{title: string}> = ({title}) => {
       </Text>
       <View style={tailwind('flex-row')}>
         <Pressable
-          onPress={() => updateFavorite(sid, !isFavorite)}
+          onPress={() => updateFavorite(sid)}
           style={tailwind('items-center justify-center w-12 h-12')}>
           <AntDesignIcon
             size={20}
-            color={isFavorite ? '#FF8080' : '#212121'}
+            color={isFavorite ? '#ef7c41' : '#212121'}
             name={isFavorite ? 'heart' : 'hearto'}
           />
         </Pressable>

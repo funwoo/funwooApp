@@ -10,21 +10,25 @@ import BackyardNavigatorStack from './BackyardNavigatorStack';
 import {PageNames} from './PageNames';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Linking} from 'react-native';
+
 const Stack = createNativeStackNavigator();
+
 function Main() {
   const [ready, setReady] = useState(false);
   const {userInfo} = useUserInfoContextProvider();
-  const linking = {
-    prefixes: ['https://funwoo.com.tw', 'funwoo://'],
-    config: {
-      screens: {
-        entrance: 'entrance',
-      },
-    },
-  };
-  const navigationRef = useNavigationContainerRef();
+  // const linking = {
+  //   prefixes: ['https://funwoo.com.tw', 'funwoo://'],
+  //   config: {
+  //     screens: {
+  //       entrance: 'entrance',
+  //     },
+  //   },
+  // };
+  const navigationRef = useNavigationContainerRef<RootStackParamsList>();
   useEffect(() => {
-    if (!ready) return;
+    if (!ready) {
+      return;
+    }
     if (userInfo?.jwt) {
       navigationRef.navigate('backyard');
     } else {
@@ -66,7 +70,7 @@ function Main() {
               screens: {
                 [PageNames.entranceTabs]: {
                   path: '',
-                  initialRouteName: PageNames.home,
+                  // initialRouteName: PageNames.home,
                   screens: {
                     [PageNames.home]: {
                       path: 'home',
@@ -84,9 +88,9 @@ function Main() {
                       path: 'more',
                       initialRouteName: PageNames.more,
                     },
-                    [PageNames.fav]: {
-                      path: 'fav',
-                      initialRouteName: PageNames.fav,
+                    [PageNames.myFavorite]: {
+                      path: 'myFavorite',
+                      initialRouteName: PageNames.myFavorite,
                     },
                   },
                 },
@@ -94,17 +98,17 @@ function Main() {
                 [PageNames.house]: {
                   path: `${PageNames.house}/:sid`,
                   parse: {
-                    sid: sid => `${sid}`,
+                    sid: (sid: string) => `${sid}`,
                   },
                   stringify: {
-                    sid: sid => sid.replace(/^user-/, ''),
+                    sid: (sid: string) => sid.replace(/^user-/, ''),
                   },
                 },
               },
             },
             [PageNames.backyard]: {
               path: 'backyard',
-              initialRouteName: PageNames.entranceTabs,
+              // initialRouteName: PageNames.entranceTabs,
               screens: {
                 [PageNames.backyardTabs]: {
                   path: PageNames.backyardTabs,
@@ -112,10 +116,10 @@ function Main() {
                 [PageNames.chatroom]: {
                   path: `${PageNames.house}/:sid`,
                   parse: {
-                    sid: sid => `${sid}`,
+                    sid: (sid: string) => `${sid}`,
                   },
                   stringify: {
-                    sid: sid => sid.replace(/^user-/, ''),
+                    sid: (sid: string) => sid.replace(/^user-/, ''),
                   },
                 },
               },
@@ -124,7 +128,9 @@ function Main() {
         },
         subscribe(listener) {
           const onReceiveURL = ({url}: {url: string}) => {
-            if (!ready) listener('funwoo:///app');
+            if (!ready) {
+              listener('funwoo:///app');
+            }
             if (!userInfo?.jwt && url.includes(PageNames.backyard)) {
               listener('funwoo:///app/signIn');
               return;

@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useMemo} from 'react';
 import {Pressable, StyleProp, ViewStyle} from 'react-native';
 import {Source} from 'react-native-fast-image';
 import {ListingDetail} from '../../swagger/funwoo.api';
@@ -13,6 +13,7 @@ interface Props {
   callBack?: (data: Partial<ListingDetail>) => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
+  deFavoriteRegrettable?: boolean;
 }
 
 const AddFavoriteButton: FC<Props> = ({
@@ -22,24 +23,16 @@ const AddFavoriteButton: FC<Props> = ({
   disabled,
   style,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const {updateFavorite, sids} = useMyFavoriteContext();
 
   const tailwind = useTailwind();
 
-  useEffect(() => {
-    if (sids.includes(sid)) {
-      setIsFavorite(true);
-    } else {
-      setIsFavorite(false);
-    }
-  }, [sids, sid]);
+  const isFavorite = useMemo(() => sids.includes(sid), [sids]);
 
-  const handlePressFavorite = () => {
-    updateFavorite(sid, !isFavorite);
+  const handlePressFavorite = useCallback(() => {
+    updateFavorite(sid);
     callBack?.({sid});
-  };
+  }, [sid, isFavorite]);
 
   const source = useMemo<Source>(() => {
     if (theme === 'OnCard') {
