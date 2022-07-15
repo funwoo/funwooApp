@@ -3,11 +3,11 @@ import React, {useCallback} from 'react';
 import {Text} from 'react-native';
 import {CustomTabIcon} from '../assets/fonts';
 import HomeScreen from '../screens/entrance/HomeScreen';
-import MoreScreen from '../screens/entrance/MoreScreen';
 import {PageNames} from './PageNames';
 import SearchHouseScreen from '../screens/entrance/SearchHouseScreen';
 import SellScreen from '../screens/entrance/SellScreen';
 import MyFavoriteScreen from '../screens/entrance/MyFavoriteScreen';
+import MoreScreenNavigatorStack from './MoreScreenNavigatorStack';
 
 const Tab = createBottomTabNavigator<EntranceTabParamsList>();
 
@@ -143,7 +143,7 @@ const EntranceNavigatorTabs = () => {
           title: '更多',
           headerShown: false,
         }}
-        component={MoreScreen}
+        component={MoreScreenNavigatorStack}
       />
     </Tab.Navigator>
   );

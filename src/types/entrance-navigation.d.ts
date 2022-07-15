@@ -8,17 +8,7 @@ export declare global {
     [PageNames.entranceTabs]: NavigatorScreenParams<EntranceTabParamsList>;
     [PageNames.signIn]?: undefined;
     [PageNames.house]: NavigatorScreenParams<HouseScreenStackParamsList>;
-    [PageNames.agent]?: undefined;
-    [PageNames['agent-detail']]: {
-      sid: string;
-    };
-    [PageNames['agent-detail']]: {
-      sid: string;
-    };
-    [PageNames.job]?: undefined;
-    [PageNames['job-detail']]: {
-      sid: string;
-    };
+    [PageNames.more]: NavigatorScreenParams<MoreScreenParamsList>;
   };
 
   type EntranceTabParamsList = {
