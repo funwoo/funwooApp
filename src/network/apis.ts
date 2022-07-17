@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ContactProps} from './entities/contact-enity';
 import {CustomFieldsProps} from './entities/custom-fields.entity';
+import {VisitorResponse} from './entities/visitor-enity';
 
 class Apis {
   getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
@@ -106,7 +107,24 @@ class Apis {
       '/api/v1/livechat/custom-fields',
     );
   }
-
+  getUserInfo(visitorId: string) {
+    return rockatchatAPIHttpClient.get<VisitorResponse>(
+      '/api/v1/livechat/visitors.info',
+      {
+        params: {
+          visitorId: visitorId,
+        },
+      },
+    );
+  }
+  setRead = (rid: string) => {
+    return rockatchatAPIHttpClient.post<{success: boolean}>(
+      '/api/v1/subscriptions.read',
+      {
+        rid: rid,
+      },
+    );
+  };
   getUserContact(contactId: string) {
     return rockatchatAPIHttpClient.get<ContactProps>(
       '/api/v1/omnichannel/contact',

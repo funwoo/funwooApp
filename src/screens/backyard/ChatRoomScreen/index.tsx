@@ -27,6 +27,7 @@ import {PageNames} from '../../../navigator/PageNames';
 import {PERMISSIONS} from 'react-native-permissions';
 import {launchCamera} from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
+import {readAll} from '../../../model/lib/Room';
 
 const {useRealm, useQuery: useRealmQuery} = Config;
 const ChatRoomScreen: React.FC<{
@@ -107,32 +108,38 @@ const ChatRoomScreen: React.FC<{
       }
     });
   useEffect(() => {
-    realm.write(() => {
-      if (!realm.isInTransaction) {
-        realm.beginTransaction();
-      }
-      const livechatRoom = realm
-        .objectForPrimaryKey('livechatRoom', route.params.id)
-        ?.toJSON();
-      realm.create(
-        'livechatRoom',
-        LivechatRoomRealmObject.generate({
-          id: livechatRoom.id,
-          name: livechatRoom.name,
-          username: livechatRoom.username,
-          token: livechatRoom.token,
-          phone: livechatRoom.phone ?? [],
-          roomId: livechatRoom.roomId ?? '',
-          msg: livechatRoom.msg ?? '',
-          line_id: livechatRoom?.line_id ?? '',
-          date: livechatRoom.date,
-          avatar: livechatRoom?.avatar ?? '',
-          unread: 0,
-        }),
-        Realm.UpdateMode.Modified,
-      );
-    });
-  }, [route.params.id]);
+    readAll(route.params.id);
+    return () => {
+      readAll(route.params.id);
+    };
+  }, []);
+  // useEffect(() => {
+  //   realm.write(() => {
+  //     if (!realm.isInTransaction) {
+  //       realm.beginTransaction();
+  //     }
+  //     const livechatRoom = realm
+  //       .objectForPrimaryKey('livechatRoom', route.params.id)
+  //       ?.toJSON();
+  //     realm.create(
+  //       'livechatRoom',
+  //       LivechatRoomRealmObject.generate({
+  //         id: livechatRoom.id,
+  //         name: livechatRoom.name,
+  //         username: livechatRoom.username,
+  //         token: livechatRoom.token,
+  //         phone: livechatRoom.phone ?? [],
+  //         roomId: livechatRoom.roomId ?? '',
+  //         msg: livechatRoom.msg ?? '',
+  //         line_id: livechatRoom?.line_id ?? '',
+  //         date: livechatRoom.date,
+  //         avatar: livechatRoom?.avatar ?? '',
+  //         unread: 0,
+  //       }),
+  //       Realm.UpdateMode.Modified,
+  //     );
+  //   });
+  // }, [route.params.id]);
 
   const webhookResponseMessageParser = (data: StreamRoomMessagesProps) => {
     realm.write(() => {
@@ -241,102 +248,102 @@ const ChatRoomScreen: React.FC<{
       return item.msg;
     }
   }, []);
-  const onLoadEarlier = useCallback(async () => {
-    try {
-      setIsLoadingEarlier(true);
-      if (isEnd) {
-        return;
-      }
-      const {data} =
-        await rockatchatAPIHttpClient.get<LiveChatMessagesHistoryProps>(
-          `/api/v1/livechat/messages.history/${route.params.roomId}`,
-          {
-            params: {
-              token: route.params.token,
-              limit: 100,
-              end:
-                messagesDB.length > 0
-                  ? moment(
-                      messagesDB[messagesDB.length - 1].createdAt,
-                    ).toISOString()
-                  : undefined,
-            },
-          },
-        );
-      if (data.messages.length < 100) {
-        setIsEnd(true);
-      }
+  // const onLoadEarlier = useCallback(async () => {
+  //   try {
+  //     setIsLoadingEarlier(true);
+  //     if (isEnd) {
+  //       return;
+  //     }
+  //     const {data} =
+  //       await rockatchatAPIHttpClient.get<LiveChatMessagesHistoryProps>(
+  //         `/api/v1/livechat/messages.history/${route.params.roomId}`,
+  //         {
+  //           params: {
+  //             token: route.params.token,
+  //             limit: 100,
+  //             end:
+  //               messagesDB.length > 0
+  //                 ? moment(
+  //                     messagesDB[messagesDB.length - 1].createdAt,
+  //                   ).toISOString()
+  //                 : undefined,
+  //           },
+  //         },
+  //       );
+  //     if (data.messages.length < 100) {
+  //       setIsEnd(true);
+  //     }
 
-      realm.write(() => {
-        if (!realm.isInTransaction) {
-          realm.beginTransaction();
-        }
-        data.messages
-          .sort((a, b) =>
-            moment(a._updatedAt).isBefore(moment(b._updatedAt)) ? 0 : -1,
-          )
-          .map(item => {
-            const message = realm.objectForPrimaryKey('message', item._id);
-            if (message) {
-              realm.create(
-                'message',
-                MessageRealmObject.generate({
-                  _id: item._id,
-                  name: item?.u?.name ?? '',
-                  username: item?.u?.username ?? '',
-                  type: getType(item),
-                  isEarliest: false,
-                  roomId: item.rid,
-                  userId: item.u._id,
-                  image:
-                    (item?.attachments?.length ?? 0) > 0
-                      ? item.attachments![0].image_url
-                      : '',
-                  text: getText(item),
-                  date: item?._updatedAt
-                    ? moment(item?._updatedAt).toISOString()
-                    : '',
-                  avatar:
-                    route.params.username === item.u.username
-                      ? route.params.avatar
-                      : '',
-                }),
-                Realm.UpdateMode.Modified,
-              );
-            } else {
-              realm.create(
-                'message',
-                MessageRealmObject.generate({
-                  _id: item._id,
-                  name: item?.u?.name ?? '',
-                  username: item?.u?.username ?? '',
-                  type: getType(item),
-                  isEarliest: false,
-                  roomId: item.rid,
-                  userId: item.u._id,
-                  image:
-                    (item?.attachments?.length ?? 0) > 0
-                      ? item.attachments![0].image_url
-                      : '',
-                  text: getText(item),
-                  date: item?._updatedAt
-                    ? moment(item?._updatedAt).toISOString()
-                    : '',
-                  avatar:
-                    route.params.username === item.u.username
-                      ? route.params.avatar
-                      : '',
-                }),
-              );
-            }
-          });
-      });
-    } catch (error) {
-      console.log(error, 'realm write fail');
-    } finally {
-      setIsLoadingEarlier(false);
-    }
-  }, [isEnd, setIsEnd, messagesDB]);
+  //     realm.write(() => {
+  //       if (!realm.isInTransaction) {
+  //         realm.beginTransaction();
+  //       }
+  //       data.messages
+  //         .sort((a, b) =>
+  //           moment(a._updatedAt).isBefore(moment(b._updatedAt)) ? 0 : -1,
+  //         )
+  //         .map(item => {
+  //           const message = realm.objectForPrimaryKey('message', item._id);
+  //           if (message) {
+  //             realm.create(
+  //               'message',
+  //               MessageRealmObject.generate({
+  //                 _id: item._id,
+  //                 name: item?.u?.name ?? '',
+  //                 username: item?.u?.username ?? '',
+  //                 type: getType(item),
+  //                 isEarliest: false,
+  //                 roomId: item.rid,
+  //                 userId: item.u._id,
+  //                 image:
+  //                   (item?.attachments?.length ?? 0) > 0
+  //                     ? item.attachments![0].image_url
+  //                     : '',
+  //                 text: getText(item),
+  //                 date: item?._updatedAt
+  //                   ? moment(item?._updatedAt).toISOString()
+  //                   : '',
+  //                 avatar:
+  //                   route.params.username === item.u.username
+  //                     ? route.params.avatar
+  //                     : '',
+  //               }),
+  //               Realm.UpdateMode.Modified,
+  //             );
+  //           } else {
+  //             realm.create(
+  //               'message',
+  //               MessageRealmObject.generate({
+  //                 _id: item._id,
+  //                 name: item?.u?.name ?? '',
+  //                 username: item?.u?.username ?? '',
+  //                 type: getType(item),
+  //                 isEarliest: false,
+  //                 roomId: item.rid,
+  //                 userId: item.u._id,
+  //                 image:
+  //                   (item?.attachments?.length ?? 0) > 0
+  //                     ? item.attachments![0].image_url
+  //                     : '',
+  //                 text: getText(item),
+  //                 date: item?._updatedAt
+  //                   ? moment(item?._updatedAt).toISOString()
+  //                   : '',
+  //                 avatar:
+  //                   route.params.username === item.u.username
+  //                     ? route.params.avatar
+  //                     : '',
+  //               }),
+  //             );
+  //           }
+  //         });
+  //     });
+  //   } catch (error) {
+  //     console.log(error, 'realm write fail');
+  //   } finally {
+  //     setIsLoadingEarlier(false);
+  //   }
+  // }, [isEnd, setIsEnd, messagesDB]);
   const onInit = useCallback(async () => {
     try {
       const {data} =
@@ -491,7 +498,7 @@ const ChatRoomScreen: React.FC<{
       <GiftedChat
         keyboardShouldPersistTaps={'never'}
         wrapInSafeArea={false}
-        onLoadEarlier={() => onLoadEarlier()}
+        // onLoadEarlier={() => onLoadEarlier()}
         showUserAvatar
         renderAvatar={({currentMessage}) => {
           return (

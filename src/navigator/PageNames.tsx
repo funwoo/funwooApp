@@ -18,4 +18,5 @@ export const PageNames = {
   userContact: 'userContact',
   entrance: 'entrance',
   backyard: 'backyard',
+  'contact-us': 'contact-us',
 } as const;
