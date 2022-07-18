@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Animated} from 'react-native';
-import FastImage, {FastImageProps} from 'react-native-fast-image';
+import FastImage, {FastImageProps, OnLoadEvent} from 'react-native-fast-image';
 import {Image} from 'react-native-magnus';
 
 interface MagnusStyle {
@@ -68,8 +68,9 @@ const CacheImage = (props: FastImageProps & MagnusStyle & AnimationProps) => {
     };
   }, []);
 
-  const startAnimation = () => {
+  const startAnimation = (event: OnLoadEvent) => {
     AnimatedRef.current.start();
+    props.onLoad?.(event);
   };
 
   if (typeof props?.source !== 'number') {

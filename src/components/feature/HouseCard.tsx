@@ -8,7 +8,7 @@ import {
 import {useDimensionsContext} from '../../context/DimensionsContext';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import ImageSwiper from './Swiper/ImageSwiper';
-import {PageNames} from '../../navigator/PageNames';
+import {HouseStackPageName, PageNames} from '../../navigator/PageNames';
 import {useTailwind} from 'tailwind-rn';
 import AddFavoriteButton from './AddFavoriteButton';
 import Text, {TextStringSizeEnum} from '../common/Text/BaseText';
@@ -34,7 +34,10 @@ const HouseCard: React.FC<Props> = ({data}) => {
 
   const onPress = useCallback(() => {
     navigation.navigate(PageNames.house, {
-      sid: data.sid,
+      screen: HouseStackPageName.detail,
+      params: {
+        sid: data.sid,
+      },
     });
   }, [data.sid, navigation]);
 

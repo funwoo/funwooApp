@@ -70,7 +70,7 @@ const Text: React.FC<TextProps> = ({
   }, [fontSize, style]);
 
   const color = useMemo(() => {
-    switch (style?.color) {
+    switch (style?.color ?? 'gray900') {
       case 'white':
         return '#ffffff';
       case 'gray50':
@@ -103,13 +103,19 @@ const Text: React.FC<TextProps> = ({
       allowFontScaling={false}
       {...props}
       style={{
+        ...style,
         fontSize: _fontSize,
         fontFamily: fontFamily || style?.fontFamily || 'NotoSansTC-Regular',
+        fontWeight:
+          fontFamily === 'NotoSansTC-Medium'
+            ? '500'
+            : fontFamily === 'NotoSansTC-Bold'
+            ? '700'
+            : '400',
         lineHeight: style?.lineHeight
           ? scale(style?.lineHeight)
           : _fontSize + 4,
         color,
-        ...style,
       }}>
       {children}
     </RCTText>

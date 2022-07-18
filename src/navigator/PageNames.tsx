@@ -2,16 +2,18 @@ export const PageNames = {
   entranceTabs: 'entranceTabs',
   backyardTabs: 'backyardTabs',
   home: 'home',
+
   searchHouse: 'searchHouse',
   house: 'house',
-  fav: 'fav',
+  myFavorite: 'myFavorite',
   sell: 'sell',
-  agent: 'agent',
-  'agent-detail': 'agent-detail',
-  job: 'job',
-  'job-detail': 'job-detail',
   more: 'more',
+
   signIn: 'signIn',
+  // agent: 'agent',
+  // 'agent-detail': 'agent-detail',
+  // job: 'job',
+  // 'job-detail': 'job-detail',
   chatroom: 'chatroom',
   photoLibrary: 'photoLibrary',
   imageViewer: 'imageViewer',
@@ -20,4 +22,25 @@ export const PageNames = {
   backyard: 'backyard',
   'contact-us': 'contact-us',
   'queued-chat-list': 'queued-chat-list',
+} as const;
+
+export const HouseStackPageName = {
+  detail: 'detail',
+  addAddress: 'addAddress',
+  map: 'map',
+  street: 'street',
+} as const;
+
+export const MoreStackPageName = {
+  navigate: 'navigate',
+  aboutUs: 'aboutUs',
+  aboutFounder: 'aboutFounder',
+  agents: 'agents',
+  jobs: 'jobs',
+  contactUs: 'contactUs',
+  overseas: 'overseas',
+  serviceTerms: 'serviceTerms',
+  privatePolicy: 'privatePolicy',
+  userCookieTerms: 'userCookieTerms',
+  license: 'license',
 } as const;

@@ -11,7 +11,7 @@ import {useAsync} from 'react-use';
 import {swaggerHttpClient} from '../../../swagger';
 import HouseCard from '../../../components/feature/HouseCard';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {PageNames} from '../../../navigator/PageNames';
+import {MoreStackPageName, PageNames} from '../../../navigator/PageNames';
 import {Agent} from '../../../swagger/funwoo.api';
 import {ImageProvider} from '../../../assets';
 import BaseIcon from '../../../components/common/icons/Icons/BaseIcon';
@@ -177,7 +177,9 @@ const Consultant: React.FC<{consultant: Agent | undefined}> = ({
         <Pressable
           style={tailwind('py-2 bg-black justify-center items-center')}
           onPress={() => {
-            navigation.navigate(PageNames.agent);
+            navigation.navigate(PageNames.more, {
+              screen: MoreStackPageName.agents,
+            });
           }}>
           <Text
             style={tailwind('text-white font-sans-m')}

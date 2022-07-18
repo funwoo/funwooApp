@@ -1,58 +1,120 @@
-import React, {useMemo, useRef} from 'react';
-import {Image, Pressable, SafeAreaView, ScrollView, View} from 'react-native';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
-  NavigationProp,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+  LayoutChangeEvent,
+  Linking,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {useAsync} from 'react-use';
 import {swaggerHttpClient} from '../../../swagger';
 import {useTailwind} from 'tailwind-rn';
 import Text, {
   TextStringSizeEnum,
 } from '../../../components/common/Text/BaseText';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
-import {useMyFavoriteContext} from '../../../context/MyFavoriteContext';
-import openShare from '../../../lib/Share';
-import ImageSwiper from '../../../components/feature/Swiper/ImageSwiper';
-import {listingImageSorter} from '../../../components/feature/HouseCard';
-import {noop} from 'react-use/lib/misc/util';
-import {useDimensionsContext} from '../../../context/DimensionsContext';
 import {ImageProvider} from '../../../assets';
-import ConditionalFragment from '../../../components/common/ConditionalFragment';
-import {RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
-import {RecyclerListViewState} from 'recyclerlistview/src/core/RecyclerListView';
-import {
-  chineseNumeralFormatter,
-  isNotEmptyArray,
-  isSet,
-  labelAreaFormatter,
-  patternFormatter,
-  totalSizeFormatter,
-} from '../../../utils';
 import HouseDetail from './components/HouseDetail';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import classNames from 'classnames';
 import HouseFeature from './components/HouseFeature';
 import HouseEnvironment from './components/HouseEnvironment';
+import HouseAgentSection from './components/HouseAgentSection';
+import HouseLoan from './components/HouseLoan';
+import BaseIcon from '../../../components/common/icons/Icons/BaseIcon';
+import CacheImage from '../../../components/common/CacheImage';
+import HouseHeader from './components/HouseHeader';
+import HousePhoneCallModal from './components/HousePhoneCallModal';
+import HouseInformation from './components/HouseInformation';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import HouseTabs, {TabData} from './components/HouseTabs';
+import {inRange} from 'lodash';
+import {deepClone} from '../../../utils';
 
 const HouseScreen = () => {
+  const [showPhoneCallModal, setShowPhoneCallModal] = useState<boolean>(false);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const [tabs, setTabs] = useState<Array<TabData>>([
+    {
+      key: 'information',
+      label: '房屋資訊',
+      yAxis: 0,
+      tabWidth: 0,
+      tabXOffset: 0,
+    },
+    {
+      key: 'detail',
+      label: '詳細資料',
+      yAxis: 0,
+      tabWidth: 0,
+      tabXOffset: 0,
+    },
+    {
+      key: 'feature',
+      label: '物件特色',
+      yAxis: 0,
+      tabWidth: 0,
+      tabXOffset: 0,
+    },
+    {
+      key: 'environment',
+      label: '周邊環境',
+      yAxis: 0,
+      tabWidth: 0,
+      tabXOffset: 0,
+    },
+    {
+      key: 'agent',
+      label: '房產顧問',
+      yAxis: 0,
+      tabWidth: 0,
+      tabXOffset: 0,
+    },
+  ]);
+
+  const {bottom} = useSafeAreaInsets();
+
+  const scrollViewRef = useRef<ScrollView | null>(null);
+
+  const activeTabIndex = useMemo(() => {
+    const index = tabs.findIndex(({yAxis}, _index, array) => {
+      const next = array[_index + 1];
+      const yAxisEnd = next?.yAxis ? next.yAxis - 1 : Number.MAX_VALUE;
+      return inRange(scrollPosition, yAxis, yAxisEnd);
+    });
+    return index >= 0 ? index : 0;
+  }, [scrollPosition]);
+
+  const registryTab = useCallback((index: number) => {
+    return (event: LayoutChangeEvent) => {
+      setTabs(prev => {
+        let _tabs = deepClone(prev);
+        const {y} = event.nativeEvent.layout;
+        _tabs[index].yAxis = y;
+
+        return _tabs;
+      });
+    };
+  }, []);
+
+  const registryTabItem = useCallback((index: number) => {
+    return (event: LayoutChangeEvent) => {
+      setTabs(prev => {
+        let _tabs = deepClone(prev);
+        const {width, x} = event.nativeEvent.layout;
+        _tabs[index].tabWidth = width;
+        _tabs[index].tabXOffset = x;
+        return _tabs;
+      });
+    };
+  }, []);
+
   const {
     params: {sid},
-  } = useRoute<RouteProp<EntranceRootStackParamsList, 'house'>>();
-  const navigate = useNavigation<NavigationProp<EntranceRootStackParamsList>>();
+  } = useRoute<RouteProp<HouseScreenStackParamsList, 'detail'>>();
+
   const tailwind = useTailwind();
-  const {sids, updateFavorite} = useMyFavoriteContext();
-  const isFavorite = useMemo(() => sids.includes(sid), [sids, sid]);
-  const {width, numColumn, imageAspectRatio} = useDimensionsContext();
-  const itemWidth = width / numColumn;
-  const itemHeight = itemWidth / imageAspectRatio;
-  const imageSwiperScrollViewRef = useRef<RecyclerListView<
-    RecyclerListViewProps,
-    RecyclerListViewState
-  > | null>(null);
 
   const {value: data} = useAsync(
     async () =>
@@ -62,204 +124,120 @@ const HouseScreen = () => {
     [sid],
   );
 
-  const sortedImages = useMemo(
-    () =>
-      Array.isArray(data?.listing_image)
-        ? listingImageSorter(data!.listing_image)
-        : [],
-    [data],
+  const {value: agent} = useAsync(
+    async () =>
+      data
+        ? await swaggerHttpClient.agentApi
+            .findOne(data.agent1_id)
+            .then(response => response.data)
+        : null,
+    [data?.agent1_id],
   );
 
-  const imageUrls = useMemo(
-    () => sortedImages.map(({watermark_image}) => watermark_image!),
-    [sortedImages],
+  const triggerPhoneCallModal = useCallback(
+    () => setShowPhoneCallModal(prev => !prev),
+    [],
   );
 
-  const videoUrls = useMemo(() => {
-    const result =
-      data?.listing_video?.map(video => video.video_url) ??
-      data?.youtube_video_ids?.map(
-        id => `https://www.youtube.com/watch?v=${id}`,
-      ) ??
-      [];
-    return result.filter(isSet);
-  }, [data]);
-
-  const firstLayoutImageIndex = useMemo(() => {
-    return sortedImages.findIndex(image => image.tag === 'layout');
-  }, [sortedImages]);
-
-  const hasLayoutImage = firstLayoutImageIndex >= 0;
-  const hasVideo = isNotEmptyArray(videoUrls);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const yPosition = event.nativeEvent.contentOffset.y;
+      setScrollPosition(yPosition);
+    },
+    [],
+  );
 
   if (!data) {
     return null;
   }
 
   return (
-    <SafeAreaView style={tailwind('bg-white')}>
-      <View style={tailwind('flex-row items-center justify-between py-1')}>
-        <View style={tailwind('flex-row')}>
-          <Pressable
-            onPress={() => navigate.goBack()}
-            style={tailwind('items-center justify-center w-12 h-12')}>
-            <AntDesignIcon size={20} name={'arrowleft'} />
-          </Pressable>
-          <View style={tailwind('w-12 h-12')} />
+    <React.Fragment>
+      <HousePhoneCallModal
+        show={showPhoneCallModal}
+        triggerPhoneCallModal={triggerPhoneCallModal}
+        agent={agent}
+      />
+      <SafeAreaView style={tailwind('bg-white flex-1')}>
+        <HouseHeader title={data.title} />
+        <View style={tailwind('flex-1')}>
+          <HouseTabs
+            activeTabIndex={activeTabIndex}
+            yPosition={scrollPosition}
+            tabs={tabs}
+            scrollViewRef={scrollViewRef}
+            registryTabItem={registryTabItem}
+          />
+          <ScrollView
+            ref={scrollViewRef}
+            onScroll={onScroll}
+            scrollEventThrottle={16}>
+            <View onLayout={registryTab(0)}>
+              <HouseInformation data={data} />
+            </View>
+            <View onLayout={registryTab(1)}>
+              <HouseDetail {...data} />
+            </View>
+            <Divider />
+            <View onLayout={registryTab(2)}>
+              <HouseFeature {...data} />
+            </View>
+            <Divider />
+            <View onLayout={registryTab(3)}>
+              <HouseEnvironment {...data} />
+            </View>
+            <Divider />
+            <HouseLoan {...data} />
+            <Divider />
+            <View onLayout={registryTab(4)}>
+              <HouseAgentSection agent={agent} />
+            </View>
+            <Divider />
+            <View style={tailwind('h-16')} />
+          </ScrollView>
         </View>
-        <Text
-          fontFamily={'NotoSansTC-Medium'}
-          fontSize={TextStringSizeEnum['3xl']}>
-          {data.title}
-        </Text>
-        <View style={tailwind('flex-row')}>
+        <View
+          style={[tailwind('absolute flex-row px-4 w-full z-50'), {bottom}]}>
           <Pressable
-            onPress={() => updateFavorite(sid, !isFavorite)}
-            style={tailwind('items-center justify-center w-12 h-12')}>
-            <AntDesignIcon size={20} name={isFavorite ? 'heart' : 'hearto'} />
-          </Pressable>
-          <Pressable
-            onPress={() =>
-              openShare(
-                `https://funwoo.com.tw/buy/${sid}`,
-                '你覺得這個物件如何',
-                data.title,
-              )
-            }
-            style={tailwind('items-center justify-center w-12 h-12')}>
-            <EntypoIcon size={20} name={'share'} />
-          </Pressable>
-        </View>
-      </View>
-      <ScrollView>
-        <ImageSwiper
-          width={itemWidth}
-          height={itemHeight}
-          imageUrls={imageUrls}
-          videoUrls={videoUrls}
-          onItemPress={noop}
-          status={data.status!}
-          customRef={imageSwiperScrollViewRef}
-        />
-        <ConditionalFragment condition={hasLayoutImage || hasVideo}>
-          <View
-            style={tailwind('flex-row items-center justify-center pt-4 pb-2')}>
-            <ConditionalFragment condition={hasVideo}>
-              <Pressable
-                onPress={() => {
-                  imageSwiperScrollViewRef.current?.scrollToIndex(
-                    imageUrls.length,
-                  );
-                }}
-                style={tailwind(
-                  classNames(
-                    'flex-row items-center py-1 px-4 border rounded-extreme',
-                    {
-                      'mr-4': hasLayoutImage,
-                    },
-                  ),
-                )}>
-                <View
-                  style={tailwind(
-                    'items-center justify-center w-6 h-6 mr-2.5',
-                  )}>
-                  <Icon name={'play'} />
-                </View>
-                <Text
-                  fontFamily={'NotoSansTC-Medium'}
-                  fontSize={TextStringSizeEnum.md}>
-                  影片
-                </Text>
-              </Pressable>
-            </ConditionalFragment>
-            <ConditionalFragment condition={hasLayoutImage}>
-              <Pressable
-                onPress={() => {
-                  imageSwiperScrollViewRef.current?.scrollToIndex(
-                    firstLayoutImageIndex,
-                  );
-                }}
-                style={tailwind(
-                  'flex-row items-center py-1 px-4 border rounded-extreme',
-                )}>
-                <Image
-                  source={ImageProvider.layout_icon}
-                  style={tailwind('w-6 h-6 mr-2.5')}
-                />
-                <Text
-                  fontFamily={'NotoSansTC-Medium'}
-                  fontSize={TextStringSizeEnum.md}>
-                  格局圖
-                </Text>
-              </Pressable>
-            </ConditionalFragment>
-          </View>
-        </ConditionalFragment>
-        <View style={tailwind('px-4')}>
-          <View style={tailwind('mb-2 py-2 flex-row justify-between')}>
-            <View>
-              <Text fontSize={TextStringSizeEnum.base}>
-                {chineseNumeralFormatter(data.price ?? 0)}
-              </Text>
-              <Text
-                fontSize={TextStringSizeEnum.md}
-                style={tailwind('text-gray700')}>
-                總價位
-              </Text>
-            </View>
-            <View>
-              <Text
-                fontSize={TextStringSizeEnum.base}
-                style={tailwind('text-center')}>
-                {patternFormatter(data)}
-              </Text>
-              <Text
-                fontSize={TextStringSizeEnum.md}
-                style={tailwind('text-gray700 text-center')}>
-                格局
-              </Text>
-            </View>
-            <View>
-              <Text
-                fontSize={TextStringSizeEnum.base}
-                style={tailwind('text-right')}>
-                {totalSizeFormatter(data)}
-              </Text>
-              <Text
-                fontSize={TextStringSizeEnum.md}
-                style={tailwind('text-gray700 text-right')}>
-                {labelAreaFormatter(data.country!)}
-              </Text>
-            </View>
-          </View>
-          <View style={tailwind('flex-row items-center')}>
+            onPress={triggerPhoneCallModal}
+            style={tailwind(
+              'flex-1 flex-row items-center justify-center mr-4 py-3 bg-gray900',
+            )}>
+            <BaseIcon
+              size={20}
+              color={'#FFF'}
+              name={'phone'}
+              type={'FontAwesome'}
+              style={tailwind('mr-2')}
+            />
             <Text
               fontSize={TextStringSizeEnum.base}
-              style={tailwind('text-gray700')}>
-              {data.title}
+              fontFamily={'NotoSansTC-Medium'}
+              style={tailwind('text-white')}>
+              來電諮詢
             </Text>
-            <ConditionalFragment condition={data.display_building_project}>
-              <View style={tailwind('mx-2.5 w-px h-4 bg-gray700')} />
-              <Text
-                fontSize={TextStringSizeEnum.base}
-                style={tailwind('text-gray700')}>
-                {data.building_project}
-              </Text>
-            </ConditionalFragment>
-          </View>
-          <Text
-            fontSize={TextStringSizeEnum.base}
-            style={tailwind('text-gray700')}>
-            {data.display_address}
-          </Text>
+          </Pressable>
+          <Pressable
+            style={tailwind(
+              'flex-1 flex-row items-center justify-center py-3 bg-gray900',
+            )}
+            onPress={() => {
+              Linking.openURL(`${agent?.contact_line}`);
+            }}>
+            <CacheImage
+              style={[{width: 22, height: 22}, tailwind('mr-2')]}
+              source={ImageProvider.lineIconWhite}
+            />
+            <Text
+              fontSize={TextStringSizeEnum.base}
+              fontFamily={'NotoSansTC-Medium'}
+              style={tailwind('text-white')}>
+              加Line 聯絡
+            </Text>
+          </Pressable>
         </View>
-        <HouseDetail {...data} />
-        <Divider />
-        <HouseFeature {...data} />
-        <Divider />
-        <HouseEnvironment {...data} />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </React.Fragment>
   );
 };
 
