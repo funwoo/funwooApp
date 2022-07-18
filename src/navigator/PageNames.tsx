@@ -20,6 +20,8 @@ export const PageNames = {
   userContact: 'userContact',
   entrance: 'entrance',
   backyard: 'backyard',
+  'contact-us': 'contact-us',
+  'queued-chat-list': 'queued-chat-list',
 } as const;
 
 export const HouseStackPageName = {

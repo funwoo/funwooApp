@@ -78,9 +78,6 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
-  - GCDWebServer (3.5.4):
-    - GCDWebServer/Core (= 3.5.4)
-  - GCDWebServer/Core (3.5.4)
   - glog (0.3.5)
   - Google-Maps-iOS-Utils (4.1.0):
     - Google-Maps-iOS-Utils/Clustering (= 4.1.0)
@@ -441,9 +438,6 @@ PODS:
     - React-perflogger (= 0.69.1)
   - ReactNativeStoreView (3.1.2):
     - React
-  - RealmJS (10.19.2):
-    - GCDWebServer
-    - React
   - rn-fetch-blob (0.12.0):
     - React-Core
   - RNBootSplash (4.2.1):
@@ -493,7 +487,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.13.1):
+  - RNScreens (3.15.0):
     - React-Core
     - React-RCTImage
   - RNShare (7.6.4):
@@ -504,8 +498,12 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
+  - simdjson (1.0.0)
   - SocketRocket (0.6.0)
   - SSZipArchive (2.2.3)
+  - WatermelonDB (0.24.0):
+    - React
+    - React-jsi
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -586,7 +584,6 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeStoreView (from `../node_modules/react-native-store-view`)
-  - RealmJS (from `../node_modules/realm`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
@@ -601,6 +598,8 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - SDWebImage
+  - "simdjson (from `../node_modules/@nozbe/simdjson`)"
+  - "WatermelonDB (from `../node_modules/@nozbe/watermelondb`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -617,7 +616,6 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
-    - GCDWebServer
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - JWT
@@ -731,8 +729,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeStoreView:
     :path: "../node_modules/react-native-store-view"
-  RealmJS:
-    :path: "../node_modules/realm"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNBootSplash:
@@ -759,6 +755,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNShare:
     :path: "../node_modules/react-native-share"
+  simdjson:
+    :path: "../node_modules/@nozbe/simdjson"
+  WatermelonDB:
+    :path: "../node_modules/@nozbe/watermelondb"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -780,7 +780,6 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   glog: 3d02b25ca00c2d456734d0bcff864cbc62f6ae1a
   Google-Maps-iOS-Utils: 3343332b18dfd5be8f1f44edd7d481ace3da4d9a
   GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
@@ -833,7 +832,6 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 27f468c5576eaf05ffb7a907528e44c75a3fcbae
   ReactCommon: e30ec17dfb1d4c4f3419eac254350d6abca6d5a2
   ReactNativeStoreView: d686106fc90fa9fbadd1900ca97c7ebb440d6c17
-  RealmJS: a96d96674318e2fa46ed2ac82b18169ae7548c10
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNBootSplash: dd124b8e8bcfc52248c22cdb75b605a80031f40a
   RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
@@ -845,15 +843,17 @@ SPEC CHECKSUMS:
   RNLocalize: 95a43f85e41a966be7bc9cff2437128911c52da0
   RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNReanimated: 2cf7451318bb9cc430abeec8d67693f9cf4e039c
-  RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
+  RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
   RNShare: 4406f61af043027b695c3a0b8f39e2c2bdacde12
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
+  simdjson: c96317b3a50dff3468a42f586ab7ed22c6ab2fd9
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  WatermelonDB: e043b1a32ddc63864eb539b562e86ef80f8224cd
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8757940418e5a8ffb786e684de243cfa01be3365
+PODFILE CHECKSUM: f810b75dae7737e40be6d7d69b67ef6fab475058
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2

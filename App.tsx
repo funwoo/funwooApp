@@ -8,27 +8,30 @@
  * @format
  */
 
-import React, { Suspense } from 'react';
-import { AppStateStatus, LogBox, View } from 'react-native';
+import React, {Suspense} from 'react';
+import {AppStateStatus, LogBox, View} from 'react-native';
 import useAppState from 'react-native-appstate-hook';
-import { focusManager, QueryClient, QueryClientProvider } from 'react-query';
-import { RecoilRoot } from 'recoil';
+import {focusManager, QueryClient, QueryClientProvider} from 'react-query';
+import {RecoilRoot} from 'recoil';
 import UserInfoContextProvider from './src/context/UserInfoContextProvider';
-import Config from './src/models/index';
+// import Config from './src/models/index';
 import Main from './src/navigator';
 import Toast from 'react-native-toast-message';
 import DimensionsContextProvider from './src/context/DimensionsContext';
-import { TailwindProvider } from 'tailwind-rn';
+import {TailwindProvider} from 'tailwind-rn';
 import utilities from './tailwind.json';
-import { MyFavoriteContextProvider } from './src/context/MyFavoriteContext';
+import {MyFavoriteContextProvider} from './src/context/MyFavoriteContext';
 import Spinner from './src/components/feature/Spinner';
 import CodePush from 'react-native-code-push';
-
+import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
+import {database} from '.';
+import RNFetchBlob from 'rn-fetch-blob';
 LogBox.ignoreAllLogs(true);
+console.log(RNFetchBlob.fs.dirs.DocumentDir);
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 2 } },
+  defaultOptions: {queries: {retry: 2}},
 });
-const { RealmProvider } = Config;
+// const {RealmProvider} = Config;
 
 const App = () => {
   function onAppStateChange(status: AppStateStatus) {
@@ -39,10 +42,10 @@ const App = () => {
     onChange: onAppStateChange,
   });
   return (
-    <TailwindProvider utilities={utilities}>
-      <Suspense fallback={<View style={{ flex: 1 }} />}>
-        <DimensionsContextProvider>
-          <RealmProvider>
+    <DatabaseProvider database={database}>
+      <TailwindProvider utilities={utilities}>
+        <Suspense fallback={<View style={{flex: 1}} />}>
+          <DimensionsContextProvider>
             <QueryClientProvider client={queryClient}>
               <RecoilRoot>
                 <UserInfoContextProvider>
@@ -53,11 +56,11 @@ const App = () => {
                 </UserInfoContextProvider>
               </RecoilRoot>
             </QueryClientProvider>
-          </RealmProvider>
-        </DimensionsContextProvider>
-        <Toast />
-      </Suspense>
-    </TailwindProvider>
+          </DimensionsContextProvider>
+          <Toast />
+        </Suspense>
+      </TailwindProvider>
+    </DatabaseProvider>
   );
 };
 const codePushOptions = {

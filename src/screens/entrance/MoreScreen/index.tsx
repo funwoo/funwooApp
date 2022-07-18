@@ -1,3 +1,5 @@
+import {Image, Pressable} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Platform, SectionList, View} from 'react-native';
 import {ListItem} from './components/ListItem';
