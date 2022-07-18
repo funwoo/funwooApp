@@ -39,6 +39,7 @@ const socketUrl = 'wss://crm.funwoo.com.tw/websocket';
 const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
   const roomSubId = useRef(uuid.v4());
   const {userInfo} = useUserInfoContextProvider();
+  const currentRoomId = useRef('');
   const [webSocketStatus, setWebsocketStatus] =
     useState<webSocketStatusType>('嘗試連接中');
   const RoomMessageChangeCallbackRef =
@@ -93,13 +94,12 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
           .get(ROOMS_TABLE)
           .query(Q.where('custom_id', data.fields.args[1].v._id))
           .fetch();
-
         database.write(async () => {
           if (room.length === 0) {
             await database.get(ROOMS_TABLE).create(room => {
               room.custom_id = item.v._id;
               room.name = item.fname;
-              room.username = item.username;
+              room.username = item?.v?.username;
               room.token = item.v.token;
               room.phone = [];
               room.roomId = item._id ?? '';
@@ -117,7 +117,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
               await existRoom.update(room => {
                 room.custom_id = item.v._id;
                 room.name = item.fname;
-                room.username = item.username;
+                room.username = item?.v?.username;
                 room.token = item.v.token;
                 room.phone = existRoom.phone;
                 room.roomId = item._id ?? '';
@@ -125,7 +125,10 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
                 room.line_id = existRoom.line_id;
                 room.date = moment(item.ts.date).unix() ?? 0;
                 room.avatar = visitor?.visitor?.livechatData?.avatar ?? '';
-                room.unread = existRoom.unread + 1 ?? 0;
+                room.unread =
+                  currentRoomId.current === item._id
+                    ? 0
+                    : existRoom.unread + 1 ?? 0;
               });
             }
           }
@@ -133,7 +136,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
       } else if (data.collection === 'stream-room-messages') {
         try {
           const messageData = data?.fields?.args?.[0] ?? {};
-          debugger;
+
           database.write(async () => {
             await database.get(MESSAGES_TABLE).create(message => {
               message.message_id = messageData._id;
@@ -184,6 +187,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
   });
   const onEnterRoom = useCallback(
     (roomId: string) => {
+      currentRoomId.current = roomId;
       roomSubId.current = uuid.v4();
       console.log(roomId, roomSubId.current);
       sendJsonMessage({
@@ -201,6 +205,7 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
       id: roomSubId.current,
     });
     roomSubId.current = uuid.v4();
+    currentRoomId.current = '';
   }, [sendJsonMessage]);
   return (
     <>

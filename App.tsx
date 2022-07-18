@@ -25,7 +25,9 @@ import Spinner from './src/components/feature/Spinner';
 import CodePush from 'react-native-code-push';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import {database} from '.';
+import RNFetchBlob from 'rn-fetch-blob';
 LogBox.ignoreAllLogs(true);
+console.log(RNFetchBlob.fs.dirs.DocumentDir);
 const queryClient = new QueryClient({
   defaultOptions: {queries: {retry: 2}},
 });

@@ -85,9 +85,9 @@ const ChatRoomScreen: React.FC<{
     [messages],
   );
   useEffect(() => {
-    readAll(route.params.id);
+    readAll(route.params.roomId);
     return () => {
-      readAll(route.params.id);
+      readAll(route.params.roomId);
     };
   }, []);
   useEffect(() => {

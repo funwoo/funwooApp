@@ -616,7 +616,6 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
-    - GCDWebServer
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - JWT
@@ -855,6 +854,6 @@ SPEC CHECKSUMS:
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8757940418e5a8ffb786e684de243cfa01be3365
+PODFILE CHECKSUM: f810b75dae7737e40be6d7d69b67ef6fab475058
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2
