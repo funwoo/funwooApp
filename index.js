@@ -12,6 +12,7 @@ import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 import schema from './src/model/schema';
 import migrations from './src/model/migrations';
 import Room from './src/model/Room';
+import Message from './src/model/Message';
 //OneSignal Init Code
 OneSignal.setLogLevel(6, 0);
 OneSignal.setAppId('d260862b-2c7c-40d0-ac53-515ee932d7b7');
@@ -58,6 +59,7 @@ const adapter = new SQLiteAdapter({
 });
 export const database = new Database({
   adapter,
-  modelClasses: [Room],
+  modelClasses: [Room, Message],
+  actionsEnabled: true,
 });
 AppRegistry.registerComponent(appName, () => App);

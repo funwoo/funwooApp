@@ -5,6 +5,7 @@ import {ROOMS_TABLE} from '../Room';
 //@ts-ignore
 import RNUserdefaults from '@tranzerdev/react-native-user-defaults';
 import moment from 'moment';
+
 const readAll = async (rid: string) => {
   const rooms = await database
     .get(ROOMS_TABLE)
@@ -12,8 +13,10 @@ const readAll = async (rid: string) => {
     .fetch();
   await database.write(async () => {
     await database.batch(
+      //@ts-ignore
       rooms.map(item => {
         return item.update(room => {
+          //@ts-ignore
           room.unread = 0;
         });
       }),
@@ -47,7 +50,6 @@ export const updateOrCreate = (
     unread: number;
   },
 ) => {
-  console.log('roomId', roomId);
   return new Promise(async (resolve, reject) => {
     await RNUserdefaults.setFromSuite(
       JSON.stringify({

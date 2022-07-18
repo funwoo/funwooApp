@@ -1,4 +1,11 @@
-import React, {createContext, FC, useContext, useRef, useState} from 'react';
+import React, {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import uuid from 'react-native-uuid';
 import useWebSocket from 'react-native-use-websocket';
 import {StreamRoomMessagesProps} from '../types/StreamRoomMessagesPropsType';
@@ -8,25 +15,32 @@ import {ROOMS_TABLE} from '../model/Room';
 import {Q} from '@nozbe/watermelondb';
 import moment from 'moment';
 import apis from '../network/apis';
+import {MESSAGES_TABLE} from '../model/Message';
+import {
+  getImageValue,
+  saveMessage,
+  updateOrCreateMessage,
+} from '../model/lib/Message';
 
 interface WebsocketContextProviderProps {
   sendJsonMessage: (value: Object) => void;
-  removeRoomChangeCallcak: () => void;
   setRoomMessageChangeCallback: (
     callback: (value: RoomChangeProps) => void,
   ) => void;
   removeRoomMessageChangeCallback: () => void;
   webSocketStatus: webSocketStatusType;
+  onEnterRoom: (roomId: string) => void;
+  onExitRoom: () => void;
 }
 
 const WebsocketContext = createContext({} as WebsocketContextProviderProps);
 export type webSocketStatusType = '嘗試連接中' | '錯誤' | '已連接';
 const socketUrl = 'wss://crm.funwoo.com.tw/websocket';
 const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
+  const roomSubId = useRef(uuid.v4());
   const {userInfo} = useUserInfoContextProvider();
   const [webSocketStatus, setWebsocketStatus] =
     useState<webSocketStatusType>('嘗試連接中');
-  const RoomChangeCallbackRef = useRef<(value: RoomChangeProps) => void>();
   const RoomMessageChangeCallbackRef =
     useRef<(value: StreamRoomMessagesProps) => void>();
   const setRoomMessageChangeCallback = (
@@ -36,9 +50,6 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
   };
   const removeRoomMessageChangeCallback = () => {
     RoomMessageChangeCallbackRef.current = undefined;
-  };
-  const removeRoomChangeCallcak = () => {
-    RoomChangeCallbackRef.current = undefined;
   };
   const {
     sendMessage,
@@ -119,13 +130,33 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
             }
           }
         });
-
-        RoomChangeCallbackRef.current && RoomChangeCallbackRef?.current(data);
       } else if (data.collection === 'stream-room-messages') {
-        RoomMessageChangeCallbackRef.current &&
-          RoomMessageChangeCallbackRef.current(data);
+        try {
+          const messageData = data?.fields?.args?.[0] ?? {};
+          debugger;
+          database.write(async () => {
+            await database.get(MESSAGES_TABLE).create(message => {
+              message.message_id = messageData._id;
+              message.text = messageData?.msg ?? '';
+              message.name = messageData?.u?.name;
+              message.avatar = messageData?.attachments ? 'image' : 'Text';
+              message.date = moment().unix();
+              message.type = 'text';
+              message.image = getImageValue(messageData);
+              message.isEarliest = false;
+              message.userId = messageData?.u?._id;
+              message.roomId = messageData.rid;
+              message.username = messageData?.u?.username;
+            });
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        // RoomMessageChangeCallbackRef.current &&
+        //   RoomMessageChangeCallbackRef.current(data);
       } else {
-        console.log(data);
+        console.log('onMessage', data);
       }
     },
     onOpen: () => {
@@ -151,6 +182,26 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
       setWebsocketStatus('嘗試連接中');
     },
   });
+  const onEnterRoom = useCallback(
+    (roomId: string) => {
+      roomSubId.current = uuid.v4();
+      console.log(roomId, roomSubId.current);
+      sendJsonMessage({
+        msg: 'sub',
+        id: roomSubId.current,
+        name: 'stream-room-messages',
+        params: [roomId, false],
+      });
+    },
+    [sendJsonMessage],
+  );
+  const onExitRoom = useCallback(() => {
+    sendJsonMessage({
+      msg: 'unsub',
+      id: roomSubId.current,
+    });
+    roomSubId.current = uuid.v4();
+  }, [sendJsonMessage]);
   return (
     <>
       <WebsocketContext.Provider
@@ -159,7 +210,8 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
           sendJsonMessage: sendJsonMessage,
           setRoomMessageChangeCallback,
           removeRoomMessageChangeCallback,
-          removeRoomChangeCallcak: removeRoomChangeCallcak,
+          onEnterRoom: onEnterRoom,
+          onExitRoom: onExitRoom,
         }}>
         {children}
       </WebsocketContext.Provider>

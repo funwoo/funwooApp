@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import {ContactProps} from './entities/contact-enity';
 import {CustomFieldsProps} from './entities/custom-fields.entity';
 import {VisitorResponse} from './entities/visitor-enity';
+import {InquiriesQueuedListProps} from './entities/Inquiries-queued-list-enity';
 
 class Apis {
   getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
@@ -132,6 +133,24 @@ class Apis {
         params: {
           contactId: contactId,
         },
+      },
+    );
+  }
+  getInquiriesQueuedList(offset?: number) {
+    return rockatchatAPIHttpClient.get<InquiriesQueuedListProps>(
+      '/api/v1/livechat/inquiries.queued',
+      {
+        params: {
+          offset: offset,
+        },
+      },
+    );
+  }
+  takeChat(inquiryId: string) {
+    return rockatchatAPIHttpClient.post<InquiriesQueuedListProps>(
+      '/api/v1/livechat/inquiries.take',
+      {
+        inquiryId: inquiryId,
       },
     );
   }

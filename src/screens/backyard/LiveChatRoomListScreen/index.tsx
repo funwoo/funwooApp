@@ -1,4 +1,4 @@
-import {FlatList, Text, TextInput, View} from 'react-native';
+import {FlatList, Pressable, Text, TextInput, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import moment from 'moment';
 import 'moment/locale/zh-tw';
@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useWebSocketContext} from '../../../context/WebsocketContextProvider';
 import {useRefreshOnFocus} from '../../../hooks/useRefreshOnFocus';
 import Apis from '../../../network/apis';
-
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import ChatListItem from './components/ChatListItem';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {PageNames} from '../../../navigator/PageNames';
@@ -99,21 +99,30 @@ const LiveChatRoomListScreen = ({rooms}) => {
           padding: 16,
           flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}>
-        <Avatar
-          style={{width: 40, height: 40}}
-          name={userInfo?.name}
-          uri={userInfo?.image}
-        />
-        <Text
-          style={{
-            marginLeft: 16,
-            color: '#212121',
-            fontWeight: '400',
-            fontSize: 20,
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Avatar
+            style={{width: 40, height: 40}}
+            name={userInfo?.name}
+            uri={userInfo?.image}
+          />
+          <Text
+            style={{
+              marginLeft: 16,
+              color: '#212121',
+              fontWeight: '400',
+              fontSize: 20,
+            }}>
+            {userInfo?.name}
+          </Text>
+        </View>
+        <Pressable
+          onPress={() => {
+            navigation.navigate(PageNames['queued-chat-list']);
           }}>
-          {userInfo?.name}
-        </Text>
+          <Ionicons name="notifications-outline" size={24} color="black" />
+        </Pressable>
       </View>
       <View
         style={{

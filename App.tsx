@@ -14,7 +14,7 @@ import useAppState from 'react-native-appstate-hook';
 import {focusManager, QueryClient, QueryClientProvider} from 'react-query';
 import {RecoilRoot} from 'recoil';
 import UserInfoContextProvider from './src/context/UserInfoContextProvider';
-import Config from './src/models/index';
+// import Config from './src/models/index';
 import Main from './src/navigator';
 import Toast from 'react-native-toast-message';
 import DimensionsContextProvider from './src/context/DimensionsContext';
@@ -29,7 +29,7 @@ LogBox.ignoreAllLogs(true);
 const queryClient = new QueryClient({
   defaultOptions: {queries: {retry: 2}},
 });
-const {RealmProvider} = Config;
+// const {RealmProvider} = Config;
 
 const App = () => {
   function onAppStateChange(status: AppStateStatus) {
@@ -44,18 +44,16 @@ const App = () => {
       <TailwindProvider utilities={utilities}>
         <Suspense fallback={<View style={{flex: 1}} />}>
           <DimensionsContextProvider>
-            <RealmProvider>
-              <QueryClientProvider client={queryClient}>
-                <RecoilRoot>
-                  <UserInfoContextProvider>
-                    <MyFavoriteContextProvider>
-                      <Main />
-                      {/* <Spinner /> */}
-                    </MyFavoriteContextProvider>
-                  </UserInfoContextProvider>
-                </RecoilRoot>
-              </QueryClientProvider>
-            </RealmProvider>
+            <QueryClientProvider client={queryClient}>
+              <RecoilRoot>
+                <UserInfoContextProvider>
+                  <MyFavoriteContextProvider>
+                    <Main />
+                    {/* <Spinner /> */}
+                  </MyFavoriteContextProvider>
+                </UserInfoContextProvider>
+              </RecoilRoot>
+            </QueryClientProvider>
           </DimensionsContextProvider>
           <Toast />
         </Suspense>

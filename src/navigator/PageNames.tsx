@@ -19,4 +19,5 @@ export const PageNames = {
   entrance: 'entrance',
   backyard: 'backyard',
   'contact-us': 'contact-us',
+  'queued-chat-list': 'queued-chat-list',
 } as const;

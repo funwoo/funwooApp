@@ -11,6 +11,7 @@ import {BackyardNavigatorTabs} from './BackyardNavigatorTabs';
 import {PageNames} from './PageNames';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import UserDetailScreen from '../screens/backyard/UserContactScreen';
+import QuenedChatList from '../screens/backyard/QuenedChatList';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,6 @@ const BackyardNavigatorStack = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          animation: 'fade',
         }}
         initialRouteName={'backyardTabs'}>
         <Stack.Screen name="backyardTabs" component={BackyardNavigatorTabs} />
@@ -58,7 +58,10 @@ const BackyardNavigatorStack = () => {
                     navigation.navigate(PageNames.userContact, {
                       platform: route.params.platform,
                       name: route.params.name,
-                      id: route.params.id,
+                      id:
+                        route.params?.username
+                          ?.replace('line:', '')
+                          ?.replace('facebook:', '') ?? '',
                     })
                   }>
                   <AntDesign size={25} name={'infocirlceo'} color={'black'} />
@@ -68,6 +71,15 @@ const BackyardNavigatorStack = () => {
           })}
           name={PageNames.chatroom}
           component={ChatRoomScreen}
+        />
+        <Stack.Screen
+          options={({route}) => ({
+            headerShown: true,
+            headerBackTitle: '返回',
+            title: '等待接待的用戶',
+          })}
+          name={PageNames['queued-chat-list']}
+          component={QuenedChatList}
         />
         <Stack.Screen
           options={({route}) => ({
