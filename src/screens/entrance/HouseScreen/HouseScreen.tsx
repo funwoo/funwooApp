@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   LayoutChangeEvent,
   Linking,
@@ -147,10 +147,98 @@ const HouseScreen = () => {
     [],
   );
 
+  const HouseInformationRef = useRef<View>(null);
+  const HouseDetailRef = useRef<View>(null);
+  const HouseFeatureRef = useRef<View>(null);
+  const HouseEnvironmentRef = useRef<View>(null);
+  const HouseAgentSectionRef = useRef<View>(null);
+  useEffect(() => {
+    if (agent && data) {
+      HouseInformationRef.current?.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          setTabs(tabs => {
+            let temp = tabs;
+            temp[0].yAxis = y;
+            return temp;
+          });
+        },
+      );
+      HouseDetailRef.current?.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          setTabs(tabs => {
+            let temp = tabs;
+            temp[1].yAxis = y;
+            return temp;
+          });
+        },
+      );
+      HouseFeatureRef.current?.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          setTabs(tabs => {
+            let temp = tabs;
+            temp[2].yAxis = y;
+            return temp;
+          });
+        },
+      );
+      HouseEnvironmentRef.current?.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          setTabs(tabs => {
+            let temp = tabs;
+            temp[3].yAxis = y;
+            return temp;
+          });
+        },
+      );
+      HouseAgentSectionRef.current?.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          setTabs(tabs => {
+            let temp = tabs;
+            temp[4].yAxis = y;
+            return temp;
+          });
+        },
+      );
+    }
+  }, [agent, data]);
   if (!data) {
     return null;
   }
-
   return (
     <React.Fragment>
       <HousePhoneCallModal
@@ -172,24 +260,24 @@ const HouseScreen = () => {
             ref={scrollViewRef}
             onScroll={onScroll}
             scrollEventThrottle={16}>
-            <View onLayout={registryTab(0)}>
+            <View ref={HouseInformationRef}>
               <HouseInformation data={data} />
             </View>
-            <View onLayout={registryTab(1)}>
+            <View ref={HouseDetailRef}>
               <HouseDetail {...data} />
             </View>
             <Divider />
-            <View onLayout={registryTab(2)}>
+            <View ref={HouseFeatureRef}>
               <HouseFeature {...data} />
             </View>
             <Divider />
-            <View onLayout={registryTab(3)}>
+            <View ref={HouseEnvironmentRef}>
               <HouseEnvironment {...data} />
             </View>
             <Divider />
             <HouseLoan {...data} />
             <Divider />
-            <View onLayout={registryTab(4)}>
+            <View ref={HouseAgentSectionRef}>
               <HouseAgentSection agent={agent} />
             </View>
             <Divider />
