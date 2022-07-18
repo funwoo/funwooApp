@@ -1,13 +1,15 @@
 export const PageNames = {
   entranceTabs: 'entranceTabs',
   backyardTabs: 'backyardTabs',
-  home: 'home',
 
   searchHouse: 'searchHouse',
-  house: 'house',
+  home: 'home',
   myFavorite: 'myFavorite',
   sell: 'sell',
   more: 'more',
+
+  house: 'house',
+  agent: 'agent',
 
   signIn: 'signIn',
   // agent: 'agent',

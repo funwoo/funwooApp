@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import classNames from 'classnames';
-import {Alert, Linking, Platform, Pressable, View} from 'react-native';
-import Text, {
-  TextStringSizeEnum,
-} from '../../../../components/common/Text/BaseText';
+import {Pressable, View} from 'react-native';
+import Text, {TextStringSizeEnum} from '../common/Text/BaseText';
 import Modal from 'react-native-modal';
 import {useTailwind} from 'tailwind-rn';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Agent} from '../../../../swagger/funwoo.api';
+import {Agent} from '../../swagger/funwoo.api';
+import {makePhoneCall} from '../../utils';
 
 const HousePhoneCallModal: React.FC<{
   show: boolean;
@@ -18,20 +17,7 @@ const HousePhoneCallModal: React.FC<{
   const {bottom} = useSafeAreaInsets();
 
   const onMakePhoneCallPress = useCallback(() => {
-    const url = `${Platform.OS === 'ios' ? 'telprompt://' : 'tel://'}${
-      agent?.contact_phone
-    }`;
-    Linking.canOpenURL(url)
-      .then(res => {
-        if (res) {
-          Linking.openURL(url);
-        }
-      })
-      .catch(err => {
-        Alert.alert('發生錯誤', '請稍後再試');
-        console.log(err);
-      })
-      .finally(triggerPhoneCallModal);
+    makePhoneCall(agent?.contact_phone ?? '').finally(triggerPhoneCallModal);
   }, [agent]);
 
   return (

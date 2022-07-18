@@ -14,7 +14,7 @@ export enum TextStringSizeEnum {
   '2xl' = 19,
   '3xl' = 20,
   '4xl' = 24,
-  '5xl' = 27,
+  '5xl' = 28,
   '6xl' = 32,
   '7xl' = 36,
 }

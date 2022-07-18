@@ -1,6 +1,6 @@
 import React from 'react';
 import CommonHeader from '../../../../../components/layout/CommonHeader';
-import {Pressable, ScrollView, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import openShare from '../../../../../lib/Share';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -85,31 +85,29 @@ const AboutFunderScreen = () => {
           <EntypoIcon size={20} name={'share'} />
         </Pressable>
       }>
-      <ScrollView style={tailwind('flex-1')}>
-        <View style={tailwind('px-4 mb-4')}>
-          <CacheImage
-            source={{uri: profile.imageURL}}
-            style={[tailwind('mb-4 w-full'), {aspectRatio: 1}]}
-          />
-          <Text
-            fontSize={TextStringSizeEnum['4xl']}
-            fontFamily={'NotoSansTC-Medium'}
-            style={tailwind('mb-1.5')}>
-            {profile.name}
-          </Text>
-          <Text fontSize={TextStringSizeEnum.base} style={tailwind('mb-1.5')}>
-            {profile.position}
-          </Text>
-          <Text fontSize={TextStringSizeEnum.base} style={tailwind('py-1')}>
-            {profile.email}
-          </Text>
-        </View>
+      <View style={tailwind('px-4 mb-4')}>
+        <CacheImage
+          source={{uri: profile.imageURL}}
+          style={[tailwind('mb-4 w-full'), {aspectRatio: 1}]}
+        />
         <Text
-          fontSize={TextStringSizeEnum.base}
-          style={tailwind('p-4 pb-8 text-gray700')}>
-          {profile.bio}
+          fontSize={TextStringSizeEnum['4xl']}
+          fontFamily={'NotoSansTC-Medium'}
+          style={tailwind('mb-1.5')}>
+          {profile.name}
         </Text>
-      </ScrollView>
+        <Text fontSize={TextStringSizeEnum.base} style={tailwind('mb-1.5')}>
+          {profile.position}
+        </Text>
+        <Text fontSize={TextStringSizeEnum.base} style={tailwind('py-1')}>
+          {profile.email}
+        </Text>
+      </View>
+      <Text
+        fontSize={TextStringSizeEnum.base}
+        style={tailwind('p-4 pb-8 text-gray700')}>
+        {profile.bio}
+      </Text>
     </CommonHeader>
   );
 };

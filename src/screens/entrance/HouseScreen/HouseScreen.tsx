@@ -25,7 +25,7 @@ import HouseLoan from './components/HouseLoan';
 import BaseIcon from '../../../components/common/icons/Icons/BaseIcon';
 import CacheImage from '../../../components/common/CacheImage';
 import HouseHeader from './components/HouseHeader';
-import HousePhoneCallModal from './components/HousePhoneCallModal';
+import HousePhoneCallModal from '../../../components/feature/HousePhoneCallModal';
 import HouseInformation from './components/HouseInformation';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import HouseTabs, {TabData} from './components/HouseTabs';

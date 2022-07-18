@@ -1,5 +1,6 @@
 /* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -68,8 +69,8 @@ export interface CreateMetaWebhookDto {
 }
 
 export enum CommonStatusEnum {
-  Active = "active",
-  Inactive = "inactive",
+  Active = 'active',
+  Inactive = 'inactive',
 }
 
 export interface ListingImage {
@@ -104,12 +105,12 @@ export interface UploadToGoogle {
 }
 
 export enum GoogleBucketEnum {
-  Thumbnail = "thumbnail",
-  General = "general",
-  Template = "template",
-  Publication = "publication",
-  ListingPresentation = "listing-presentation",
-  SocialMedia = "social-media",
+  Thumbnail = 'thumbnail',
+  General = 'general',
+  Template = 'template',
+  Publication = 'publication',
+  ListingPresentation = 'listing-presentation',
+  SocialMedia = 'social-media',
 }
 
 export interface UploadToGoogleSpecificBucketDto {
@@ -183,7 +184,7 @@ export interface GoogleAuthCallbackDto {
 }
 
 export interface BackyardUserEntity {
-  role?: "admin" | "user";
+  role?: 'admin' | 'user';
   email: string | null;
   id_token: string | null;
   google_oauth: boolean;
@@ -207,8 +208,8 @@ export interface VerifyEmailDto {
 }
 
 export enum CountryEnum {
-  TW = "TW",
-  US = "US",
+  TW = 'TW',
+  US = 'US',
 }
 
 export interface PaginationPagingDto {
@@ -225,8 +226,8 @@ export interface SearchListingDto {
 }
 
 export enum ContractTypeEnum {
-  UNIQUE = "UNIQUE",
-  COMMON = "COMMON",
+  UNIQUE = 'UNIQUE',
+  COMMON = 'COMMON',
 }
 
 export interface ParkingDetailEntity {
@@ -237,7 +238,7 @@ export interface ParkingDetailEntity {
 export interface TrafficEnvEntity {
   distance?: string;
   gType?: string;
-  location: { coordinates?: number[]; lat?: number; lng?: number; type?: string };
+  location: {coordinates?: number[]; lat?: number; lng?: number; type?: string};
   m?: number;
   name?: string;
   type?: string;
@@ -245,9 +246,9 @@ export interface TrafficEnvEntity {
 }
 
 export enum ListingStatusEnum {
-  Active = "active",
-  Inactive = "inactive",
-  Sold = "sold",
+  Active = 'active',
+  Inactive = 'inactive',
+  Sold = 'sold',
 }
 
 export interface ListingState {
@@ -380,7 +381,7 @@ export interface ListingForBuy {
 }
 
 export interface PaginationSortDto {
-  sort?: "asc" | "desc";
+  sort?: 'asc' | 'desc';
   field?: string;
 }
 
@@ -398,7 +399,7 @@ export interface CreateListingFromCMADto {
 }
 
 export interface CreateListingFromEmptyAddressDto {
-  country?: "TW" | "US";
+  country?: 'TW' | 'US';
   address: string;
 }
 
@@ -428,25 +429,25 @@ export interface GetOptionsForBuy {
 }
 
 export enum TEMPLATE_CATEGORY {
-  ALL = "ALL",
-  LISTING_PRESENTATION = "LISTING_PRESENTATION",
-  SOCIAL_MEDIA = "SOCIAL_MEDIA",
-  ONE_PAGE_FLYER = "ONE_PAGE_FLYER",
+  ALL = 'ALL',
+  LISTING_PRESENTATION = 'LISTING_PRESENTATION',
+  SOCIAL_MEDIA = 'SOCIAL_MEDIA',
+  ONE_PAGE_FLYER = 'ONE_PAGE_FLYER',
 }
 
 export interface TemplateReferenceEntity {
-  type?: "AGENT" | "LISTING";
+  type?: 'AGENT' | 'LISTING';
   refId: string;
 }
 
 export enum SCHEMA_TYPES {
-  OPF = "OPF",
-  HOUSE = "HOUSE",
-  AGENT = "AGENT",
+  OPF = 'OPF',
+  HOUSE = 'HOUSE',
+  AGENT = 'AGENT',
 }
 
 export interface TemplatePageDataEntity {
-  type?: "image" | "string";
+  type?: 'image' | 'string';
   refSchemaType?: SCHEMA_TYPES;
   id: string;
   className?: string;
@@ -499,7 +500,7 @@ export interface UpdateBookTitleDto {
 }
 
 export interface UpdateBookPageDataDto {
-  type?: "image" | "string";
+  type?: 'image' | 'string';
   refSchemaType?: SCHEMA_TYPES;
   id?: string;
   className?: string;
@@ -518,7 +519,7 @@ export interface UpdateBookPageDto {
 }
 
 export interface BookPageDataEntity {
-  type?: "image" | "string";
+  type?: 'image' | 'string';
   refSchemaType?: SCHEMA_TYPES;
   id: string;
   className?: string;
@@ -701,7 +702,7 @@ export interface FacebookAudienceEntity {
 }
 
 export interface FacebookTargetingEntity {
-  targeting: { age_max: number; age_min: number };
+  targeting: {age_max: number; age_min: number};
 }
 
 export interface GetTargetingEntity {
@@ -714,7 +715,7 @@ export interface FacebookPreviewDataEntity {
 
 export interface FacebookPreviewEntity {
   data?: FacebookPreviewDataEntity[];
-  config: { params?: { ad_format: string } };
+  config: {params?: {ad_format: string}};
 }
 
 export interface FacebookCreateCampaignDto {
@@ -793,7 +794,7 @@ export interface FacebookUploadImageDto {
 }
 
 export interface FacebookImageEntity {
-  images: { bytes?: { hash: string } };
+  images: {bytes?: {hash: string}};
 }
 
 export interface FacebookUpdateCampaignDto {
@@ -839,15 +840,15 @@ export type CreateCrmDto = object;
 export type UpdateCrmDto = object;
 
 export enum ListingEditRecordStatus {
-  Merged = "merged",
-  ForceMerged = "force_merged",
-  Draft = "draft",
-  WaitingForReview = "waiting_for_review",
+  Merged = 'merged',
+  ForceMerged = 'force_merged',
+  Draft = 'draft',
+  WaitingForReview = 'waiting_for_review',
 }
 
 export enum ListingEditRecordHistoryStatus {
-  Active = "active",
-  Inactive = "inactive",
+  Active = 'active',
+  Inactive = 'inactive',
 }
 
 export interface ListingEditRecordHistoryEntity {
@@ -1112,7 +1113,13 @@ export interface CreateWebhookDto {
   label: string;
   createdAt: string;
   lastMessageAt: string;
-  visitor: { _id: string; token: string; name: string; username: string; customFields?: { line_id: string } };
+  visitor: {
+    _id: string;
+    token: string;
+    name: string;
+    username: string;
+    customFields?: {line_id: string};
+  };
   type: string;
 }
 
@@ -1121,39 +1128,45 @@ export interface UpdateWebhookDto {
   label?: string;
   createdAt?: string;
   lastMessageAt?: string;
-  visitor: { _id: string; token: string; name: string; username: string; customFields?: { line_id: string } };
+  visitor: {
+    _id: string;
+    token: string;
+    name: string;
+    username: string;
+    customFields?: {line_id: string};
+  };
   type?: string;
 }
 
 export interface SendEmailContactMailDto {
-  type: "CONTACT";
+  type: 'CONTACT';
   name: string;
   phone: string;
 }
 
 export interface SendEmailSellMailDto {
-  type: "SELL";
+  type: 'SELL';
   name: string;
   phone: string;
   address: string;
 }
 
 export interface SendEmailBuyMailDto {
-  type: "BUY";
+  type: 'BUY';
   name: string;
   phone: string;
   listing_id: string;
 }
 
 export interface SendEmailSpecificAgentMailDto {
-  type: "SPECIFIC_AGENT";
+  type: 'SPECIFIC_AGENT';
   agent_id: string;
   name: string;
   phone: string;
 }
 
 export interface SendEmailSpecificTimeMailDto {
-  type: "SPECIFIC_TIME";
+  type: 'SPECIFIC_TIME';
   name: string;
   contactTime: string;
   listing_id: string;
@@ -1161,11 +1174,17 @@ export interface SendEmailSpecificTimeMailDto {
   email: string;
 }
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  ResponseType,
+} from 'axios';
 
 export type QueryParamsType = Record<string | number, any>;
 
-export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
+export interface FullRequestParams
+  extends Omit<AxiosRequestConfig, 'data' | 'params' | 'url' | 'responseType'> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -1180,9 +1199,13 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
   body?: unknown;
 }
 
-export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<
+  FullRequestParams,
+  'body' | 'method' | 'query' | 'path'
+>;
 
-export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+export interface ApiConfig<SecurityDataType = unknown>
+  extends Omit<AxiosRequestConfig, 'data' | 'cancelToken'> {
   securityWorker?: (
     securityData: SecurityDataType | null,
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
@@ -1191,20 +1214,28 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
 }
 
 export enum ContentType {
-  Json = "application/json",
-  FormData = "multipart/form-data",
-  UrlEncoded = "application/x-www-form-urlencoded",
+  Json = 'application/json',
+  FormData = 'multipart/form-data',
+  UrlEncoded = 'application/x-www-form-urlencoded',
 }
 
 export class HttpClient<SecurityDataType = unknown> {
   public instance: AxiosInstance;
   private securityData: SecurityDataType | null = null;
-  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private securityWorker?: ApiConfig<SecurityDataType>['securityWorker'];
   private secure?: boolean;
   private format?: ResponseType;
 
-  constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "" });
+  constructor({
+    securityWorker,
+    secure,
+    format,
+    ...axiosConfig
+  }: ApiConfig<SecurityDataType> = {}) {
+    this.instance = axios.create({
+      ...axiosConfig,
+      baseURL: axiosConfig.baseURL || '',
+    });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -1214,7 +1245,55 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  private mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
+  public request = async <T = any, _E = any>({
+    secure,
+    path,
+    type,
+    query,
+    format,
+    body,
+    ...params
+  }: FullRequestParams): Promise<AxiosResponse<T>> => {
+    const secureParams =
+      ((typeof secure === 'boolean' ? secure : this.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const responseFormat = (format && this.format) || void 0;
+
+    if (
+      type === ContentType.FormData &&
+      body &&
+      body !== null &&
+      typeof body === 'object'
+    ) {
+      requestParams.headers.common = {Accept: '*/*'};
+      requestParams.headers.post = {};
+      requestParams.headers.put = {};
+
+      body = this.createFormData(body as Record<string, unknown>);
+    }
+
+    return this.instance.request({
+      ...requestParams,
+      headers: {
+        ...(type && type !== ContentType.FormData
+          ? {'Content-Type': type}
+          : {}),
+        ...(requestParams.headers || {}),
+      },
+      params: query,
+      responseType: responseFormat,
+      data: body,
+      url: path,
+    });
+  };
+
+  private mergeRequestParams(
+    params1: AxiosRequestConfig,
+    params2?: AxiosRequestConfig,
+  ): AxiosRequestConfig {
     return {
       ...this.instance.defaults,
       ...params1,
@@ -1234,51 +1313,13 @@ export class HttpClient<SecurityDataType = unknown> {
         key,
         property instanceof Blob
           ? property
-          : typeof property === "object" && property !== null
+          : typeof property === 'object' && property !== null
           ? JSON.stringify(property)
           : `${property}`,
       );
       return formData;
     }, new FormData());
   }
-
-  public request = async <T = any, _E = any>({
-    secure,
-    path,
-    type,
-    query,
-    format,
-    body,
-    ...params
-  }: FullRequestParams): Promise<AxiosResponse<T>> => {
-    const secureParams =
-      ((typeof secure === "boolean" ? secure : this.secure) &&
-        this.securityWorker &&
-        (await this.securityWorker(this.securityData))) ||
-      {};
-    const requestParams = this.mergeRequestParams(params, secureParams);
-    const responseFormat = (format && this.format) || void 0;
-
-    if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
-      requestParams.headers.common = { Accept: "*/*" };
-      requestParams.headers.post = {};
-      requestParams.headers.put = {};
-
-      body = this.createFormData(body as Record<string, unknown>);
-    }
-
-    return this.instance.request({
-      ...requestParams,
-      headers: {
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-        ...(requestParams.headers || {}),
-      },
-      params: query,
-      responseType: responseFormat,
-      data: body,
-      url: path,
-    });
-  };
 }
 
 /**
@@ -1288,21 +1329,9 @@ export class HttpClient<SecurityDataType = unknown> {
  *
  * The cats API description
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  /**
-   * No description
-   *
-   * @name GetHello
-   * @request GET:/
-   */
-  getHello = (params: RequestParams = {}) =>
-    this.request<string, any>({
-      path: `/`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
-
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
   crm = {
     /**
      * No description
@@ -1314,8 +1343,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<Referral[], any>({
         path: `/referrals`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -1326,12 +1355,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindOne
      * @request GET:/referrals/{id}
      */
-    findOne: (id: string, query: { platform: string }, params: RequestParams = {}) =>
+    findOne: (
+      id: string,
+      query: {platform: string},
+      params: RequestParams = {},
+    ) =>
       this.request<Decimal, any>({
         path: `/referrals/${id}`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1345,10 +1378,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (id: string, data: UpdateReferralDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referrals/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1362,8 +1395,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referrals/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
 
@@ -1375,14 +1408,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/referrals/line/link
      */
     getLineLink: (
-      query: { listing_sid: string; source_type: "web" | "meta_ads" | "one_page_flyer" },
+      query: {
+        listing_sid: string;
+        source_type: 'web' | 'meta_ads' | 'one_page_flyer';
+      },
       params: RequestParams = {},
     ) =>
       this.request<any, any>({
         path: `/referrals/line/link`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1396,10 +1432,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createVisitor: (data: CreateLineVisitorDto, params: RequestParams = {}) =>
       this.request<ReferralLine, any>({
         path: `/referrals/createVisitor`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1411,14 +1447,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/referrals/meta/link
      */
     getMetaLink: (
-      query: { listing_sid: string; source_type: "web" | "meta_ads" | "one_page_flyer" },
+      query: {
+        listing_sid: string;
+        source_type: 'web' | 'meta_ads' | 'one_page_flyer';
+      },
       params: RequestParams = {},
     ) =>
       this.request<any, any>({
         path: `/referrals/meta/link`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1430,14 +1469,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/referrals/meta/webhook
      */
     metaWebhookGet: (
-      query: { "hub.mode": string; "hub.verify_token": string; "hub.challenge": string },
+      query: {
+        'hub.mode': string;
+        'hub.verify_token': string;
+        'hub.challenge': string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<string, any>({
         path: `/referrals/meta/webhook`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1451,10 +1494,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     metaWebhookPost: (data: CreateMetaWebhookDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referrals/meta/webhook`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -1468,16 +1511,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     uploadImage: (
-      data: { listingId?: string; tag?: string; order?: number; file?: File },
+      data: {listingId?: string; tag?: string; order?: number; file?: File},
       params: RequestParams = {},
     ) =>
       this.request<ListingImage, any>({
         path: `/asset/image/upload`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1492,11 +1535,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     addVideo: (data: AddVideoDto, params: RequestParams = {}) =>
       this.request<ListingVideo, any>({
         path: `/asset/video/add`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1508,14 +1551,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/asset
      * @secure
      */
-    uploadToGoogle: (data: { id?: string; file?: File }, params: RequestParams = {}) =>
+    uploadToGoogle: (
+      data: {id?: string; file?: File},
+      params: RequestParams = {},
+    ) =>
       this.request<UploadToGoogle, any>({
         path: `/asset`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1527,14 +1573,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/asset/google/specific-bucket
      * @secure
      */
-    uploadToGoogleSpecificBucket: (data: UploadToGoogleSpecificBucketDto, params: RequestParams = {}) =>
+    uploadToGoogleSpecificBucket: (
+      data: UploadToGoogleSpecificBucketDto,
+      params: RequestParams = {},
+    ) =>
       this.request<string[], any[]>({
         path: `/asset/google/specific-bucket`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.FormData,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1549,7 +1598,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteImage: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/asset/image/delete/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
         ...params,
       }),
@@ -1565,7 +1614,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteVideo: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/asset/video/delete/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
         ...params,
       }),
@@ -1581,8 +1630,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<Agent[], any>({
         path: `/agent`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -1597,11 +1646,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (data: UpdateAgentDto, params: RequestParams = {}) =>
       this.request<Agent, any>({
         path: `/agent`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1612,12 +1661,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindOne
      * @request GET:/agent/specific/{id}
      */
-    findOne: (id: string, query?: { onlyActive?: boolean }, params: RequestParams = {}) =>
+    findOne: (
+      id: string,
+      query?: {onlyActive?: boolean},
+      params: RequestParams = {},
+    ) =>
       this.request<Agent, any>({
         path: `/agent/specific/${id}`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1628,12 +1681,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindAllSids
      * @request GET:/agent/allSids
      */
-    findAllSids: (query?: { onlyActive?: boolean }, params: RequestParams = {}) =>
+    findAllSids: (query?: {onlyActive?: boolean}, params: RequestParams = {}) =>
       this.request<string[], any>({
         path: `/agent/allSids`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -1648,7 +1701,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateMailDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/mail/send`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -1664,7 +1717,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     sendVerifyEmail: (data: SendVerifyEmailDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/mail/sendVerifyEmail`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -1693,7 +1746,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ) =>
       this.request<void, any>({
         path: `/mail/sendMail`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -1710,7 +1763,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     refreshToken: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/auth/google/refresh_jwt`,
-        method: "POST",
+        method: 'POST',
         ...params,
       }),
 
@@ -1721,12 +1774,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name IssueGoogleOAuth
      * @request GET:/auth/google/issue
      */
-    issueGoogleOAuth: (query: { state: string; useDeprecated?: boolean }, params: RequestParams = {}) =>
+    issueGoogleOAuth: (
+      query: {state: string; useDeprecated?: boolean},
+      params: RequestParams = {},
+    ) =>
       this.request<AuthIssueGoogleOauthEntity, any>({
         path: `/auth/google/issue`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1737,13 +1793,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GoogleAuthCallback
      * @request POST:/auth/google/auth/web
      */
-    googleAuthCallback: (data: GoogleAuthCallbackDto, params: RequestParams = {}) =>
+    googleAuthCallback: (
+      data: GoogleAuthCallbackDto,
+      params: RequestParams = {},
+    ) =>
       this.request<BackyardUserEntity, any>({
         path: `/auth/google/auth/web`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1757,7 +1816,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     pwdAuth: (data: PasswordAuth, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/auth/google/auth/pwd`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -1773,10 +1832,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     verifyByEmail: (data: VerifyEmailDto, params: RequestParams = {}) =>
       this.request<BackyardUserEntity, any>({
         path: `/auth/verify/email`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1790,7 +1849,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     googleAuthMobile: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/auth/google/auth/mobile`,
-        method: "POST",
+        method: 'POST',
         ...params,
       }),
   };
@@ -1805,10 +1864,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     search: (data: SearchListingDto, params: RequestParams = {}) =>
       this.request<ListingPaginationEntity, any>({
         path: `/listing`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1822,8 +1881,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<ListingDetail[], any>({
         path: `/listing`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -1837,8 +1896,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (sid: string, params: RequestParams = {}) =>
       this.request<ListingDetail, any>({
         path: `/listing/specific/${sid}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -1849,12 +1908,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindOneForBuy
      * @request GET:/listing/forBuy
      */
-    findOneForBuy: (query: { listingSid: string; agentSid: string }, params: RequestParams = {}) =>
+    findOneForBuy: (
+      query: {listingSid: string; agentSid: string},
+      params: RequestParams = {},
+    ) =>
       this.request<ListingForBuy, any>({
         path: `/listing/forBuy`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1865,12 +1927,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindAllFavorite
      * @request GET:/listing/favorite
      */
-    findAllFavorite: (query: { sids: string[] }, params: RequestParams = {}) =>
+    findAllFavorite: (query: {sids: string[]}, params: RequestParams = {}) =>
       this.request<ListingDetail[], any>({
         path: `/listing/favorite`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1884,8 +1946,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAllSids: (params: RequestParams = {}) =>
       this.request<string[], any>({
         path: `/listing/allSids`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -1897,14 +1959,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing/search/byAddress
      * @secure
      */
-    searchByAddress: (data: SearchListingByAddressDto, params: RequestParams = {}) =>
+    searchByAddress: (
+      data: SearchListingByAddressDto,
+      params: RequestParams = {},
+    ) =>
       this.request<ListingPaginationEntity, any>({
         path: `/listing/search/byAddress`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1916,14 +1981,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing/create/fromCMA
      * @secure
      */
-    createFromCma: (data: CreateListingFromCMADto, params: RequestParams = {}) =>
+    createFromCma: (
+      data: CreateListingFromCMADto,
+      params: RequestParams = {},
+    ) =>
       this.request<ListingDetail, any>({
         path: `/listing/create/fromCMA`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1935,14 +2003,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing/create/fromEmptyAddress
      * @secure
      */
-    createFromEmptyAddress: (data: CreateListingFromEmptyAddressDto, params: RequestParams = {}) =>
+    createFromEmptyAddress: (
+      data: CreateListingFromEmptyAddressDto,
+      params: RequestParams = {},
+    ) =>
       this.request<ListingDetail, any>({
         path: `/listing/create/fromEmptyAddress`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -1957,11 +2028,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     clone: (data: CloneListingDto, params: RequestParams = {}) =>
       this.request<ListingDetail, any>({
         path: `/listing/create/clone`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -1973,12 +2044,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name FindAll
      * @request GET:/media
      */
-    findAll: (query?: { count?: number }, params: RequestParams = {}) =>
+    findAll: (query?: {count?: number}, params: RequestParams = {}) =>
       this.request<MediaEntity[], any>({
         path: `/media`,
-        method: "GET",
+        method: 'GET',
         query: query,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -1993,8 +2064,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getOptionsForBuy: (params: RequestParams = {}) =>
       this.request<GetOptionsForBuy, any>({
         path: `/option/optionsForBuy`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -2008,8 +2079,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getAllCityOptions: (params: RequestParams = {}) =>
       this.request<any[], any>({
         path: `/option/allCityOptions`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
   };
@@ -2023,15 +2094,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findAllByType: (
-      query: { type: "ALL" | "LISTING_PRESENTATION" | "SOCIAL_MEDIA" | "ONE_PAGE_FLYER" },
+      query: {
+        type:
+          | 'ALL'
+          | 'LISTING_PRESENTATION'
+          | 'SOCIAL_MEDIA'
+          | 'ONE_PAGE_FLYER';
+      },
       params: RequestParams = {},
     ) =>
       this.request<Book[], any>({
         path: `/book`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2046,9 +2123,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOneByBookId: (bookId: string, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/specific/byBookId/${bookId}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2061,15 +2138,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     findOneByBookType: (
-      query: { type: "ALL" | "LISTING_PRESENTATION" | "SOCIAL_MEDIA" | "ONE_PAGE_FLYER" },
+      query: {
+        type:
+          | 'ALL'
+          | 'LISTING_PRESENTATION'
+          | 'SOCIAL_MEDIA'
+          | 'ONE_PAGE_FLYER';
+      },
       params: RequestParams = {},
     ) =>
       this.request<Book, any>({
         path: `/book/specific/byBookType`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2084,11 +2167,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateBookDto, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2103,11 +2186,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateTitle: (data: UpdateBookTitleDto, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/update/title`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2122,11 +2205,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updatePage: (data: UpdateBookPageDto, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/update/page`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2138,14 +2221,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/book/update/wholePage
      * @secure
      */
-    updateWholePage: (data: UpdateWholeBookPageDto, params: RequestParams = {}) =>
+    updateWholePage: (
+      data: UpdateWholeBookPageDto,
+      params: RequestParams = {},
+    ) =>
       this.request<Book, any>({
         path: `/book/update/wholePage`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2157,14 +2243,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/book/update/page/reference
      * @secure
      */
-    updatePageReference: (data: UpdateBookPageReferenceDto, params: RequestParams = {}) =>
+    updatePageReference: (
+      data: UpdateBookPageReferenceDto,
+      params: RequestParams = {},
+    ) =>
       this.request<Book, any>({
         path: `/book/update/page/reference`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2179,11 +2268,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     resetPage: (data: ResetBookPageDto, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/reset/page`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2198,9 +2287,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     delete: (bookId: string, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/book/${bookId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2215,9 +2304,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deletePage: (bookId: string, pageId: string, params: RequestParams = {}) =>
       this.request<Book, any>({
         path: `/book/page/${bookId}/${pageId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -2233,9 +2322,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<TemplateEntity[], any>({
         path: `/template`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2250,11 +2339,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateTemplateDto, params: RequestParams = {}) =>
       this.request<TemplateEntity, any>({
         path: `/template`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2269,9 +2358,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (templateId: string, params: RequestParams = {}) =>
       this.request<TemplateEntity, any>({
         path: `/template/${templateId}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2286,7 +2375,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     delete: (templateId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/template/${templateId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
         ...params,
       }),
@@ -2299,14 +2388,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/template/duplicate
      * @secure
      */
-    duplicateTemplate: (data: DuplicateTemplateDto, params: RequestParams = {}) =>
+    duplicateTemplate: (
+      data: DuplicateTemplateDto,
+      params: RequestParams = {},
+    ) =>
       this.request<TemplateEntity, any>({
         path: `/template/duplicate`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2321,11 +2413,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (data: UpdateTemplateDto, params: RequestParams = {}) =>
       this.request<TemplateEntity, any>({
         path: `/template/update`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -2341,9 +2433,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<PublicationEntity[], any>({
         path: `/publication`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2358,9 +2450,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (bookId: string, params: RequestParams = {}) =>
       this.request<PublicationEntity, any>({
         path: `/publication/${bookId}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2375,11 +2467,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createPage: (data: CreatePublicationPageDto, params: RequestParams = {}) =>
       this.request<PublicationPageEntity, any>({
         path: `/publication/create/page`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2391,14 +2483,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/publication/update/publication
      * @secure
      */
-    updatePublication: (data: UpdatePublicationDto, params: RequestParams = {}) =>
+    updatePublication: (
+      data: UpdatePublicationDto,
+      params: RequestParams = {},
+    ) =>
       this.request<PublicationEntity, any>({
         path: `/publication/update/publication`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2410,14 +2505,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/publication/update/page
      * @secure
      */
-    updatePublicationPage: (data: UpdatePublicationPageDto, params: RequestParams = {}) =>
+    updatePublicationPage: (
+      data: UpdatePublicationPageDto,
+      params: RequestParams = {},
+    ) =>
       this.request<PublicationEntity, any>({
         path: `/publication/update/page`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2429,14 +2527,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/publication/update/page/order
      * @secure
      */
-    updatePublicationPageOrder: (data: UpdatePublicationPageOrderDto, params: RequestParams = {}) =>
+    updatePublicationPageOrder: (
+      data: UpdatePublicationPageOrderDto,
+      params: RequestParams = {},
+    ) =>
       this.request<PublicationEntity, any>({
         path: `/publication/update/page/order`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2451,7 +2552,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deletePublication: (publicationId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/publication/${publicationId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
         ...params,
       }),
@@ -2464,13 +2565,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/publication/page/{publicationId}
      * @secure
      */
-    deletePublicationPage: (publicationId: string, query: { pageId: string }, params: RequestParams = {}) =>
+    deletePublicationPage: (
+      publicationId: string,
+      query: {pageId: string},
+      params: RequestParams = {},
+    ) =>
       this.request<PublicationEntity, any>({
         path: `/publication/page/${publicationId}`,
-        method: "DELETE",
+        method: 'DELETE',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -2483,13 +2588,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/facebook/insight
      * @secure
      */
-    getInsights: (query: { campaignId: string; startDate: string; endDate: string }, params: RequestParams = {}) =>
+    getInsights: (
+      query: {campaignId: string; startDate: string; endDate: string},
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookInsightEntity[], any>({
         path: `/facebook/insight`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2504,9 +2612,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getCampaigns: (params: RequestParams = {}) =>
       this.request<FacebookCampaignEntity[], any>({
         path: `/facebook/campaign`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2521,9 +2629,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getAudiences: (params: RequestParams = {}) =>
       this.request<FacebookAudienceEntity[], any>({
         path: `/facebook/audience`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2538,9 +2646,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getAudienceDetail: (audienceId: string, params: RequestParams = {}) =>
       this.request<FacebookTargetingEntity, any>({
         path: `/facebook/audience/detail/${audienceId}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2552,13 +2660,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/facebook/targeting
      * @secure
      */
-    getTargeting: (query?: { q?: string }, params: RequestParams = {}) =>
+    getTargeting: (query?: {q?: string}, params: RequestParams = {}) =>
       this.request<GetTargetingEntity[], any>({
         path: `/facebook/targeting`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2570,13 +2678,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/facebook/preview/{creativeId}
      * @secure
      */
-    getPreview: (creativeId: string, query: { ad_format: string }, params: RequestParams = {}) =>
+    getPreview: (
+      creativeId: string,
+      query: {ad_format: string},
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookPreviewEntity, any>({
         path: `/facebook/preview/${creativeId}`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2588,14 +2700,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/facebook/campaign/create
      * @secure
      */
-    createCampaign: (data: FacebookCreateCampaignDto, params: RequestParams = {}) =>
+    createCampaign: (
+      data: FacebookCreateCampaignDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookCampaignEntity, FacebookCreateAPIErrorEntity>({
         path: `/facebook/campaign/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2610,11 +2725,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createAd: (data: FacebookCreateAdParamsDto, params: RequestParams = {}) =>
       this.request<FacebookAdEntity, FacebookCreateAPIErrorEntity>({
         path: `/facebook/ad/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2626,14 +2741,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/facebook/adSet/create
      * @secure
      */
-    createAdSet: (data: FacebookCreateAdSetParamsDto, params: RequestParams = {}) =>
+    createAdSet: (
+      data: FacebookCreateAdSetParamsDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookAdSetEntity, FacebookCreateAPIErrorEntity>({
         path: `/facebook/adSet/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2645,14 +2763,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/facebook/slideShow/create
      * @secure
      */
-    createSlideShow: (data: FacebookCreateSlideShowDto, params: RequestParams = {}) =>
+    createSlideShow: (
+      data: FacebookCreateSlideShowDto,
+      params: RequestParams = {},
+    ) =>
       this.request<CreateSlideShowDto, FacebookCreateAPIErrorEntity>({
         path: `/facebook/slideShow/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2664,14 +2785,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/facebook/creative/create
      * @secure
      */
-    createCreative: (data: FacebookCreateCreativeParamsDto, params: RequestParams = {}) =>
+    createCreative: (
+      data: FacebookCreateCreativeParamsDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookCreativeEntity, FacebookCreateAPIErrorEntity>({
         path: `/facebook/creative/create`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2686,11 +2810,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     uploadImage: (data: FacebookUploadImageDto, params: RequestParams = {}) =>
       this.request<FacebookImageEntity, any>({
         path: `/facebook/image/upload`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2702,14 +2826,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/facebook/campaign/update
      * @secure
      */
-    updateCampaign: (data: FacebookUpdateCampaignDto, params: RequestParams = {}) =>
+    updateCampaign: (
+      data: FacebookUpdateCampaignDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookCampaignEntity, any>({
         path: `/facebook/campaign/update`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2724,11 +2851,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     updateAd: (data: FacebookUpdateAdParamsDto, params: RequestParams = {}) =>
       this.request<FacebookAdEntity, any>({
         path: `/facebook/ad/update`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2740,14 +2867,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/facebook/adSet/update
      * @secure
      */
-    updateAdSet: (data: FacebookUpdateAdSetParamsDto, params: RequestParams = {}) =>
+    updateAdSet: (
+      data: FacebookUpdateAdSetParamsDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookAdEntity, any>({
         path: `/facebook/adSet/update`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2759,14 +2889,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/facebook/creative/update
      * @secure
      */
-    updateCreative: (data: FacebookUpdateCreativeParamsDto, params: RequestParams = {}) =>
+    updateCreative: (
+      data: FacebookUpdateCreativeParamsDto,
+      params: RequestParams = {},
+    ) =>
       this.request<FacebookAdEntity, any>({
         path: `/facebook/creative/update`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2781,9 +2914,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteCampaign: (campaignId: string, params: RequestParams = {}) =>
       this.request<FacebookCampaignEntity, any>({
         path: `/facebook/campaign/delete/${campaignId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2798,9 +2931,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteAd: (adId: string, params: RequestParams = {}) =>
       this.request<FacebookCampaignEntity, any>({
         path: `/facebook/ad/delete/${adId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2815,9 +2948,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteSetAd: (adSetId: string, params: RequestParams = {}) =>
       this.request<FacebookCampaignEntity, any>({
         path: `/facebook/adSet/delete/${adSetId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2832,9 +2965,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     deleteCreative: (adCreativeId: string, params: RequestParams = {}) =>
       this.request<FacebookCampaignEntity, any>({
         path: `/facebook/creative/delete/${adCreativeId}`,
-        method: "DELETE",
+        method: 'DELETE',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -2849,10 +2982,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateCrmDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/crm`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2866,8 +2999,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/crm`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -2879,13 +3012,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/crm/livechat/rooms
      * @secure
      */
-    getLivechatRooms: (query: { updatedSince: string }, params: RequestParams = {}) =>
+    getLivechatRooms: (
+      query: {updatedSince: string},
+      params: RequestParams = {},
+    ) =>
       this.request<Decimal, any>({
         path: `/crm/livechat/rooms`,
-        method: "GET",
+        method: 'GET',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2899,8 +3035,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/crm/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -2914,10 +3050,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (id: string, data: UpdateCrmDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/crm/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2931,8 +3067,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/crm/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
@@ -2948,9 +3084,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAllForUser: (params: RequestParams = {}) =>
       this.request<ListingEditRecordEntity[], any>({
         path: `/listing-editor/forUser`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2965,9 +3101,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAllReviewing: (params: RequestParams = {}) =>
       this.request<ListingEditRecordEntity[], any>({
         path: `/listing-editor/reviewing`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2982,9 +3118,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findReviewingData: (recordId: string, params: RequestParams = {}) =>
       this.request<ListingEditorReviewingDataEntity, any>({
         path: `/listing-editor/reviewing/data/${recordId}`,
-        method: "GET",
+        method: 'GET',
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -2996,13 +3132,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing-editor/start/review
      * @secure
      */
-    startReview: (query: { recordId: string }, params: RequestParams = {}) =>
+    startReview: (query: {recordId: string}, params: RequestParams = {}) =>
       this.request<ListingEditRecordEntity, any>({
         path: `/listing-editor/start/review`,
-        method: "POST",
+        method: 'POST',
         query: query,
         secure: true,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3017,11 +3153,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     createRecord: (data: CreateListingRecordDto, params: RequestParams = {}) =>
       this.request<CreateListingRecordEntity, any>({
         path: `/listing-editor/create/record`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3033,10 +3169,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing-editor/submit
      * @secure
      */
-    submitEditRecord: (data: SubmitListingRecordDto, params: RequestParams = {}) =>
+    submitEditRecord: (
+      data: SubmitListingRecordDto,
+      params: RequestParams = {},
+    ) =>
       this.request<void, any>({
         path: `/listing-editor/submit`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
@@ -3051,14 +3190,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/listing-editor/approve
      * @secure
      */
-    approveReview: (data: ApproveListingRecordDto, params: RequestParams = {}) =>
+    approveReview: (
+      data: ApproveListingRecordDto,
+      params: RequestParams = {},
+    ) =>
       this.request<ListingDetail, any>({
         path: `/listing-editor/approve`,
-        method: "POST",
+        method: 'POST',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3070,14 +3212,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/listing-editor/forceInactive
      * @secure
      */
-    forceInactive: (data: ForceInactiveListingDto, params: RequestParams = {}) =>
+    forceInactive: (
+      data: ForceInactiveListingDto,
+      params: RequestParams = {},
+    ) =>
       this.request<ListingDetail, any>({
         path: `/listing-editor/forceInactive`,
-        method: "PUT",
+        method: 'PUT',
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -3092,8 +3237,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getHomepageInfo: (params: RequestParams = {}) =>
       this.request<HomePageEntity, any>({
         path: `/home-page`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
   };
@@ -3108,8 +3253,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<JobEntity[], any>({
         path: `/job`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3123,8 +3268,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (sid: string, params: RequestParams = {}) =>
       this.request<JobEntity, any>({
         path: `/job/${sid}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
   };
@@ -3139,10 +3284,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateUserDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/users`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3156,7 +3301,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<any, User>({
         path: `/users`,
-        method: "GET",
+        method: 'GET',
         ...params,
       }),
 
@@ -3170,10 +3315,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     addUserRole: (data: CreateUserRoleDto, params: RequestParams = {}) =>
       this.request<Decimal, any>({
         path: `/users/addRole`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3187,8 +3332,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/users/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3202,10 +3347,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (id: string, data: UpdateUserDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/users/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3219,8 +3364,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/users/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
@@ -3232,13 +3377,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UploadFigmaTemplate
      * @request POST:/plugin/figma/template
      */
-    uploadFigmaTemplate: (data: { file?: File }, params: RequestParams = {}) =>
+    uploadFigmaTemplate: (data: {file?: File}, params: RequestParams = {}) =>
       this.request<TemplateEntity, any>({
         path: `/plugin/figma/template`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.FormData,
-        format: "json",
+        format: 'json',
         ...params,
       }),
   };
@@ -3253,10 +3398,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateReferralSourceDto, params: RequestParams = {}) =>
       this.request<CreateReferralSourceDto[], any>({
         path: `/referral-source`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3270,8 +3415,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<CreateReferralSourceDto[], any>({
         path: `/referral-source`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3285,8 +3430,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-source/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3297,13 +3442,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Update
      * @request PATCH:/referral-source/{id}
      */
-    update: (id: string, data: UpdateReferralSourceDto, params: RequestParams = {}) =>
+    update: (
+      id: string,
+      data: UpdateReferralSourceDto,
+      params: RequestParams = {},
+    ) =>
       this.request<string, any>({
         path: `/referral-source/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3317,8 +3466,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-source/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
@@ -3332,10 +3481,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateReferralApplicationDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-application`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3348,7 +3497,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<any, ReferralApplication[]>({
         path: `/referral-application`,
-        method: "GET",
+        method: 'GET',
         ...params,
       }),
 
@@ -3361,8 +3510,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-application/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3372,13 +3521,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Update
      * @request PATCH:/referral-application/{id}
      */
-    update: (id: string, data: UpdateReferralApplicationDto, params: RequestParams = {}) =>
+    update: (
+      id: string,
+      data: UpdateReferralApplicationDto,
+      params: RequestParams = {},
+    ) =>
       this.request<string, any>({
         path: `/referral-application/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3391,8 +3544,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-application/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
@@ -3406,7 +3559,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateReferralLinkDto, params: RequestParams = {}) =>
       this.request<void, ReferralLink[]>({
         path: `/referral-link`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         ...params,
@@ -3421,7 +3574,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<any, ReferralLink[]>({
         path: `/referral-link`,
-        method: "GET",
+        method: 'GET',
         ...params,
       }),
 
@@ -3434,8 +3587,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-link/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3445,13 +3598,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name Update
      * @request PATCH:/referral-link/{id}
      */
-    update: (id: string, data: UpdateReferralLinkDto, params: RequestParams = {}) =>
+    update: (
+      id: string,
+      data: UpdateReferralLinkDto,
+      params: RequestParams = {},
+    ) =>
       this.request<string, any>({
         path: `/referral-link/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3464,8 +3621,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/referral-link/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
@@ -3480,10 +3637,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     create: (data: CreateWebhookDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/webhook`,
-        method: "POST",
+        method: 'POST',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3497,8 +3654,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findAll: (params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/webhook`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3512,8 +3669,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     findOne: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/webhook/${id}`,
-        method: "GET",
-        format: "json",
+        method: 'GET',
+        format: 'json',
         ...params,
       }),
 
@@ -3527,10 +3684,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     update: (id: string, data: UpdateWebhookDto, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/webhook/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
         type: ContentType.Json,
-        format: "json",
+        format: 'json',
         ...params,
       }),
 
@@ -3544,9 +3701,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     remove: (id: string, params: RequestParams = {}) =>
       this.request<string, any>({
         path: `/webhook/${id}`,
-        method: "DELETE",
-        format: "json",
+        method: 'DELETE',
+        format: 'json',
         ...params,
       }),
   };
+
+  /**
+   * No description
+   *
+   * @name GetHello
+   * @request GET:/
+   */
+  getHello = (params: RequestParams = {}) =>
+    this.request<string, any>({
+      path: `/`,
+      method: 'GET',
+      format: 'json',
+      ...params,
+    });
 }

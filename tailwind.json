@@ -49,6 +49,16 @@
 			"top": 0
 		}
 	},
+	"-bottom-4": {
+		"style": {
+			"bottom": -16
+		}
+	},
+	"-bottom-7": {
+		"style": {
+			"bottom": -28
+		}
+	},
 	"z-10": {
 		"style": {
 			"zIndex": 10
@@ -305,6 +315,16 @@
 			"height": 254
 		}
 	},
+	"h-3": {
+		"style": {
+			"height": 12
+		}
+	},
+	"h-14": {
+		"style": {
+			"height": 56
+		}
+	},
 	"w-12": {
 		"style": {
 			"width": 48
@@ -363,6 +383,11 @@
 	"w-[15.875rem]": {
 		"style": {
 			"width": 254
+		}
+	},
+	"w-14": {
+		"style": {
+			"width": 56
 		}
 	},
 	"flex-1": {
@@ -633,6 +658,14 @@
 			"paddingLeft": 12
 		}
 	},
+	"p-8": {
+		"style": {
+			"paddingTop": 32,
+			"paddingRight": 32,
+			"paddingBottom": 32,
+			"paddingLeft": 32
+		}
+	},
 	"py-2": {
 		"style": {
 			"paddingTop": 8,
@@ -717,6 +750,18 @@
 			"paddingRight": 80
 		}
 	},
+	"py-0.5": {
+		"style": {
+			"paddingTop": 2,
+			"paddingBottom": 2
+		}
+	},
+	"py-0": {
+		"style": {
+			"paddingTop": 0,
+			"paddingBottom": 0
+		}
+	},
 	"pt-[4.5rem]": {
 		"style": {
 			"paddingTop": 72
@@ -785,6 +830,21 @@
 	"pt-12": {
 		"style": {
 			"paddingTop": 48
+		}
+	},
+	"pb-1.5": {
+		"style": {
+			"paddingBottom": 6
+		}
+	},
+	"pb-1": {
+		"style": {
+			"paddingBottom": 4
+		}
+	},
+	"pb-2.5": {
+		"style": {
+			"paddingBottom": 10
 		}
 	},
 	"text-left": {

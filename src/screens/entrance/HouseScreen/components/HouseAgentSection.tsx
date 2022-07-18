@@ -5,11 +5,15 @@ import Text, {
   TextStringSizeEnum,
 } from '../../../../components/common/Text/BaseText';
 import {Agent} from '../../../../swagger/funwoo.api';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {PageNames} from '../../../../navigator/PageNames';
 
 const HouseAgentSection: React.FC<{agent: Agent | null | undefined}> = ({
   agent,
 }) => {
   const tailwind = useTailwind();
+  const navigation =
+    useNavigation<NavigationProp<EntranceRootStackParamsList>>();
 
   return (
     <View style={tailwind('py-8 px-4')}>
@@ -33,7 +37,13 @@ const HouseAgentSection: React.FC<{agent: Agent | null | undefined}> = ({
           </Text>
           <Text fontSize={TextStringSizeEnum.base}>房產顧問</Text>
         </View>
-        <Pressable style={tailwind('px-3 py-1 border border-gray900')}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate(PageNames.agent, {
+              sid: agent?.sid!,
+            })
+          }
+          style={tailwind('px-3 py-1 border border-gray900')}>
           <Text
             fontSize={TextStringSizeEnum.base}
             fontFamily={'NotoSansTC-Medium'}>

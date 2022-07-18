@@ -45,7 +45,7 @@ interface BaseIconProps extends TextProps {
     | 'Octicons';
   size: number;
   name: string;
-  color: string;
+  color?: string;
 }
 
 //

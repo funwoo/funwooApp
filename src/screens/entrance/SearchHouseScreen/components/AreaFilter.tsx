@@ -1,11 +1,6 @@
 import React from 'react';
-import { useTailwind } from 'tailwind-rn';
-import {
-  Pressable,
-  ScrollView,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {useTailwind} from 'tailwind-rn';
+import {ScrollView, TouchableHighlight, View} from 'react-native';
 import {
   CountryOfAreaFilter,
   useHouseFilterContext,
@@ -13,11 +8,11 @@ import {
 import Text, {
   TextStringSizeEnum,
 } from '../../../../components/common/Text/BaseText';
-import { CountryEnum } from '../../../../swagger/funwoo.api';
+import {CountryEnum} from '../../../../swagger/funwoo.api';
 import ConditionalFragment from '../../../../components/common/ConditionalFragment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FilterModal from './FilterModal';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 export const CountryLabel: Record<CountryOfAreaFilter, string> = {
   TW: '台灣',
@@ -26,13 +21,12 @@ export const CountryLabel: Record<CountryOfAreaFilter, string> = {
 };
 
 const AreaFilter = () => {
-  const { triggerAreaFilter, showAreaFilter, citiesData, resetArea, country, onClose } =
+  const {triggerAreaFilter, showAreaFilter, citiesData, resetArea, country} =
     useHouseFilterContext();
   const tailwind = useTailwind();
 
   return (
     <FilterModal
-      onClose={onClose}
       label={'篩選區域'}
       trigger={triggerAreaFilter}
       show={showAreaFilter}
@@ -68,9 +62,9 @@ export default AreaFilter;
 const Radio: React.FC<{
   value: CountryOfAreaFilter;
   label: string;
-}> = ({ label, value }) => {
+}> = ({label, value}) => {
   const tailwind = useTailwind();
-  const { country, setCountry } = useHouseFilterContext();
+  const {country, setCountry} = useHouseFilterContext();
 
   return (
     <TouchableWithoutFeedback
@@ -96,9 +90,9 @@ const Radio: React.FC<{
 const Checkbox: React.FC<{
   value: string;
   label: string;
-}> = ({ label, value }) => {
+}> = ({label, value}) => {
   const tailwind = useTailwind();
-  const { cities, setCities } = useHouseFilterContext();
+  const {cities, setCities} = useHouseFilterContext();
 
   return (
     <TouchableWithoutFeedback

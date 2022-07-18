@@ -8,7 +8,6 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated, {
-  AnimateStyle,
   interpolateColor,
   useAnimatedProps,
   useAnimatedStyle,
@@ -215,7 +214,7 @@ const BackButton = ({
   textColorStyle,
   backScreen = PageNames.home,
 }: {
-  textColorStyle: StyleProp<AnimateStyle<StyleProp<TextStyle>>>;
+  textColorStyle: StyleProp<TextStyle>;
   backScreen?: string;
 }) => {
   const navigation = useNavigation<Record<any, any>>();

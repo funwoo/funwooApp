@@ -4,6 +4,7 @@ import {MoreStackPageName} from './PageNames';
 import MoreScreen from '../screens/entrance/MoreScreen';
 import AboutUsScreen from '../screens/entrance/MoreScreen/Screen/AboutUsScreen';
 import AboutFunderScreen from '../screens/entrance/MoreScreen/Screen/AboutFunderScreen';
+import AgentsScreen from '../screens/entrance/MoreScreen/Screen/AgentsScreen';
 
 const Stack = createNativeStackNavigator<MoreScreenParamsList>();
 
@@ -23,6 +24,7 @@ const MoreScreenNavigatorStack = () => {
         name={MoreStackPageName.aboutFounder}
         component={AboutFunderScreen}
       />
+      <Stack.Screen name={MoreStackPageName.agents} component={AgentsScreen} />
     </Stack.Navigator>
   );
 };
