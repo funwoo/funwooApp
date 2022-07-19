@@ -170,6 +170,11 @@
 			"marginTop": "auto"
 		}
 	},
+	"mt-8": {
+		"style": {
+			"marginTop": 32
+		}
+	},
 	"ml-4": {
 		"style": {
 			"marginLeft": 16
@@ -183,11 +188,6 @@
 	"ml-3": {
 		"style": {
 			"marginLeft": 12
-		}
-	},
-	"mt-8": {
-		"style": {
-			"marginTop": 32
 		}
 	},
 	"mt-4": {
@@ -466,6 +466,14 @@
 			"overflow": "hidden"
 		}
 	},
+	"rounded-extreme": {
+		"style": {
+			"borderTopLeftRadius": 999,
+			"borderTopRightRadius": 999,
+			"borderBottomRightRadius": 999,
+			"borderBottomLeftRadius": 999
+		}
+	},
 	"rounded-[4px]": {
 		"style": {
 			"borderTopLeftRadius": 4,
@@ -544,6 +552,15 @@
 			"borderRightColor": "rgb(158 158 158 / var(--tw-border-opacity))",
 			"borderBottomColor": "rgb(158 158 158 / var(--tw-border-opacity))",
 			"borderLeftColor": "rgb(158 158 158 / var(--tw-border-opacity))"
+		}
+	},
+	"border-brand": {
+		"style": {
+			"--tw-border-opacity": 1,
+			"borderTopColor": "rgb(239 124 65 / var(--tw-border-opacity))",
+			"borderRightColor": "rgb(239 124 65 / var(--tw-border-opacity))",
+			"borderBottomColor": "rgb(239 124 65 / var(--tw-border-opacity))",
+			"borderLeftColor": "rgb(239 124 65 / var(--tw-border-opacity))"
 		}
 	},
 	"border-gray700": {
@@ -696,16 +713,16 @@
 			"paddingBottom": 4
 		}
 	},
-	"px-[1.125rem]": {
-		"style": {
-			"paddingLeft": 18,
-			"paddingRight": 18
-		}
-	},
 	"py-8": {
 		"style": {
 			"paddingTop": 32,
 			"paddingBottom": 32
+		}
+	},
+	"px-[1.125rem]": {
+		"style": {
+			"paddingLeft": 18,
+			"paddingRight": 18
 		}
 	},
 	"px-6": {
@@ -889,6 +906,12 @@
 			"color": "rgb(97 97 97 / var(--tw-text-opacity))"
 		}
 	},
+	"text-brand": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(239 124 65 / var(--tw-text-opacity))"
+		}
+	},
 	"text-gold": {
 		"style": {
 			"--tw-text-opacity": 1,
@@ -899,12 +922,6 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(158 158 158 / var(--tw-text-opacity))"
-		}
-	},
-	"text-brand": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(239 124 65 / var(--tw-text-opacity))"
 		}
 	},
 	"underline": {

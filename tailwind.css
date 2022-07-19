@@ -131,6 +131,10 @@
   margin-top: auto
 }
 
+.mt-8 {
+  margin-top: 2rem
+}
+
 .ml-4 {
   margin-left: 1rem
 }
@@ -141,10 +145,6 @@
 
 .ml-3 {
   margin-left: 0.75rem
-}
-
-.mt-8 {
-  margin-top: 2rem
 }
 
 .mt-4 {
@@ -363,6 +363,10 @@
   overflow: hidden
 }
 
+.rounded-extreme {
+  border-radius: 999px
+}
+
 .rounded-\[4px\] {
   border-radius: 4px
 }
@@ -409,6 +413,11 @@
 .border-gray500 {
   --tw-border-opacity: 1;
   border-color: rgb(158 158 158 / var(--tw-border-opacity))
+}
+
+.border-brand {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 124 65 / var(--tw-border-opacity))
 }
 
 .border-gray700 {
@@ -528,14 +537,14 @@
   padding-bottom: 0.25rem
 }
 
-.px-\[1\.125rem\] {
-  padding-left: 1.125rem;
-  padding-right: 1.125rem
-}
-
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem
+}
+
+.px-\[1\.125rem\] {
+  padding-left: 1.125rem;
+  padding-right: 1.125rem
 }
 
 .px-6 {
@@ -685,6 +694,11 @@
   color: rgb(97 97 97 / var(--tw-text-opacity))
 }
 
+.text-brand {
+  --tw-text-opacity: 1;
+  color: rgb(239 124 65 / var(--tw-text-opacity))
+}
+
 .text-gold {
   --tw-text-opacity: 1;
   color: rgb(180 153 97 / var(--tw-text-opacity))
@@ -693,11 +707,6 @@
 .text-gray500 {
   --tw-text-opacity: 1;
   color: rgb(158 158 158 / var(--tw-text-opacity))
-}
-
-.text-brand {
-  --tw-text-opacity: 1;
-  color: rgb(239 124 65 / var(--tw-text-opacity))
 }
 
 .underline {

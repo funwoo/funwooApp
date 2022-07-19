@@ -80,10 +80,9 @@ module.exports = {
           gray700: 'rgba(97, 97, 97)',
           gray900: 'rgba(33, 33, 33)',
         },
-        borderRadius: {
-          extreme: '999px',
-        },
-        borderRadius: {},
+      },
+      borderRadius: {
+        extreme: '999px',
       },
       boxShadow: {
         dropdown: '0px 4px 16px rgba(0, 0, 0, 0.12)',

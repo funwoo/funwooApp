@@ -201,7 +201,7 @@ const AboutUsScreen = () => {
           <Text
             fontSize={TextStringSizeEnum.base}
             fontFamily={'NotoSansTC-Medium'}
-            style={tailwind('text-origin')}>
+            style={tailwind('text-brand')}>
             閱讀完整故事
           </Text>
           <Animated.View style={animationStyle}>

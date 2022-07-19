@@ -27,10 +27,10 @@ const HouseFeature: React.FC<ListingDetail> = ({
             {feature_tags?.map(tag => (
               <View
                 key={tag}
-                style={tailwind('mr-2 mb-2 px-2 border border-origin')}>
+                style={tailwind('mr-2 mb-2 px-2 border border-brand')}>
                 <Text
                   fontSize={TextStringSizeEnum.md}
-                  style={tailwind('text-origin')}>
+                  style={tailwind('text-brand')}>
                   {tag}
                 </Text>
               </View>
