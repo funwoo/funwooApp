@@ -1,17 +1,19 @@
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, useWindowDimensions, Text, View, Pressable} from 'react-native';
+import {Image, Pressable, Text, useWindowDimensions, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useTailwind} from 'tailwind-rn/dist';
 import {ImageProvider} from '../../../assets';
 import AnimationFunwooHeader from '../../../components/layout/AnimationFunwooHeader';
-import {PageNames} from '../../../navigator/PageNames';
+import {MoreStackPageName, PageNames} from '../../../navigator/PageNames';
 import SplitPane from './components/SplitPane';
+
 const SellScreen = () => {
   const tailwind = useTailwind();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NavigationProp<EntranceRootStackParamsList>>();
   const {width} = useWindowDimensions();
+
   return (
     <AnimationFunwooHeader
       style={{
@@ -27,7 +29,7 @@ const SellScreen = () => {
           },
         ]}
       />
-      <View style={tailwind(`items-center`)}>
+      <View style={tailwind('items-center')}>
         <View style={tailwind('w-full')}>
           <Text
             style={[
@@ -39,15 +41,17 @@ const SellScreen = () => {
             為你量⾝打造賣房策略
           </Text>
           <Text
-            style={[tailwind(`font-sans text-center  text-xl m-3  text-gold`)]}>
+            style={[tailwind('font-sans text-center  text-xl m-3  text-gold')]}>
             結合最新科技和創新行銷，精準推廣你的房屋，創造最大價值。
           </Text>
-          <Text style={tailwind(`font-sans text-center text-gray700 text-xl`)}>
+          <Text style={tailwind('font-sans text-center text-gray700 text-xl')}>
             想要找出最適合你的賣房策略 ?
           </Text>
           <Pressable
             onPress={() => {
-              navigation.navigate(PageNames['contact-us']);
+              navigation.navigate(PageNames.more, {
+                screen: MoreStackPageName.contactUs,
+              });
             }}
             style={[
               tailwind(

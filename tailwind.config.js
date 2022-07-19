@@ -10,6 +10,12 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      mono: ['Roboto', 'monospace'],
+      sans: ['NotoSansTC-Regular'],
+      'sans-m': ['NotoSansTC-Medium'],
+      'sans-b': ['NotoSansTC-Bold'],
+    },
     textShadow: {
       default: '0 0 4px #000',
     },
@@ -43,9 +49,7 @@ module.exports = {
       black: '#000000',
       brand: '#ef7c41',
       gold: '#b49961',
-    },
-    fontFamily: {
-      mono: ['Roboto', 'monospace'],
+      windowsBlue: 'rgba(49, 130, 206)',
     },
     extend: {
       spacing: {
@@ -64,11 +68,6 @@ module.exports = {
         100: '25rem',
         128: '32rem',
         144: '36rem',
-        fontFamily: {
-          sans: ['NotoSansTC-Regular'],
-          'sans-m': ['NotoSansTC-Medium'],
-          'sans-b': ['NotoSansTC-Bold'],
-        },
         colors: {
           origin: 'rgb(239, 124, 65)',
           brandGold: 'rgb(180,153,97)',

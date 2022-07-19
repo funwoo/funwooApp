@@ -230,6 +230,11 @@
 			"marginBottom": 6
 		}
 	},
+	"mt-2": {
+		"style": {
+			"marginTop": 8
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -834,6 +839,21 @@
 			"paddingTop": 48
 		}
 	},
+	"pt-3": {
+		"style": {
+			"paddingTop": 12
+		}
+	},
+	"pb-16": {
+		"style": {
+			"paddingBottom": 64
+		}
+	},
+	"pt-7": {
+		"style": {
+			"paddingTop": 28
+		}
+	},
 	"text-left": {
 		"style": {
 			"textAlign": "left"
@@ -847,6 +867,16 @@
 	"text-right": {
 		"style": {
 			"textAlign": "right"
+		}
+	},
+	"font-sans-m": {
+		"style": {
+			"fontFamily": "NotoSansTC-Medium"
+		}
+	},
+	"font-sans": {
+		"style": {
+			"fontFamily": "NotoSansTC-Regular"
 		}
 	},
 	"text-2xl": {
@@ -922,6 +952,18 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(158 158 158 / var(--tw-text-opacity))"
+		}
+	},
+	"text-windowsBlue": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(49 130 206 / var(--tw-text-opacity))"
+		}
+	},
+	"text-gray800": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(66 66 66 / var(--tw-text-opacity))"
 		}
 	},
 	"underline": {

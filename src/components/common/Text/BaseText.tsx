@@ -114,7 +114,7 @@ const Text: React.FC<TextProps> = ({
             : '400',
         lineHeight: style?.lineHeight
           ? scale(style?.lineHeight)
-          : _fontSize + 4,
+          : _fontSize * 1.5,
         color,
       }}>
       {children}

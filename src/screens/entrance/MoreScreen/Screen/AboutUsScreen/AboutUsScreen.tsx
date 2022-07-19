@@ -1,12 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import CommonHeader from '../../../../../components/layout/CommonHeader';
-import {
-  LayoutAnimation,
-  Platform,
-  Pressable,
-  UIManager,
-  View,
-} from 'react-native';
+import {Pressable, View} from 'react-native';
 import CacheImage from '../../../../../components/common/CacheImage';
 import {ImageProvider} from '../../../../../assets';
 import {useTailwind} from 'tailwind-rn';
@@ -14,16 +8,11 @@ import Text, {
   TextStringSizeEnum,
 } from '../../../../../components/common/Text/BaseText';
 import BaseIcon from '../../../../../components/common/icons/Icons/BaseIcon';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {AppColors} from '../../../../../constants';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {MoreStackPageName} from '../../../../../navigator/PageNames';
+import useExpandAnimation from '../../../../../hooks/useExpandAnimation';
 
 const Features: Array<{
   image: {uri: string};
@@ -88,55 +77,9 @@ const FounderProfile = [
 ];
 
 const AboutUsScreen = () => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [didExpanded, setDidExpanded] = useState<boolean>(false);
-
   const tailwind = useTailwind();
-  const animation = useSharedValue(180);
   const navigation = useNavigation<NavigationProp<MoreScreenParamsList>>();
-
-  const rotation = useDerivedValue(() => {
-    return interpolate(animation.value, [0, 360], [0, 360]);
-  });
-
-  const animationStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          rotate: `${rotation.value}deg`,
-        },
-      ],
-    };
-  });
-
-  useEffect(() => {
-    if (didExpanded) {
-      animation.value = withTiming(180, {
-        duration: 300,
-      });
-    } else {
-      animation.value = withTiming(
-        360,
-        {
-          duration: 300,
-        },
-        () => {
-          animation.value = 0;
-        },
-      );
-    }
-  }, [didExpanded]);
-
-  if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-
-  const expand = useCallback(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
-      setDidExpanded(prev => !prev);
-    });
-    setIsExpanded(prev => !prev);
-  }, []);
+  const {isExpanded, expand, animationStyle} = useExpandAnimation();
 
   return (
     <CommonHeader title={'關於我們'} banner={ImageProvider.heroImageAboutUs}>
@@ -204,13 +147,13 @@ const AboutUsScreen = () => {
             style={tailwind('text-brand')}>
             閱讀完整故事
           </Text>
-          <Animated.View style={animationStyle}>
+          <Animated.View style={[animationStyle, tailwind('ml-2')]}>
             <BaseIcon
               type={'FontAwesome5'}
               size={14}
               name={'chevron-down'}
               color={AppColors.brand}
-              style={tailwind('w-6 h-6 ml-2')}
+              style={tailwind('w-6 h-6')}
             />
           </Animated.View>
         </Pressable>

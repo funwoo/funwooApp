@@ -179,6 +179,10 @@
   margin-bottom: 0.375rem
 }
 
+.mt-2 {
+  margin-top: 0.5rem
+}
+
 .flex {
   display: flex
 }
@@ -635,6 +639,18 @@
   padding-top: 3rem
 }
 
+.pt-3 {
+  padding-top: 0.75rem
+}
+
+.pb-16 {
+  padding-bottom: 4rem
+}
+
+.pt-7 {
+  padding-top: 1.75rem
+}
+
 .text-left {
   text-align: left
 }
@@ -645,6 +661,14 @@
 
 .text-right {
   text-align: right
+}
+
+.font-sans-m {
+  font-family: NotoSansTC-Medium
+}
+
+.font-sans {
+  font-family: NotoSansTC-Regular
 }
 
 .text-2xl {
@@ -707,6 +731,16 @@
 .text-gray500 {
   --tw-text-opacity: 1;
   color: rgb(158 158 158 / var(--tw-text-opacity))
+}
+
+.text-windowsBlue {
+  --tw-text-opacity: 1;
+  color: rgb(49 130 206 / var(--tw-text-opacity))
+}
+
+.text-gray800 {
+  --tw-text-opacity: 1;
+  color: rgb(66 66 66 / var(--tw-text-opacity))
 }
 
 .underline {

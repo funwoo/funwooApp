@@ -20,7 +20,7 @@ const sharedImgProvider = {
   },
   app_icon: require('./images/app_icon.png'),
   apple: require('./images/apple.png'),
-  campaignbackground: {
+  campaignBackground: {
     uri: 'https://cdn.funwoo.com.tw/assets/mobile/largeImages/hero-img-mobile/hero-overseas-mobile.webp',
   },
   consultant: {

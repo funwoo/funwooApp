@@ -1,12 +1,9 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   ImageBackground,
-  LayoutAnimation,
-  Platform,
   Pressable,
   ScrollView,
   TouchableWithoutFeedback,
-  UIManager,
   View,
 } from 'react-native';
 import {ListingDetail, TrafficEnvEntity} from '../../../../swagger/funwoo.api';
@@ -25,13 +22,8 @@ import {HouseStackPageName} from '../../../../navigator/PageNames';
 import classNames from 'classnames';
 import {isNotEmptyArray, splitValueAndUnits} from '../../../../utils';
 import ConditionalFragment from '../../../../components/common/ConditionalFragment';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
+import useExpandAnimation from '../../../../hooks/useExpandAnimation';
 
 export const MAP_RADIUS = 500;
 export const METERS_TO_LATITUDE = 0.00000904371732957115;
@@ -346,59 +338,13 @@ const EnvironmentSection: React.FC<{
   setSelectedMarker: (markerName: string) => void;
   setCenter: (coord: {lat: number; lng: number}) => void;
 }> = ({data, setSelectedMarker, setCenter}) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [didExpanded, setDidExpanded] = useState<boolean>(false);
-
   const tailwind = useTailwind();
-  const animation = useSharedValue(180);
-
-  const rotation = useDerivedValue(() => {
-    return interpolate(animation.value, [0, 360], [0, 360]);
-  });
-
-  const animationStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          rotate: `${rotation.value}deg`,
-        },
-      ],
-    };
-  });
+  const {expand, animationStyle, resetExpandStatus, isExpanded} =
+    useExpandAnimation();
 
   useEffect(() => {
-    setDidExpanded(false);
-    setIsExpanded(false);
+    resetExpandStatus();
   }, [data]);
-
-  useEffect(() => {
-    if (didExpanded) {
-      animation.value = withTiming(180, {
-        duration: 300,
-      });
-    } else {
-      animation.value = withTiming(
-        360,
-        {
-          duration: 300,
-        },
-        () => {
-          animation.value = 0;
-        },
-      );
-    }
-  }, [didExpanded]);
-
-  if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-
-  const expand = useCallback(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
-      setDidExpanded(prev => !prev);
-    });
-    setIsExpanded(prev => !prev);
-  }, []);
 
   const onMarkerPress = useCallback(
     (location: TrafficEnvEntity['location'], markerKey: string) => {
@@ -439,13 +385,13 @@ const EnvironmentSection: React.FC<{
             fontFamily={'NotoSansTC-Medium'}>
             更多交通資訊
           </Text>
-          <Animated.View style={animationStyle}>
+          <Animated.View style={[animationStyle, tailwind('ml-2')]}>
             <BaseIcon
               type={'FontAwesome5'}
               size={16}
               name={'chevron-down'}
               color={'#212121'}
-              style={tailwind('w-6 h-6 ml-2')}
+              style={tailwind('w-6 h-6')}
             />
           </Animated.View>
         </Pressable>
