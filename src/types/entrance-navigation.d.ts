@@ -8,8 +8,10 @@ export declare global {
     [PageNames.entranceTabs]: NavigatorScreenParams<EntranceTabParamsList>;
     [PageNames.signIn]?: undefined;
     [PageNames.house]: NavigatorScreenParams<HouseScreenStackParamsList>;
-    [PageNames.agent]: {sid: string};
     [PageNames.more]: NavigatorScreenParams<MoreScreenParamsList>;
+
+    [PageNames.agent]: {sid: string};
+    [PageNames.job]: {sid: string};
   };
 
   type EntranceTabParamsList = {

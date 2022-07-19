@@ -86,18 +86,6 @@ const HouseScreen = () => {
     return index >= 0 ? index : 0;
   }, [scrollPosition]);
 
-  const registryTab = useCallback((index: number) => {
-    return (event: LayoutChangeEvent) => {
-      setTabs(prev => {
-        let _tabs = deepClone(prev);
-        const {y} = event.nativeEvent.layout;
-        _tabs[index].yAxis = y;
-
-        return _tabs;
-      });
-    };
-  }, []);
-
   const registryTabItem = useCallback((index: number) => {
     return (event: LayoutChangeEvent) => {
       setTabs(prev => {
@@ -154,91 +142,48 @@ const HouseScreen = () => {
   const HouseAgentSectionRef = useRef<View>(null);
   useEffect(() => {
     if (agent && data) {
-      HouseInformationRef.current?.measure(
-        (
-          x: number,
-          y: number,
-          width: number,
-          height: number,
-          pageX: number,
-          pageY: number,
-        ) => {
-          setTabs(tabs => {
-            let temp = tabs;
-            temp[0].yAxis = y;
-            return temp;
-          });
-        },
-      );
-      HouseDetailRef.current?.measure(
-        (
-          x: number,
-          y: number,
-          width: number,
-          height: number,
-          pageX: number,
-          pageY: number,
-        ) => {
-          setTabs(tabs => {
-            let temp = tabs;
-            temp[1].yAxis = y;
-            return temp;
-          });
-        },
-      );
-      HouseFeatureRef.current?.measure(
-        (
-          x: number,
-          y: number,
-          width: number,
-          height: number,
-          pageX: number,
-          pageY: number,
-        ) => {
-          setTabs(tabs => {
-            let temp = tabs;
-            temp[2].yAxis = y;
-            return temp;
-          });
-        },
-      );
-      HouseEnvironmentRef.current?.measure(
-        (
-          x: number,
-          y: number,
-          width: number,
-          height: number,
-          pageX: number,
-          pageY: number,
-        ) => {
-          setTabs(tabs => {
-            let temp = tabs;
-            temp[3].yAxis = y;
-            return temp;
-          });
-        },
-      );
-      HouseAgentSectionRef.current?.measure(
-        (
-          x: number,
-          y: number,
-          width: number,
-          height: number,
-          pageX: number,
-          pageY: number,
-        ) => {
-          setTabs(tabs => {
-            let temp = tabs;
-            temp[4].yAxis = y;
-            return temp;
-          });
-        },
-      );
+      HouseInformationRef.current?.measure((x: number, y: number) => {
+        setTabs(_tabs => {
+          let temp = _tabs;
+          temp[0].yAxis = y;
+          return temp;
+        });
+      });
+      HouseDetailRef.current?.measure((x: number, y: number) => {
+        setTabs(_tabs => {
+          let temp = _tabs;
+          temp[1].yAxis = y;
+          return temp;
+        });
+      });
+      HouseFeatureRef.current?.measure((x: number, y: number) => {
+        setTabs(_tabs => {
+          let temp = _tabs;
+          temp[2].yAxis = y;
+          return temp;
+        });
+      });
+      HouseEnvironmentRef.current?.measure((x: number, y: number) => {
+        setTabs(_tabs => {
+          let temp = _tabs;
+          temp[3].yAxis = y;
+          return temp;
+        });
+      });
+      HouseAgentSectionRef.current?.measure((x: number, y: number) => {
+        setTabs(_tabs => {
+          let temp = _tabs;
+          temp[4].yAxis = y;
+          return temp;
+        });
+      });
     }
   }, [agent, data]);
+
   if (!data) {
     return null;
   }
+
   return (
     <React.Fragment>
       <HousePhoneCallModal

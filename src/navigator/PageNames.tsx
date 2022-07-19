@@ -10,6 +10,7 @@ export const PageNames = {
 
   house: 'house',
   agent: 'agent',
+  job: 'job',
 
   signIn: 'signIn',
   // agent: 'agent',

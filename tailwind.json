@@ -861,6 +861,11 @@
 			"fontSize": 16
 		}
 	},
+	"font-semibold": {
+		"style": {
+			"fontWeight": "600"
+		}
+	},
 	"leading-[1.5rem]": {
 		"style": {
 			"lineHeight": 24
@@ -894,6 +899,12 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(158 158 158 / var(--tw-text-opacity))"
+		}
+	},
+	"text-brand": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(239 124 65 / var(--tw-text-opacity))"
 		}
 	},
 	"underline": {

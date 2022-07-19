@@ -5,6 +5,7 @@ import EntranceNavigatorTabs from './EntranceNavigatorTabs';
 import {PageNames} from './PageNames';
 import HouseScreenNavigatorStack from './HouseScreenNavigatorStack';
 import AgentScreen from '../screens/entrance/AgentScreen';
+import JobScreen from '../screens/entrance/JobScreen';
 
 const Stack = createNativeStackNavigator<EntranceRootStackParamsList>();
 
@@ -33,6 +34,7 @@ const EntranceNavigatorStack = () => {
         component={HouseScreenNavigatorStack}
       />
       <Stack.Screen name={PageNames.agent} component={AgentScreen} />
+      <Stack.Screen name={PageNames.job} component={JobScreen} />
     </Stack.Navigator>
   );
 };

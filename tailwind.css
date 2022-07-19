@@ -662,6 +662,10 @@
   font-size: 1rem
 }
 
+.font-semibold {
+  font-weight: 600
+}
+
 .leading-\[1\.5rem\] {
   line-height: 1.5rem
 }
@@ -689,6 +693,11 @@
 .text-gray500 {
   --tw-text-opacity: 1;
   color: rgb(158 158 158 / var(--tw-text-opacity))
+}
+
+.text-brand {
+  --tw-text-opacity: 1;
+  color: rgb(239 124 65 / var(--tw-text-opacity))
 }
 
 .underline {

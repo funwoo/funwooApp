@@ -95,6 +95,7 @@ const HomeScreen = () => {
         {value.jobs?.map((job, index, array) => (
           <Pressable
             key={job.sid}
+            onPress={() => navigation.navigate(PageNames.job, {sid: job.sid})}
             style={tailwind(
               classNames(
                 'py-4 px-3',
