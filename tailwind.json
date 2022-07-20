@@ -54,6 +54,11 @@
 			"bottom": -28
 		}
 	},
+	"left-0": {
+		"style": {
+			"left": 0
+		}
+	},
 	"z-10": {
 		"style": {
 			"zIndex": 10
@@ -245,6 +250,11 @@
 			"marginTop": 8
 		}
 	},
+	"mr-8": {
+		"style": {
+			"marginRight": 32
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -405,6 +415,16 @@
 			"width": "100vw"
 		}
 	},
+	"w-fit": {
+		"style": {
+			"width": "fit-content"
+		}
+	},
+	"w-10": {
+		"style": {
+			"width": 40
+		}
+	},
 	"flex-1": {
 		"style": {
 			"flexGrow": 1,
@@ -505,6 +525,14 @@
 			"borderTopRightRadius": 4,
 			"borderBottomRightRadius": 4,
 			"borderBottomLeftRadius": 4
+		}
+	},
+	"rounded-md": {
+		"style": {
+			"borderTopLeftRadius": 6,
+			"borderTopRightRadius": 6,
+			"borderBottomRightRadius": 6,
+			"borderBottomLeftRadius": 6
 		}
 	},
 	"border": {

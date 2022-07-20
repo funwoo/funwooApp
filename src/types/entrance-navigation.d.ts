@@ -46,12 +46,14 @@ export declare global {
     env: Array<TrafficEnvEntity>;
   }
 
+  interface EnvRegion {
+    lat: number;
+    lng: number;
+  }
+
   interface HouseMapScreenParams {
     data: Array<HouseEnvData>;
-    region: {
-      lat: number;
-      lng: number;
-    };
+    region: EnvRegion;
     type: 'street' | 'map';
     address: string;
   }

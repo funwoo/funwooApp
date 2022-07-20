@@ -23,6 +23,7 @@ interface Props {
   bannerAspectRatio?: number;
   contentInsetAdjustmentBehavior?: ScrollViewProps['contentInsetAdjustmentBehavior'];
   onGoBackPress?: () => void;
+  scrollEnabled?: boolean;
 }
 
 const CommonHeader: React.FC<Props> = ({
@@ -34,6 +35,7 @@ const CommonHeader: React.FC<Props> = ({
   bannerAspectRatio = 414 / 580,
   contentInsetAdjustmentBehavior,
   onGoBackPress,
+  scrollEnabled,
 }) => {
   const tailwind = useTailwind();
 
@@ -46,7 +48,9 @@ const CommonHeader: React.FC<Props> = ({
       />
       <ScrollView
         nestedScrollEnabled
-        style={tailwind('flex-1')}
+        scrollEnabled={scrollEnabled}
+        style={[tailwind('flex-1')]}
+        contentContainerStyle={!scrollEnabled ? tailwind('flex-1') : undefined}
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}>
         <ConditionalFragment condition={isSet(banner)}>
           <View style={tailwind('items-center justify-center')}>
@@ -102,7 +106,7 @@ export const PureCommonHeader: React.FC<
         fontFamily={'NotoSansTC-Medium'}
         fontSize={TextStringSizeEnum['3xl']}
         numberOfLines={1}
-        style={tailwind('flex-1 mx-2')}>
+        style={tailwind('flex-1 mx-2 text-center')}>
         {title}
       </Text>
       <ConditionalFragment condition={isSet(headerRight)}>

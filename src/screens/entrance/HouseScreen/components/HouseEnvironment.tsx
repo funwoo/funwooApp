@@ -3,8 +3,10 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
+  StyleProp,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
 } from 'react-native';
 import {ListingDetail, TrafficEnvEntity} from '../../../../swagger/funwoo.api';
 import {useTailwind} from 'tailwind-rn';
@@ -13,7 +15,7 @@ import Text, {
 } from '../../../../components/common/Text/BaseText';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {useDimensionsContext} from '../../../../context/DimensionsContext';
-import MapView, {Marker} from './MapView';
+import MapView, {Marker, PillMarker} from './MapView';
 import RNMapView from 'react-native-maps';
 import BaseIcon from '../../../../components/common/icons/Icons/BaseIcon';
 import {ImageProvider} from '../../../../assets';
@@ -202,8 +204,13 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
             data={environments}
             region={region}
             address={address ?? ''}
+            style={tailwind('absolute bottom-4 right-4')}
           />
-          <ZoomInButton />
+          <ZoomInButton
+            region={region}
+            address={address!}
+            data={environments}
+          />
         </View>
       </TouchableWithoutFeedback>
       <ScrollView
@@ -245,28 +252,9 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
 
 export default HouseEnvironment;
 
-const PillMarker: React.FC<{
-  index: number;
-  pill: TrafficEnvEntity;
-  selectedMarker: string;
-}> = ({pill: {name, type, location}, index, selectedMarker}) => {
-  return (
-    <Marker
-      selected={selectedMarker === `${name}-${index}`}
-      type={type!}
-      coordinate={{
-        latitude: location?.lat ?? 0,
-        longitude: location?.lng ?? 0,
-      }}
-    />
-  );
-};
-
-const StreetViewButton: React.FC<Omit<HouseMapScreenParams, 'type'>> = ({
-  data,
-  region,
-  address,
-}) => {
+export const StreetViewButton: React.FC<
+  {style?: StyleProp<ViewStyle>} & Omit<HouseMapScreenParams, 'type'>
+> = ({data, region, address, style}) => {
   const tailwind = useTailwind();
   const navigation =
     useNavigation<NavigationProp<HouseScreenStackParamsList>>();
@@ -283,7 +271,8 @@ const StreetViewButton: React.FC<Omit<HouseMapScreenParams, 'type'>> = ({
       }}>
       <ImageBackground
         style={[
-          tailwind('absolute bottom-4 right-4 items-center justify-center'),
+          style,
+          tailwind('items-center justify-center rounded-md'),
           {
             width: 120,
             height: 90,
@@ -308,11 +297,25 @@ const StreetViewButton: React.FC<Omit<HouseMapScreenParams, 'type'>> = ({
   );
 };
 
-const ZoomInButton = () => {
+const ZoomInButton: React.FC<{
+  data: Array<HouseEnvData>;
+  region: EnvRegion;
+  address: string;
+}> = ({region, data, address}) => {
   const tailwind = useTailwind();
+  const navigation =
+    useNavigation<NavigationProp<HouseScreenStackParamsList>>();
 
   return (
-    <View
+    <Pressable
+      onPress={() =>
+        navigation.navigate(HouseStackPageName.map, {
+          type: 'map',
+          region,
+          address,
+          data,
+        })
+      }
       style={[
         tailwind('absolute top-4 right-4 flex-row items-center p-3 bg-white'),
       ]}>
@@ -329,7 +332,7 @@ const ZoomInButton = () => {
         size={23}
         name={'fullscreen'}
       />
-    </View>
+    </Pressable>
   );
 };
 

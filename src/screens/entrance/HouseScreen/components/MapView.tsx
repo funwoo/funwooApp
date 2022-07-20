@@ -1,13 +1,13 @@
 import React, {useMemo} from 'react';
 import {ImageURISource} from 'react-native';
 import RNMapView, {
-  Callout,
   Circle,
   MapMarkerProps,
   MapStyleElement,
   MapViewProps,
   Marker as RNMarker,
 } from 'react-native-maps';
+import {TrafficEnvEntity} from '../../../../swagger/funwoo.api';
 
 const customMapStyle: Array<MapStyleElement> = [
   {
@@ -159,6 +159,33 @@ const Marker: React.FC<CustomMarkerProps> = ({
   );
 };
 
-export {Marker, Callout, Circle};
+const PillMarker: React.FC<
+  {
+    index: number;
+    pill: TrafficEnvEntity;
+    selectedMarker: string;
+  } & Omit<CustomMarkerProps, 'selected' | 'type' | 'coordinate'>
+> = ({
+  pill: {name, type, location},
+  index,
+  selectedMarker,
+  children,
+  ...props
+}) => {
+  return (
+    <Marker
+      selected={selectedMarker === `${name}-${index}`}
+      type={type!}
+      coordinate={{
+        latitude: location?.lat ?? 0,
+        longitude: location?.lng ?? 0,
+      }}
+      {...props}>
+      {children}
+    </Marker>
+  );
+};
+
+export {Marker, Circle, PillMarker};
 
 export default MapView;

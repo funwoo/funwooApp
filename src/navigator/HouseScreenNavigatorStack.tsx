@@ -3,6 +3,7 @@ import React from 'react';
 import {HouseStackPageName} from './PageNames';
 import HouseScreen from '../screens/entrance/HouseScreen/HouseScreen';
 import AddAddressScreen from '../screens/entrance/HouseScreen/AddAddressScreen';
+import HouseMapScreen from '../screens/entrance/HouseScreen/HouseMapScreen';
 
 const Stack = createNativeStackNavigator<HouseScreenStackParamsList>();
 
@@ -18,6 +19,7 @@ const HouseScreenNavigatorStack = () => {
         name={HouseStackPageName.addAddress}
         component={AddAddressScreen}
       />
+      <Stack.Screen name={HouseStackPageName.map} component={HouseMapScreen} />
     </Stack.Navigator>
   );
 };

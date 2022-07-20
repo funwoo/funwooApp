@@ -204,7 +204,7 @@ const HouseScreen = () => {
           <ScrollView
             ref={scrollViewRef}
             onScroll={onScroll}
-            scrollEventThrottle={16}>
+            scrollEventThrottle={100}>
             <View ref={HouseInformationRef}>
               <HouseInformation data={data} />
             </View>
