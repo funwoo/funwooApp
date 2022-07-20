@@ -8,6 +8,10 @@ import AgentsScreen from '../screens/entrance/MoreScreen/Screen/AgentsScreen';
 import JobsScreen from '../screens/entrance/MoreScreen/Screen/JobsScreen/JobsScreen';
 import ContactUsScreen from '../screens/entrance/MoreScreen/Screen/ContactUsScreen';
 import OverseaScreen from '../screens/entrance/MoreScreen/Screen/OverseaScreen';
+import ServiceTermsScreen from '../screens/entrance/MoreScreen/Screen/ServiceTermsScreen';
+import PrivatePolicyScreen from '../screens/entrance/MoreScreen/Screen/PrivatePolicyScreen';
+import UserCookieTermsScreen from '../screens/entrance/MoreScreen/Screen/UserCookieTermsScreen';
+import LicenseScreen from '../screens/entrance/MoreScreen/Screen/LicenseScreen';
 
 const Stack = createNativeStackNavigator<MoreScreenParamsList>();
 
@@ -36,6 +40,22 @@ const MoreScreenNavigatorStack = () => {
       <Stack.Screen
         name={MoreStackPageName.overseas}
         component={OverseaScreen}
+      />
+      <Stack.Screen
+        name={MoreStackPageName.serviceTerms}
+        component={ServiceTermsScreen}
+      />
+      <Stack.Screen
+        name={MoreStackPageName.privatePolicy}
+        component={PrivatePolicyScreen}
+      />
+      <Stack.Screen
+        name={MoreStackPageName.userCookieTerms}
+        component={UserCookieTermsScreen}
+      />
+      <Stack.Screen
+        name={MoreStackPageName.license}
+        component={LicenseScreen}
       />
     </Stack.Navigator>
   );

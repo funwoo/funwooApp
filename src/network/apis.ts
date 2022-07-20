@@ -2,11 +2,12 @@ import {LiveChatroomsStateProps} from '../state/liveChatRooms';
 import {LivechatRoomsInfo} from './entities/livechat-rooms-info.entity';
 import {backyardAPIHttpClient, rockatchatAPIHttpClient} from './httpClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RNFetchBlob from 'rn-fetch-blob';
+// import RNFetchBlob from 'rn-fetch-blob';
 import {ContactProps} from './entities/contact-enity';
 import {CustomFieldsProps} from './entities/custom-fields.entity';
 import {VisitorResponse} from './entities/visitor-enity';
 import {InquiriesQueuedListProps} from './entities/Inquiries-queued-list-enity';
+import RNBlobUtils from 'react-native-blob-util';
 
 class Apis {
   getLiveChatRoomList(livechatRoomLastTimeUpdate: string | null) {
@@ -75,7 +76,8 @@ class Apis {
           reject('userInfo empty');
           return;
         }
-        const response = await RNFetchBlob.fetch(
+
+        const response = await RNBlobUtils.fetch(
           'POST',
           `https://crm.funwoo.com.tw/api/v1/rooms.upload/${rid}`,
           {
@@ -92,7 +94,7 @@ class Apis {
                 .pop()
                 ?.trim()}`,
               filename: file.filename,
-              data: RNFetchBlob.wrap(decodeURI(file.filepath)),
+              data: RNBlobUtils.wrap(decodeURI(file.filepath)),
             },
           ],
         );
@@ -108,6 +110,7 @@ class Apis {
       '/api/v1/livechat/custom-fields',
     );
   }
+
   getUserInfo(visitorId: string) {
     return rockatchatAPIHttpClient.get<VisitorResponse>(
       '/api/v1/livechat/visitors.info',
@@ -118,6 +121,7 @@ class Apis {
       },
     );
   }
+
   setRead = (rid: string) => {
     return rockatchatAPIHttpClient.post<{success: boolean}>(
       '/api/v1/subscriptions.read',
@@ -126,6 +130,7 @@ class Apis {
       },
     );
   };
+
   getUserContact(contactId: string) {
     return rockatchatAPIHttpClient.get<ContactProps>(
       '/api/v1/omnichannel/contact',
@@ -136,6 +141,7 @@ class Apis {
       },
     );
   }
+
   getInquiriesQueuedList(offset?: number) {
     return rockatchatAPIHttpClient.get<InquiriesQueuedListProps>(
       '/api/v1/livechat/inquiries.queued',
@@ -146,6 +152,7 @@ class Apis {
       },
     );
   }
+
   takeChat(inquiryId: string) {
     return rockatchatAPIHttpClient.post<InquiriesQueuedListProps>(
       '/api/v1/livechat/inquiries.take',
