@@ -30,8 +30,9 @@ const HouseFeature: React.FC<ListingDetail> = ({
                 style={tailwind('mr-2 mb-2 px-2 border border-brand')}>
                 <Text
                   fontSize={TextStringSizeEnum.md}
-                  style={tailwind('text-brand')}>
-                  {tag}
+                  style={tailwind('text-brand')}
+                  numberOfLines={1}>
+                  {tag.replace(/\s/g, '')}
                 </Text>
               </View>
             ))}
