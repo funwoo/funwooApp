@@ -35,6 +35,8 @@
 		FA565B8D286C190200E6F4CB /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA565B78286C190200E6F4CB /* Octicons.ttf */; };
 		FA565B8E286C190200E6F4CB /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA565B79286C190200E6F4CB /* Fontisto.ttf */; };
 		FA88C8B92859E91B002E46AC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		FA9B95EF2888FB6300D74B34 /* StreetView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9B95EE2888FB6300D74B34 /* StreetView.m */; };
+		FA9B95F12888FB8D00D74B34 /* StreetViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9B95F02888FB8D00D74B34 /* StreetViewManager.m */; };
 		FAAAA49E2817949C006DF613 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAAA49D2817949C006DF613 /* NotificationService.swift */; };
 		FAAAA4A22817949C006DF613 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAAAA49B2817949C006DF613 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FAAB6873286836450038A9F9 /* IcoMoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAAB6871286834CF0038A9F9 /* IcoMoon.ttf */; };
@@ -116,6 +118,9 @@
 		FA565B77286C190200E6F4CB /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		FA565B78286C190200E6F4CB /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		FA565B79286C190200E6F4CB /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
+		FA9B95ED2888FB6300D74B34 /* StreetView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StreetView.h; sourceTree = "<group>"; };
+		FA9B95EE2888FB6300D74B34 /* StreetView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreetView.m; sourceTree = "<group>"; };
+		FA9B95F02888FB8D00D74B34 /* StreetViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreetViewManager.m; sourceTree = "<group>"; };
 		FAAAA477281792C6006DF613 /* funwooChatApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = funwooChatApp.entitlements; path = funwooChatApp/funwooChatApp.entitlements; sourceTree = "<group>"; };
 		FAAAA49B2817949C006DF613 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAAAA49D2817949C006DF613 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -290,6 +295,9 @@
 			children = (
 				FAC3FBDC286AF94A00D8CACC /* CameraRollFetcher.m */,
 				FAC3FBDE286AF96E00D8CACC /* CameraRollFetcher.h */,
+				FA9B95ED2888FB6300D74B34 /* StreetView.h */,
+				FA9B95EE2888FB6300D74B34 /* StreetView.m */,
+				FA9B95F02888FB8D00D74B34 /* StreetViewManager.m */,
 			);
 			path = NativeModule;
 			sourceTree = "<group>";
@@ -651,7 +659,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				FA9B95EF2888FB6300D74B34 /* StreetView.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				FA9B95F12888FB8D00D74B34 /* StreetViewManager.m in Sources */,
 				FAC3FBDD286AF94A00D8CACC /* CameraRollFetcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

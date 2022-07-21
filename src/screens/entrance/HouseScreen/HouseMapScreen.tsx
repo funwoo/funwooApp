@@ -26,6 +26,7 @@ import {
   StreetViewButton,
 } from './components/HouseEnvironment';
 import classNames from 'classnames';
+import StreetView from './components/StreetView';
 
 const HouseMapScreen = () => {
   const tailwind = useTailwind();
@@ -83,6 +84,30 @@ const HouseMapScreen = () => {
           </Pressable>
         </React.Fragment>
       }>
+      <StreetView
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+        allGesturesEnabled={true}
+        coordinate={{
+          radius: 50,
+          latitude: region.lat,
+          longitude: region.lng,
+        }}
+        marker={{
+          latitude: region.lat,
+          longitude: region.lng,
+        }}
+        pov={{
+          tilt: parseFloat(0),
+          bearing: parseFloat(0),
+          zoom: parseInt(1),
+        }}
+      />
       <ConditionalFragment condition={type === 'map'}>
         <EnvironmentMap {...params} />
       </ConditionalFragment>
