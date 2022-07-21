@@ -22,8 +22,8 @@ import MapView, {Marker, PillMarker} from './components/MapView';
 import RNMapView, {Callout, Region} from 'react-native-maps';
 import {
   MAP_RADIUS,
+  MapViewButton,
   METERS_TO_LATITUDE,
-  StreetViewButton,
 } from './components/HouseEnvironment';
 import classNames from 'classnames';
 import StreetView from './components/StreetView';
@@ -84,34 +84,34 @@ const HouseMapScreen = () => {
           </Pressable>
         </React.Fragment>
       }>
-      <StreetView
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-        allGesturesEnabled={true}
-        coordinate={{
-          radius: 50,
-          latitude: region.lat,
-          longitude: region.lng,
-        }}
-        marker={{
-          latitude: region.lat,
-          longitude: region.lng,
-        }}
-        pov={{
-          tilt: parseFloat(0),
-          bearing: parseFloat(0),
-          zoom: parseInt(1),
-        }}
-      />
       <ConditionalFragment condition={type === 'map'}>
         <EnvironmentMap {...params} />
       </ConditionalFragment>
-      <ConditionalFragment condition={type === 'street'} />
+      <ConditionalFragment condition={type === 'street'}>
+        <StreetView
+          style={tailwind('flex-1 w-full')}
+          allGesturesEnabled={true}
+          coordinate={{
+            radius: 50,
+            latitude: region.lat,
+            longitude: region.lng,
+          }}
+          marker={{
+            latitude: region.lat,
+            longitude: region.lng,
+          }}
+          pov={{
+            tilt: parseFloat('0'),
+            bearing: parseFloat('0'),
+            zoom: parseInt('1'),
+          }}
+        />
+        <MapViewButton
+          style={tailwind('absolute bottom-4 right-4 z-10')}
+          {...params}
+          type={'map'}
+        />
+      </ConditionalFragment>
     </CommonHeader>
   );
 };
@@ -339,7 +339,12 @@ const EnvironmentMap: React.FC<HouseMapScreenParams> = ({
             style={tailwind('w-10 h-10 bg-white')}
           />
         </Pressable>
-        <StreetViewButton data={data} region={region} address={address} />
+        <MapViewButton
+          type={'street'}
+          data={data}
+          region={region}
+          address={address}
+        />
       </View>
     </View>
   );

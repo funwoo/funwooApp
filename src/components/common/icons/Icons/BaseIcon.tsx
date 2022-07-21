@@ -29,7 +29,7 @@ const Icons = {
   Octicons: Octicons,
 };
 
-interface BaseIconProps extends TextProps {
+export interface BaseIconProps extends TextProps {
   type:
     | 'Feather'
     | 'FontAwesome'
