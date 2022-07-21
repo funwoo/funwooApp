@@ -6,8 +6,10 @@ import {
   NativeSyntheticEvent,
   Platform,
   Pressable,
+  requireNativeComponent,
   ScrollView,
   View,
+  ViewProps,
 } from 'react-native';
 import Text, {
   TextStringSizeEnum,
@@ -26,6 +28,32 @@ import {
   StreetViewButton,
 } from './components/HouseEnvironment';
 import classNames from 'classnames';
+
+export interface StreetViewProps extends ViewProps {
+  coordinate: {
+    latitude: number;
+    longitude: number;
+    radius: number;
+  };
+  pov: {
+    tilt: number;
+    bearing: number;
+    zoom: number;
+  };
+  allGesturesEnabled?: boolean;
+  heading?: number;
+  onError?: () => {};
+  onSuccess?: () => {};
+  marker?: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+const RCTStreetView = requireNativeComponent('StreetView');
+const StreetView: React.FC<StreetViewProps> = props => {
+  return <RCTStreetView {...props} />;
+};
 
 const HouseMapScreen = () => {
   const tailwind = useTailwind();
@@ -86,7 +114,26 @@ const HouseMapScreen = () => {
       <ConditionalFragment condition={type === 'map'}>
         <EnvironmentMap {...params} />
       </ConditionalFragment>
-      <ConditionalFragment condition={type === 'street'} />
+      <ConditionalFragment condition={type === 'street'}>
+        <StreetView
+          style={tailwind('flex-1')}
+          allGesturesEnabled={true}
+          coordinate={{
+            radius: 50,
+            latitude: region.lat,
+            longitude: region.lng,
+          }}
+          marker={{
+            latitude: region.lat,
+            longitude: region.lng,
+          }}
+          pov={{
+            tilt: parseFloat('0'),
+            bearing: parseFloat('0'),
+            zoom: parseInt('1'),
+          }}
+        />
+      </ConditionalFragment>
     </CommonHeader>
   );
 };

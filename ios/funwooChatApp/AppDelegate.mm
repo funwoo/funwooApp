@@ -3,6 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <GoogleMaps/GoogleMaps.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTAppSetupUtils.h>
 #import <CodePush/CodePush.h>

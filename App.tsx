@@ -9,7 +9,7 @@
  */
 
 import React, {Suspense} from 'react';
-import {AppStateStatus, LogBox, View} from 'react-native';
+import {AppStateStatus, LogBox, NativeModules, View} from 'react-native';
 import useAppState from 'react-native-appstate-hook';
 import {focusManager, QueryClient, QueryClientProvider} from 'react-query';
 import {RecoilRoot} from 'recoil';
@@ -25,6 +25,7 @@ import CodePush from 'react-native-code-push';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import {database} from '.';
 
+console.log(NativeModules);
 LogBox.ignoreAllLogs(true);
 const queryClient = new QueryClient({
   defaultOptions: {queries: {retry: 2}},
