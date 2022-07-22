@@ -17,7 +17,9 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {useDimensionsContext} from '../../../../context/DimensionsContext';
 import MapView, {Marker, PillMarker} from './MapView';
 import RNMapView from 'react-native-maps';
-import BaseIcon from '../../../../components/common/icons/Icons/BaseIcon';
+import BaseIcon, {
+  BaseIconProps,
+} from '../../../../components/common/icons/Icons/BaseIcon';
 import {ImageProvider} from '../../../../assets';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {HouseStackPageName} from '../../../../navigator/PageNames';
@@ -200,11 +202,12 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
               />
             ))}
           </MapView>
-          <StreetViewButton
+          <MapViewButton
             data={environments}
             region={region}
             address={address ?? ''}
             style={tailwind('absolute bottom-4 right-4')}
+            type={'street'}
           />
           <ZoomInButton
             region={region}
@@ -252,12 +255,31 @@ const HouseEnvironment: React.FC<ListingDetail> = ({
 
 export default HouseEnvironment;
 
-export const StreetViewButton: React.FC<
-  {style?: StyleProp<ViewStyle>} & Omit<HouseMapScreenParams, 'type'>
-> = ({data, region, address, style}) => {
+export const MapViewButton: React.FC<
+  {style?: StyleProp<ViewStyle>} & HouseMapScreenParams
+> = ({data, region, address, style, type}) => {
   const tailwind = useTailwind();
   const navigation =
     useNavigation<NavigationProp<HouseScreenStackParamsList>>();
+
+  const backgroundImage = useMemo(() => {
+    return type === 'street'
+      ? ImageProvider.streetIconBackground
+      : ImageProvider.mapIconBackground;
+  }, [type]);
+  const IconProps = useMemo<Pick<BaseIconProps, 'type' | 'name'>>(() => {
+    if (type === 'street') {
+      return {
+        type: 'MaterialIcons',
+        name: '360',
+      };
+    } else {
+      return {
+        type: 'Entypo',
+        name: 'map',
+      };
+    }
+  }, [type]);
 
   return (
     <Pressable
@@ -266,7 +288,7 @@ export const StreetViewButton: React.FC<
           region,
           data,
           address,
-          type: 'street',
+          type,
         });
       }}>
       <ImageBackground
@@ -278,11 +300,10 @@ export const StreetViewButton: React.FC<
             height: 90,
           },
         ]}
-        source={ImageProvider.streetIconBackground}>
+        source={backgroundImage}>
         <BaseIcon
-          type={'MaterialIcons'}
+          {...IconProps}
           style={{marginBottom: 10}}
-          name="360"
           size={20}
           color="white"
         />
@@ -290,7 +311,12 @@ export const StreetViewButton: React.FC<
           fontSize={TextStringSizeEnum.md}
           fontFamily={'NotoSansTC-Medium'}
           style={tailwind('text-white')}>
-          {'街景圖'}
+          <ConditionalFragment condition={type === 'map'}>
+            地圖
+          </ConditionalFragment>
+          <ConditionalFragment condition={type === 'street'}>
+            街景圖
+          </ConditionalFragment>
         </Text>
       </ImageBackground>
     </Pressable>
