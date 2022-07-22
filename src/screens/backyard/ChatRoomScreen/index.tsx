@@ -26,6 +26,7 @@ import {MESSAGES_TABLE} from '../../../model/Message';
 import {database} from '../../../..';
 import {Q} from '@nozbe/watermelondb';
 import {LiveChatMessagesHistoryProps} from '../../../network/entities/history-message-enity';
+import RNFetchBlob from 'rn-fetch-blob';
 const ChatRoomScreen: React.FC<{
   route: RouteProp<
     {
@@ -63,7 +64,7 @@ const ChatRoomScreen: React.FC<{
           };
         } else {
           return {
-            _id: item.id,
+            _id: item.message_id,
             text: item.text ?? '',
             createdAt: moment.unix(item.date).toISOString(),
             user: {
@@ -73,19 +74,15 @@ const ChatRoomScreen: React.FC<{
               avatar:
                 route.params.username === item.username
                   ? route.params.avatar
-                  : item.avatar,
+                  : '',
             },
             image: item?.image,
-            sent: true,
-            received: true,
-            pending: true,
           };
         }
       }),
     [messages],
   );
   useEffect(() => {
-    readAll(route.params.roomId);
     return () => {
       readAll(route.params.roomId);
     };
@@ -147,9 +144,9 @@ const ChatRoomScreen: React.FC<{
     }
   }, [route.params.roomId]);
   useRefreshOnFocus(onInit);
-  useEffect(() => {
-    onInit();
-  }, [route.params.roomId]);
+  // useEffect(() => {
+  //   onInit();
+  // }, [route.params.roomId]);
 
   const onSend = useCallback(
     (messages: IMessage[]) => {

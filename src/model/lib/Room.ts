@@ -7,6 +7,7 @@ import RNUserdefaults from '@tranzerdev/react-native-user-defaults';
 import moment from 'moment';
 
 const readAll = async (rid: string) => {
+  await apis.setRead(rid);
   const rooms = await database
     .get(ROOMS_TABLE)
     .query(Q.where('roomId', rid))
@@ -22,7 +23,6 @@ const readAll = async (rid: string) => {
       }),
     );
   });
-  await apis.setRead(rid);
 };
 export const updateOrCreate = (
   custom_id: string,

@@ -37,6 +37,7 @@ const WebsocketContext = createContext({} as WebsocketContextProviderProps);
 export type webSocketStatusType = '嘗試連接中' | '錯誤' | '已連接';
 const socketUrl = 'wss://crm.funwoo.com.tw/websocket';
 const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
+  const roomDBIsWritting = useRef(false);
   const roomSubId = useRef(uuid.v4());
   const {userInfo} = useUserInfoContextProvider();
   const currentRoomId = useRef('');
@@ -94,18 +95,20 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
           .get(ROOMS_TABLE)
           .query(Q.where('custom_id', data.fields.args[1].v._id))
           .fetch();
-        database.write(async () => {
+        if (roomDBIsWritting.current) return;
+        await database.write(async () => {
+          roomDBIsWritting.current = true;
           if (room.length === 0) {
             await database.get(ROOMS_TABLE).create(room => {
-              room.custom_id = item.v._id;
-              room.name = item.fname;
-              room.username = item?.v?.username;
-              room.token = item.v.token;
+              room.custom_id = item?.v?._id ?? '';
+              room.name = item?.fname;
+              room.username = item?.v?.username ?? '';
+              room.token = item?.v?.token;
               room.phone = [];
-              room.roomId = item._id ?? '';
-              room.last_message = item.lastMessage.msg ?? '';
+              room.roomId = item?._id ?? '';
+              room.last_message = item?.lastMessage?.msg ?? '';
               room.line_id = '';
-              room.date = moment(item.ts.date).unix() ?? 0;
+              room.date = moment(item?.ts?.date).unix() ?? 0;
               room.avatar = visitor?.visitor?.livechatData?.avatar ?? '';
               room.unread = 0;
             });
@@ -115,28 +118,28 @@ const WebsocketContextProviderProvider: FC<{}> = ({children}) => {
               await existRoom.destroyPermanently();
             } else {
               await existRoom.update(room => {
-                room.custom_id = item.v._id;
-                room.name = item.fname;
+                room.custom_id = item?.v?._id;
+                room.name = item?.fname;
                 room.username = item?.v?.username;
-                room.token = item.v.token;
-                room.phone = existRoom.phone;
-                room.roomId = item._id ?? '';
-                room.last_message = item.lastMessage.msg ?? '';
-                room.line_id = existRoom.line_id;
-                room.date = moment(item.ts.date).unix() ?? 0;
+                room.token = item?.v?.token;
+                room.phone = existRoom?.phone;
+                room.roomId = item?._id ?? '';
+                room.last_message = item?.lastMessage?.msg ?? '';
+                room.line_id = existRoom?.line_id;
+                room.date = moment(item?.ts?.date).unix() ?? 0;
                 room.avatar = visitor?.visitor?.livechatData?.avatar ?? '';
                 room.unread =
-                  currentRoomId.current === item._id
+                  currentRoomId?.current === item?._id
                     ? 0
-                    : existRoom.unread + 1 ?? 0;
+                    : existRoom?.unread + 1 ?? 0;
               });
             }
           }
+          roomDBIsWritting.current = false;
         });
       } else if (data.collection === 'stream-room-messages') {
         try {
           const messageData = data?.fields?.args?.[0] ?? {};
-
           database.write(async () => {
             await database.get(MESSAGES_TABLE).create(message => {
               message.message_id = messageData._id;

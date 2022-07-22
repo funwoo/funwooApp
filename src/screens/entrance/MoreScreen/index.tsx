@@ -1,18 +1,19 @@
-import {Image, Pressable} from 'react-native';
+import {Image, Pressable, TouchableWithoutFeedback} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Platform, SectionList, View} from 'react-native';
 import {ListItem} from './components/ListItem';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {AppColors} from '../../../assets/colors/AppColors';
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MoreStackPageName, PageNames} from '../../../navigator/PageNames';
 import Text, {
   TextStringSizeEnum,
 } from '../../../components/common/Text/BaseText';
 import AnimationFunwooHeader from '../../../components/layout/AnimationFunwooHeader';
 import {useTailwind} from 'tailwind-rn';
-
+import DeviceInfo from 'react-native-device-info';
+import CodePush from 'react-native-code-push';
 interface Section {
   title: string;
   data: Array<Item>;
@@ -85,7 +86,16 @@ const MoreScreen = () => {
   const navigation =
     useNavigation<NavigationProp<EntranceRootStackParamsList>>();
   const tailwind = useTailwind();
-
+  const [packageHash, setPackageHash] = useState('');
+  useEffect(() => {
+    (async () => {
+      const result = await CodePush.getUpdateMetadata(
+        CodePush.UpdateState.RUNNING,
+      );
+      setPackageHash(result?.packageHash?.toUpperCase()?.substring(0, 5) ?? '');
+    })();
+  }, []);
+  const pressCount = useRef(0);
   return (
     <AnimationFunwooHeader
       scrollEnabled={false}
@@ -159,6 +169,18 @@ const MoreScreen = () => {
           );
         }}
       />
+      <Pressable
+        onPress={() => {
+          pressCount.current = pressCount.current + 1;
+          if (pressCount.current >= 5) {
+            navigation.navigate(PageNames.signIn);
+            pressCount.current = 0;
+          }
+        }}>
+        <Text style={{textAlign: 'center', paddingBottom: 20, fontSize: 14}}>
+          版本 V{DeviceInfo.getVersion()} {`(${packageHash})`}
+        </Text>
+      </Pressable>
     </AnimationFunwooHeader>
   );
 };

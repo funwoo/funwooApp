@@ -12,6 +12,7 @@ import {PageNames} from './PageNames';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import UserDetailScreen from '../screens/backyard/UserContactScreen';
 import QuenedChatList from '../screens/backyard/QuenedChatList';
+import AgentListSelectScreen from '../screens/backyard/AgentListSelectScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -149,6 +150,13 @@ const BackyardNavigatorStack = () => {
             }}
             component={PhotoLibraryScreen}
             name={PageNames.photoLibrary}
+          />
+          <Stack.Screen
+            options={{
+              title: '請選擇要交接的Agent',
+            }}
+            component={AgentListSelectScreen}
+            name={PageNames['agent-select']}
           />
         </Stack.Group>
         <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>

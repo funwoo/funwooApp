@@ -25,6 +25,7 @@ export const PageNames = {
   backyard: 'backyard',
   'contact-us': 'contact-us',
   'queued-chat-list': 'queued-chat-list',
+  'agent-select': 'agent-select',
 } as const;
 
 export const HouseStackPageName = {

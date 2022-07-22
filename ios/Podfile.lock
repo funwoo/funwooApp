@@ -448,7 +448,7 @@ PODS:
     - React-Core
   - RNCClipboard (1.10.0):
     - React-Core
-  - RNDeviceInfo (9.0.2):
+  - RNDeviceInfo (10.0.2):
     - React-Core
   - RNFastImage (8.5.11):
     - React-Core
@@ -842,7 +842,7 @@ SPEC CHECKSUMS:
   RNBootSplash: dd124b8e8bcfc52248c22cdb75b605a80031f40a
   RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
   RNCClipboard: f1736c75ab85b627a4d57587edb4b60999c4dd80
-  RNDeviceInfo: 1e3f62b9ec32f7754fac60bd06b8f8a27124e7f0
+  RNDeviceInfo: 0a7c1d2532aa7691f9b9925a27e43af006db4dae
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNInAppBrowser: 3ff3a3b8f458aaf25aaee879d057352862edf357

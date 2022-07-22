@@ -58,7 +58,7 @@ const LiveChatRoomListScreen = ({rooms}) => {
           }),
         ),
       );
-      database.write(async () => {
+      await database.write(async () => {
         await database.batch(values);
       });
       //刪除被移除的聊天室
@@ -77,7 +77,7 @@ const LiveChatRoomListScreen = ({rooms}) => {
       const result = datas.map(item => {
         return item[0].destroyPermanently();
       });
-      database.write(async () => {
+      await database.write(async () => {
         await database.batch(result);
       });
     } catch (error) {
@@ -85,9 +85,6 @@ const LiveChatRoomListScreen = ({rooms}) => {
       setIsLoading(false);
     }
   }, [setIsLoading]);
-  useEffect(() => {
-    refresh();
-  }, []);
   useRefreshOnFocus(refresh);
 
   return (

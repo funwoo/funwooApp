@@ -60,6 +60,5 @@ const adapter = new SQLiteAdapter({
 export const database = new Database({
   adapter,
   modelClasses: [Room, Message],
-  actionsEnabled: true,
 });
 AppRegistry.registerComponent(appName, () => App);
