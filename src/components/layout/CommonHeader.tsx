@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   ScrollView,
   ScrollViewProps,
+  StyleProp,
   View,
+  ViewStyle,
 } from 'react-native';
 import {useTailwind} from 'tailwind-rn';
 import BaseIcon from '../common/icons/Icons/BaseIcon';
@@ -24,6 +26,7 @@ interface Props {
   contentInsetAdjustmentBehavior?: ScrollViewProps['contentInsetAdjustmentBehavior'];
   onGoBackPress?: () => void;
   scrollEnabled?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const CommonHeader: React.FC<Props> = ({
@@ -36,6 +39,7 @@ const CommonHeader: React.FC<Props> = ({
   contentInsetAdjustmentBehavior,
   onGoBackPress,
   scrollEnabled,
+  style,
 }) => {
   const tailwind = useTailwind();
 
@@ -49,7 +53,7 @@ const CommonHeader: React.FC<Props> = ({
       <ScrollView
         nestedScrollEnabled
         scrollEnabled={scrollEnabled}
-        style={[tailwind('flex-1')]}
+        style={[style, tailwind('flex-1')]}
         contentContainerStyle={!scrollEnabled ? tailwind('flex-1') : undefined}
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}>
         <ConditionalFragment condition={isSet(banner)}>
